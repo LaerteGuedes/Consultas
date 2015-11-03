@@ -1,0 +1,43 @@
+Dike X Serviços de Inovaçoes Tecnologicas LTDA - ME
+21070291/000164
+Sallus
+
+Av. Conselheiro Furtado 3520
+Guama 66073-160
+
+Master: ns.metaweb.com.br
+Slave: ns2.metaweb.com.br
+
+
+- Onde esta a lista de especialidades dos profissionas? Só temos a área de atuação.
+- As áreas de atuação estão em letras minúsculas
+
+
+
+/resources/views/site.blade.php
+/resources/views/dashboard/cliente.blade.php
+/resources/views/dashboard/index.blade.php
+/resources/views/auth/login.blade.php
+/resources/views/home/index.blade.php
+/resources/views/
+
+A Sallus irá auxiliá-lo no seu gerenciamento dos seus atendimentos, avi
+
+
+matricula e o iptu com 
+
+19		3
+x		4
+
+
+
+4269
+98507-1313 (Paulo)
+
+rgba(F0,C1,1A,0.8);
+
+R&diAL2015
+
+
+85830000003 3 59480328153 6 03071415303 8 27849606450 8
+

@@ -1,0 +1,26 @@
+{
+  "name": "dkx",
+  "version": "1.0",
+  "authors": [
+    "hugo machado <lordhugomac@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.3",
+    "bootstrap": "~3.3.5",
+    "jquery-colorbox": "~1.6.3",
+    "jquery-meiomask": "~1.1.14",
+    "swipebox": "~1.4.1",
+    "typeahead.js": "https://github.com/twitter/typeahead.js.git#~0.11.1",
+    "ui-router": "~0.2.15",
+    "vue": "~0.12.10"
+  }
+}

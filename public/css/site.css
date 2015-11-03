@@ -1,0 +1,702 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 0px; /* 50px;*/
+  padding-bottom: 20px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  background-color: #F5F5F5;
+}
+h1 {
+    font-size: 50px;
+    font-weight: bold;
+}
+h2 {
+    font-size: 30px;
+}
+section.main {
+    margin-top: 140px;
+}
+.fa {
+    color: #00A6FF;
+}
+.fa.fa-inverse {
+    color: #fff;
+}
+
+/* 
+---------------------------------------------------
+* BOOTSTRAP
+---------------------------------------------------
+*/
+.badge{
+    background-color: #D93600;
+}
+.btn-primary {
+    color: #FFF;
+    background-color: #00A6FF;
+    border: none;
+}
+.btn-success {
+    background-color: #00A6FF;
+    border: none;
+}
+.list-group-item {
+    margin-bottom: 0px;
+    border: none;
+    border-bottom:  1px solid #EDEDED;
+    padding: 20px 15px;
+}
+.list-group-item:last-child {
+    border-bottom:  none;
+}
+a.list-group-item:hover {
+    background-color: #F2F2F2;
+}
+.panel {
+    border: none;
+    box-shadow: none;
+}
+.panel-body {
+    font-size: 14px;
+    color: #666666;
+}
+.pagination {
+    margin: 0px 0px;
+    float: right;
+}
+.panel-group .panel-heading + .panel-collapse > .list-group, .panel-group .panel-heading + .panel-collapse > .panel-body {
+    border-top: none;
+}
+.tab-content .panel, .panel-cinza{
+    background-color: #F5F5F5;
+}
+.input-group-addon i.fa{
+    color: #777777;
+    font-size: 20px;
+}
+
+/* 
+---------------------------------------------------
+* yeti bootstrap
+---------------------------------------------------
+*/
+.text-large {
+    font-size : 16px;
+}
+.text-extra-large {
+    font-size: 18px;
+}
+.red-btn, .red-btn i {
+    background-color: #D9534F;
+    color: #fff;
+}
+.blue-btn, .blue-btn i {
+    background-color: #00A6FF;
+    color: #fff;
+}
+.green-btn, .green-btn i {
+    background-color: #5CB85C;
+    color: #fff;
+}
+.red {
+    color: #D9534F;
+}
+.blue {
+    color: #00A6FF;
+}
+.green {
+    color: #5CB85C;
+}
+.dark {
+    color: #212121;
+}
+.bk-white {
+    background-color: #fff;
+}
+.bk-white .form-control {
+    background-color: #FBFBFB;
+    color: #777777;
+    font-size: 18px;
+}
+.bk-blue {
+    background-color: #00A6FF;
+    color: #fff;
+}
+.contract{
+    padding: 3px !important;
+    box-sizing: border-box;
+
+}
+.contract .panel-group {
+    margin: 0px !important;
+    box-sizing: border-box;
+}
+.contract .list-group {
+    margin: 0px !important;
+}
+.padding60 {padding:60px 20px;}
+.top5 { margin-top:5px; }
+.top10 { margin-top:10px; }
+.top20 { margin-top:20px; }
+.top30 { margin-top:30px; }
+.top50 { margin-top:50px; }
+.top140 { margin-top:140px; }
+
+
+
+/* 
+---------------------------------------------------
+* HOME
+---------------------------------------------------
+*/
+
+
+/*
+---------------------------------------------------
+* VIEWS
+---------------------------------------------------
+*/
+
+/* HOME */
+.img-pro {
+    margin-bottom: -60px;
+    margin-top: -94px;
+}
+.img-user{
+    margin-bottom: -61px;
+    margin-top: -93px;
+}
+
+
+/* DASHBOARD */
+section.main.dashboard {
+    margin-top: 0px;
+    background-image: url(/imagens/header/topo.jpg);
+    background-color: #fff;
+    background-position:  top center;
+    background-repeat: no-repeat;
+    min-height: 624px;
+}
+section.main.dashboard h1 {
+    margin-top: 415px;
+    margin-bottom: 20px;
+    font-size: 50px;
+    font-weight: bold;
+    color: #fff;
+}
+section.main.dashboard .jumbotron {
+    padding: 20px;
+    background-color: transparent;
+    margin-bottom:  0px;
+}
+section.main.dashboard .jumbotron .form-control, section.main.dashboard .jumbotron .bootstrap-select .dropdown-toggle{
+    font-size: 18px;
+    height: auto;
+    color: #777777;
+}
+section.main.dashboard .jumbotron .form-group:last-child {
+    margin-bottom:  0px;
+}
+section.main.dashboard .jumbotron .fa {
+    color: #777777;
+    font-size: 22px;
+}
+.opacity {
+    background-color:  rgba(0, 0, 0, 0.34);
+    padding: 20px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+.navbar-inverse .navbar-nav.white > li > a {
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+}
+.navbar-inverse .navbar-nav.white > li > a:hover {
+    color: #FFD24D;
+}
+
+/* HOME - PROFESSIONAL */
+.bk-pro {
+    background-image: url(/imagens/bk/bk_pro.jpg);
+    background-position:  bottom center;
+    background-repeat: no-repeat;
+}
+
+
+/*
+---------------------------------------------------
+* MENU
+---------------------------------------------------
+*/
+.navbar-inverse {
+    background-color: transparent;
+    border: none;
+}
+.navbar-nav {
+    float: right;
+    margin-top: 30px;
+}
+.navbar-nav li a {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-right: solid;
+    border-right-width: 1px;
+    border-right-color: #eee;
+}
+.navbar-nav li:last-child a {
+    border-right: none;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #00A6FF;
+}
+.navbar-inverse .navbar-nav > li > a:hover{
+    color: #222;
+}
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {
+    background-color: transparent;
+    font-weight: 700;
+    color: #222;
+}
+
+/*
+---------------------------------------------------
+* LISTAS
+---------------------------------------------------
+*/
+.action {
+    border-top: solid 1px #EDEDED;
+    width: auto;
+    padding: 10px 0px 15px 0px;
+}
+.action .btn {
+    padding: 0px 10px;
+    margin-left: 10px;
+}
+.avatar {
+    width: 66px;
+    height:  auto;
+    float: left;
+    margin-right: 20px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+.panel-heading .avatar {
+    width: 100px;
+}
+
+
+/*
+---------------------------------------------------
+* PAINÉIS
+---------------------------------------------------
+*/
+.panel-body .list-group .list-group-item {
+    background-color:  transparent;
+    border-color: #DDDDDD;
+    padding: 10px 15px;
+}
+.panel-group.expandir .panel-title a{
+    display: block;
+    text-decoration: none;
+    outline: none;
+}
+.panel-heading.header-sallus {
+    color: #333;
+    background-color: #ECF8FD;
+    border-color: #fff;
+    border-width: 3px;
+    border-style: solid;
+}
+
+.header-nav {
+    background-color: #00A6FF;
+    padding: 10px;
+    color: #fff;
+    font-size: 18px;
+    margin-right: 0px;
+    margin-left: 0px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.header-nav .fa, .header-nav a{
+    color: #fff;
+}
+.header-nav a:hover{
+    text-decoration: none;
+    color: #FFFF73;
+}
+.sub-header {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+
+/*
+---------------------------------------------------
+* FILTRO
+---------------------------------------------------
+*/
+.filtro .panel {
+    margin-bottom:  0px !important;
+}
+.filtro select, .fitro input{
+    background-color: #FBFBFB;
+    border: none;
+    box-shadow: none;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.filtro #nome, .filtro #data-consulta{
+    background-color: #FBFBFB;
+    border: none;
+    box-shadow: none;
+    font-size: 16px;
+}
+.filtro .input-group-addon {
+    border: none;
+}
+.filtro .filtro-avancado {
+    border-top: solid 1px #EDEDED;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+.filtro .filtro-avancado .form-group {
+    margin-bottom: 5px;
+}
+.filtro .filtro-avancado p {
+    margin-top: 20px;
+}
+
+
+/*
+---------------------------------------------------
+* PERFIL PROFISSIONAL
+---------------------------------------------------
+*/
+.profile-adrress{
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+.profile-neighborhood {
+    
+}
+.profile-phone, .profile-price, .profile-neighborhood {
+    padding-left: 65px;
+    position: relative;
+}
+.profile-phone i, .profile-price i, .profile-neighborhood i{
+    position: absolute;
+    margin-left: -25px;
+}
+.profile-price {
+    
+}
+.profile-schedule .btn{
+    margin: 10px 0px 0px 0px;
+}
+.profile-schedule ul{
+   margin: 0px 0px 0px 0px;
+   padding: 0px 0px 0px 20px;
+}
+.profile-neighborhood ul{
+   margin: 0px 0px 0px 0px;
+   padding: 0px 0px 0px 0px;
+}
+.profile-schedule li, .profile-neighborhood li{
+   margin: 0px;
+   border-bottom: 1px solid #DDDDDD;
+   padding: 3px 0px;
+   list-style-type:  none;
+}
+.profile-schedule li span{
+    margin-right: 30px;
+}
+.profile-schedule li span.day{
+    font-weight: bold;
+    width: 40px;
+    display: inline-block;
+}
+
+/*
+---------------------------------------------------
+* AGENDAMENTO
+---------------------------------------------------
+*/
+.locais-atendimento {
+    position: absolute;
+    top: 20px;
+    right: 90px;
+    width: 415px;
+    z-index: 100;
+    display: none;
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.56);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.56);
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.56);
+}
+#datas-horarios table, #datas-horarios th {
+    text-align: center;
+}
+#datas-horarios th {
+    padding: 10px 0px;
+    background-color: #F5F5F5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+#datas-horarios table th span {
+    display: block;
+    font-weight: bold;
+    color: #222;
+}
+#datas-horarios table th {
+    font-weight: normal;
+}
+#datas-horarios table td {
+    padding: 3px 0px;
+}
+#datas-horarios table td, #datas-horarios table th {
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+#datas-horarios table .col-fim {
+    border-right: none;
+}
+#datas-horarios table .row-fim {
+    border-bottom: none;
+}
+#datas-horarios table a{
+    padding: 3px 10px;
+    text-decoration: none;
+    display: block;
+    width: 70px;
+    margin: 0px auto;
+}
+#datas-horarios table a:hover{
+    background-color: #00A6FF;
+    color: #fff;
+}
+.dados-confirmar {
+    
+}
+
+/*
+---------------------------------------------------
+* AVALIAÇÕES
+---------------------------------------------------
+*/
+.avaliacao span{
+    display: block;
+    margin: 5px 0px 10px 0px;
+}
+.avaliacao .resposta .panel{
+    margin-bottom: 5px;
+}
+.avaliacao .resposta a{
+    display: block;
+    text-align: right;
+}
+#envia-avaliacoes {
+    
+}
+
+
+/*
+---------------------------------------------------
+* AVISOS
+---------------------------------------------------
+*/
+
+/*
+---------------------------------------------------
+* ÁREA PROFISSIONAL
+---------------------------------------------------
+*/
+.area-profisional .list-group .list-group-item p {
+    margin: 0px !important;
+}
+.icon-text, .icon-info, .fa-stack {
+    float: left;
+}
+.icon-text .fa-1 {
+    font-size: 25px !important;
+    margin-top: 10px;
+}
+.icon-info {
+    font-size: 40px;
+    color: #1F1F1F;
+}
+
+/*
+---------------------------------------------------
+* CONSULTAS
+---------------------------------------------------
+*/
+#consultas .panel-group {
+    margin-top: 20px;
+}
+#consultas .col-profissional, #consultas .col-hora, #consultas .col-endereco, #consultas .col-btn {
+    float: left;
+    padding: 0px 5px;
+}
+.col-10, .col-20, .col-30, .col-40, .col-50, .col-60, .col-70, .col-80, .col-90 {
+    box-sizing: border-box;
+    float: left;
+    padding: 0px 5px;
+}
+.col-10 {
+    width: 10%;
+}
+.col-20 {
+    width: 20%;
+}
+.col-30 {
+    width: 30%;
+}
+.col-40 {
+    width: 40%;
+}
+.col-50 {
+    width: 50%;
+}
+.col-60 {
+    width: 60%;
+}
+.col-70 {
+    width: 70%;
+}
+.col-80 {
+    width: 80%;
+}
+.col-90 {
+    width: 90%;
+}
+
+#consultas .col-profissional, #consultas .col-paciente {
+    width: 40%;
+}
+#consultas .col-hora {
+    width: 10%;
+}
+#consultas .col-endereco {
+    width: 40%;
+}
+#consultas .col-btn {
+    width: 10%;
+}
+#consultas .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+#consultas .profissional .row {
+    margin-bottom: 10px;
+}
+#consultas .profissional .avatar {
+    width: 50px;
+}
+#consultas .profissional .action {
+    margin-left: 75px;
+}
+#consultas .panel-body {
+    padding: 0px;
+}
+#consultas .panel-group.expandir .panel-title a {
+    display: inline-block;
+}
+#consultas .btn {
+    xfloat: right;
+}
+
+
+/*
+---------------------------------------------------
+* FOOTER
+---------------------------------------------------
+*/
+section.footer {
+    background-color: #fff;
+    padding: 30px 20px;
+}
+section.footer a {
+    font-size: 15px;
+    color: #777777;
+    text-align: center;
+    margin: 5px 10px;
+}
+section.footer a:hover {
+    color: #00A5FF;
+    text-decoration: none;
+}
+section.footer span {
+    font-size: 12px;
+    float: right;
+    display: block;
+}
+
+/*
+---------------------------------------------------
+* FORMULÁRIOS
+---------------------------------------------------
+*/
+form .btn {
+    /* margin-top: 10px; */
+}
+
+/****** styles dev ****/
+.btn-dashboard
+{
+    padding-top: 10px;
+    color: #666666;
+}
+.btn-dashboard i
+{
+    display: block;
+    font-size: 5em;
+    padding-bottom: 10px;
+}
+
+.footer{
+
+    padding-top: 60px;
+}
+
+.table-horario
+{
+    background: #fff;
+    font-size: 0.8em;
+    border:none;
+}
+.table-horario thead
+{
+    background: #00a6ff;
+    color: #fff;
+}
+.table-horario thead th
+{
+    text-align: center;
+}
+.table-horario .lista-horarios
+{
+    text-align: center;
+}
+.table-horario .lista-horarios ul
+{
+    list-style: none;
+    text-align: left;
+}
+.table-horario .lista-horarios a
+{
+    color: red;
+}
+.table-horario .lista-horarios button
+{
+    
+}
+
+

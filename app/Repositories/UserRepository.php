@@ -1,0 +1,291 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Repository;
+use App\Contracts\UserRepositoryInterface;
+use App\User;
+use App\Avaliacao;
+
+
+class UserRepository extends Repository implements UserRepositoryInterface
+{
+    protected $avaliacaoModel;
+
+    public function __construct(User $user,Avaliacao $avaliacao)
+    {
+        $this->model = $user;
+        $this->avaliacaoModel = $avaliacao;
+    }
+
+     public function atualizarViewProfissional($profissional_id)
+     {
+        
+        $user = $this->model->find($profissional_id);
+
+        return $user->update(['views'=> $user->views + 1]);
+                            
+     }
+
+    public function create(array $data)
+    {
+        $data['password'] = bcrypt($data['password']);
+
+        if(isset($data['cid']))
+        {
+            $data['role_id'] = 3;
+
+        }else{
+
+            $data['role_id'] = 2;
+        }
+
+        return $this->model->create($data);
+    }
+
+    public function especialidade()
+    {
+        return $this->model->especialidade();
+    }
+
+     public function pesquisar($data = array() , $perpage = 50)
+     {
+
+       return  \DB::table('users')
+            ->join('user_especialidades','users.id','=','user_especialidades.user_id')
+            ->join('especialidades','user_especialidades.especialidade_id','=','especialidades.id')
+            ->leftJoin('localidades','users.id','=','localidades.user_id')
+            ->leftJoin('user_ramos','users.id','=','user_ramos.user_id')
+            ->leftJoin('ramos','user_ramos.ramo_id','=','ramos.id')
+            ->where(function($query)use($data){
+
+                $query->whereNull('users.deleted_at');
+                $query->where('users.active','=',1);
+
+                if(isset($data['especialidade_id']) && !empty($data['especialidade_id']))
+                {
+                    $query->where('especialidades.id' , $data['especialidade_id']);
+                }
+                 if(isset($data['ramo_id']) && !empty($data['ramo_id']) )
+                {
+                    $query->where('ramos.id' , $data['ramo_id']);
+                }
+                 if(isset($data['bairro_id']) && !empty($data['bairro_id']) )
+                {
+                    $query->where('localidades.bairro_id' , $data['bairro_id']);
+                }
+                 if(isset($data['cidade_id']) && !empty($data['cidade_id']))
+                {
+                    $query->where('localidades.cidade_id' , $data['cidade_id']);
+                }
+                 if(isset($data['uf']) && !empty($data['uf']))
+                {
+                    $query->where('localidades.uf' , $data['uf']);
+                }
+                if(isset($data['name']) && !empty($data['name']))
+                {
+                    $query->where('users.name','like','%'. $data['name'].'%');
+                    $query->orWhere('users.lastname','like','%'. $data['name'].'%');
+                }
+            })
+            ->groupBy('users.id')
+            ->select(\DB::raw('users.id,users.name,users.lastname,users.thumbnail ,users.cid ,user_especialidades.especialidade_id,especialidades.nome as tipo,
+localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ramos.nome as ramo,
+    (select count(*)  from comentarios where comentarios.comentado = users.id)
+    
+ as total_comentarios,
+ (select round(avg(nota),1) from avaliacaos where avaliacaos.`user_id` = users.id ) as total_avaliacoes
+
+'))
+            ->paginate($perpage);
+     }
+
+     public function logarUsuarioApi($data)
+     {
+        $user =  $this->model->where('email',$data['email'])
+                             ->where('active',1)->first();
+
+        if($user)
+        {
+            if( \Hash::check($data['password'],$user->password) )
+            {
+                return $user;
+            }
+
+      
+        }
+
+        return false;
+     }
+     public function registrarNovoUsuarioApi($data)
+     {
+
+        if($this->model->where('email',$data['email'])->count() > 0)
+        {
+            return false;
+        }
+
+        $data['password'] = bcrypt($data['password']);
+
+        if(isset($data['cid']) && !empty($data['cid']))
+        {
+            $data['role_id'] = 3;
+
+        }else{
+            unset($data['cid']);
+            $data['role_id'] = 2;
+        }
+
+        return $this->model->create($data);  
+
+     }
+
+     public function listarDadosProfissionalApi($id)
+     {
+        $data     = [];
+        $locais   = [];
+        $homes    = [];
+        $servicos = [];
+        $curriculos =[];
+        $comentarios =[];
+
+        $user =  $this->model->find($id);
+        $localidades = $user->localidades()->where('tipo','CONSULTORIO')->get();
+        if($localidades)
+        {
+            foreach ($localidades as $local) {
+
+                $locais[]=[
+
+                        'id'          => $local->id,
+                        'logradouro'  => $local->logradouro,
+                        'numero'      => $local->numero,
+                        'complemento' => $local->complemento,
+                        'bairro'      => $local->bairro->nome,
+                        'cep'         => $local->cep,
+                        'cidade'      => $local->cidade->nome,
+                        'uf'          => $local->uf
+                ];
+            }
+        } 
+
+        $homeCares = $user->localidades()->where('tipo','DOMICILIO')->get();
+        if($homeCares)
+        {
+            foreach ($homeCares as $local) {
+
+                $homes[]=[
+
+                        'id'          => $local->id,
+                        'logradouro'  => $local->logradouro,
+                        'numero'      => $local->numero,
+                        'complemento' => $local->complemento,
+                        'bairro'      => $local->bairro->nome,
+                        'cep'         => $local->cep,
+                        'cidade'      => $local->cidade->nome,
+                        'uf'          => $local->uf
+                ];
+            }
+        } 
+
+        if($user->curriculos()->count() > 0 )
+        {
+            foreach ($user->curriculos as $c) {
+
+                $curriculos[] = $c;
+            }
+        }         
+        
+        if( $user->servicos->count() > 0 )
+        {
+            foreach($user->servicos as $servico)
+            {
+                $servicos[] = $servico->toArray();
+            }
+
+        }
+
+        if($user->comentarios->count() > 0)
+        {
+            foreach($user->comentarios as $comentario)
+            {
+                $star_votos = $this->avaliacaoModel->where('avaliador',$comentario->user_id)
+                                                    ->where('user_id',$user->id)
+                                                    ->avg('nota');
+
+                $comentarios[]=[
+
+                        'id'         => $comentario->id,
+                        'descricao'  => $comentario->descricao,
+                        'comentador' => $comentario->user->name .' ' . $comentario->user->lastname,
+                        'star_votos' => $star_votos > 0 ? round($star_votos,1) : 0
+                ];
+            }
+        }
+
+
+        if($user)
+        {
+            $ramos = "";
+            $total_comentarios = 0;
+            $total_avaliacoes  = 0;
+
+            if($user->ramos()->count())
+            {
+                foreach($user->ramos as $ramo)
+                {
+                    $ramos .= "," . $ramo->ramo->nome;
+                }
+            }
+            if($user->comentarios()->count() > 0 )
+            {
+                $total_comentarios = $user->comentarios->count();
+            }
+            if($user->avaliados()->count() > 0 )
+            {
+                $total_avaliacoes = round($user->avaliados()->avg('nota'),1);
+            }
+
+            $data_user = [
+
+                'id'            => $user->id,
+                'role_id'       => $user->role_id,
+                'name'          => $user->name,
+                'lastname'      => $user->lastname,
+                'phone'         => $user->phone,
+                'email'         => $user->email,
+                'cid'           => $user->cid,
+                'active'        => $user->active,
+                'views'         => $user->views,
+                'thumbnail'     => $user->thumbnail,
+                'especialidade' => $user->especialidade->especialidade->nome,
+                'ramo'          => $ramos,
+                'total_comentarios' => $total_comentarios,
+                'total_avaliacoes' => $total_avaliacoes
+
+            ];
+
+            $data = [
+
+                'user'     => $data_user,
+                'locais'   => $locais,
+                'homes'    => $homes,
+                'servicos' => $servicos,
+                'curriculos' => $curriculos,
+                'comentarios' => $comentarios
+
+            ];
+        }
+
+        return $data;
+
+     }
+
+} 
+
+
+
+
+
+
+

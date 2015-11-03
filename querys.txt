@@ -1,0 +1,10 @@
+select users.id,users.name,users.`lastname`, users.cid ,`user_especialidades`.`especialidade_id`,especialidades.nome as tipo,
+localidades.uf,localidades.`bairro_id`,localidades.`cidade_id`,user_ramos.ramo_id,ramos.nome as ramo
+from users 
+join `user_especialidades` on users.id = `user_especialidades`.`user_id`
+join especialidades on `user_especialidades`.`especialidade_id`= especialidades.id
+left join localidades on localidades.user_id = users.id
+left join user_ramos on users.id = user_ramos.`user_id`
+left join ramos on ramos.id = user_ramos.`ramo_id`
+where users.`deleted_at` is null
+and users.`active` = 1
