@@ -24,6 +24,8 @@ section.main {
     color: #fff;
 }
 
+
+
 /* 
 ---------------------------------------------------
 * BOOTSTRAP
@@ -697,6 +699,15 @@ form .btn {
 .table-horario .lista-horarios button
 {
     
+}
+
+#vue label.error {
+    color: #FB3A3A;
+    padding: 0;
+    text-align: left;
+    width: 220px;
+    font-size:14px;
+    padding-left:5px;
 }
 
 

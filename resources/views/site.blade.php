@@ -22,7 +22,14 @@
             <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-
+        <script src="{{ asset('lib/jquery/dist/jquery.min.js')  }}"></script>
+        <script src="{{ asset('lib/bootstrap/dist/js/bootstrap.min.js')  }}"></script>
+        <script src="{{ asset('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+        <script src="{{ asset('lib/bootbox.js/bootbox.js') }}"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+        <script src="{{ asset('lib/jquery-meiomask/dist/meiomask.js')  }}"></script>
+        <script src="{{ asset('lib/bootstrap-filestyle/src/bootstrap-filestyle.min.js')  }}"></script>
+        <script src="{{ asset('js/site.js') }}"></script>
     </head>
 <body>
 
@@ -131,21 +138,11 @@
 
     <!--lib-->
 
-    <script src="{{ asset('lib/jquery/dist/jquery.min.js')  }}"></script>
-    <script src="{{ asset('lib/bootstrap/dist/js/bootstrap.min.js')  }}"></script>
-    <script src="{{ asset('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('lib/bootbox.js/bootbox.js') }}"></script>
-    <script src="{{ asset('lib/jquery-meiomask/dist/meiomask.js')  }}"></script>
-    <script src="{{ asset('lib/bootstrap-filestyle/src/bootstrap-filestyle.min.js')  }}"></script>
-
-
     @yield('lib')
 
     <!-- js -->
 
 
-
-    <script src="{{ asset('js/site.js') }}"></script>
 
     @yield('script')
 

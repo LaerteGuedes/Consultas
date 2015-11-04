@@ -39,7 +39,45 @@
         //style file input
         $(":file").filestyle();
 
+        function validateProfissional(){
+            $("#vue").validate({
+                rules: {
+                    name: "required",
+                    lastname: "required",
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    phone: "required",
+                    password: {
+                        required:true,
+                        minlength:5
+                    },
+                    password_confirmation: {
+                        required: true,
+                        equalTo: password
+                    },
+                    cid: "required"
+                },
+                messages: {
+                    name: "Digite o nome",
+                    lastname: "Digite o sobrenome",
+                    email: {
+                        required: "Digite o email",
+                        email: "Email invalido"
+                    },
+                    phone: "Digite o telefone",
+                    password: "Digite a senha",
+                    password_confirmation: {
+                        required: "Confirme a senha",
+                        equalTo: "Senha não confere"
+                    },
+                    cid: "Digite o nº do conselho"
+                }
+            });
+        }
 
+        validateProfissional();
     });
 
 })(jQuery);

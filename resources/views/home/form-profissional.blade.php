@@ -1,5 +1,4 @@
 
-
 {!! Form::open([
 
     'route'  => 'register.user',
@@ -17,12 +16,12 @@
         <div class="col-xs-6">
            <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                {!! Form::text('name',old('name'),['class'=>'form-control','placeholder'=>'Nome'] ) !!}
+                {!! Form::text('name',old('name'),['class'=>'form-control','placeholder'=>'Nome', 'id' => 'name'] ) !!}
            </div>
         </div>
 
         <div class="col-xs-6">
-        {!! Form::text('lastname',old('lastname'),['class'=>'form-control','placeholder'=>'Sobrenome'] ) !!}
+        {!! Form::text('lastname',old('lastname'),['class'=>'form-control','placeholder'=>'Sobrenome', 'id' => 'lastname']) !!}
         </div>
 
     </div>
@@ -31,20 +30,20 @@
 
 <div class="form-group">
 
-    {!! Form::email('email',old('email'),['class'=>'form-control','placeholder'=>'E-mail']) !!}
+    {!! Form::email('email',old('email'),['class'=>'form-control','placeholder'=>'E-mail', 'id' => 'email']) !!}
 
 </div>
 
 <div class="form-group">
 
-    {!! Form::text('phone',old('phone'),['class'=>'form-control','placeholder'=>'Nº do celular','data-mask'=>'phone']) !!}
+    {!! Form::text('phone',old('phone'),['class'=>'form-control','placeholder'=>'Nº do celular','data-mask'=>'phone', 'id' => 'phone']) !!}
 
 </div>
 
 <div class="form-group">
   <div class="row">
-    <div class="col-lg-6">{!! Form::password('password', ['class'=>'form-control','placeholder'=>'Senha','maxlength'=>10]) !!}</div>
-    <div class="col-lg-6">{!! Form::password('password_confirmation',['class'=>'form-control','placeholder'=>'Confirmar Senha','maxlength'=>10]) !!}</div>
+    <div class="col-lg-6">{!! Form::password('password', ['class'=>'form-control','placeholder'=>'Senha','maxlength'=>10, 'id' => 'password']) !!}</div>
+    <div class="col-lg-6">{!! Form::password('password_confirmation',['class'=>'form-control','placeholder'=>'Confirmar Senha','maxlength'=>10, 'id' => 'password_confirmation']) !!}</div>
   </div>
   <p class="help-block">* digite pelo menos 5 caracteres e no máximo 10 caracteres.</p>
 
