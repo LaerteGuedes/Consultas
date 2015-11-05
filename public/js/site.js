@@ -77,7 +77,7 @@
             });
         }
 
-        validateProfissional();
+        //validateProfissional();
     });
 
 })(jQuery);

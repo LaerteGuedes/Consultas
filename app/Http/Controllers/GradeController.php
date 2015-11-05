@@ -27,7 +27,9 @@ class GradeController extends Controller
     	$localidades   = $this->localidadeService->listForComboByUser(\Auth::user()->id);
     	$dias_semanais = $this->gradeService->getDiasSemanais();
     	$turnos        = $this->gradeService->getTurnos();
-    	$horas         = $this->gradeService->getHoras();
+		$horasManha = $this->gradeService->getHoras(6, 12);
+		$horasTarde = $this->gradeService->getHoras(12, 18);
+		$horasNoite = $this->gradeService->getHoras(18, 23);
     	$intervalos    = $this->gradeService->getIntervalos();
 		$intervalos_abreviados    = $this->gradeService->getIntervalosAbreviados();
 
@@ -37,7 +39,9 @@ class GradeController extends Controller
     			'turnos'        => $turnos,
     			'dias_semanais' => $dias_semanais,
     			'gradeService'  => $this->gradeService,
-    			'horas'         => $horas,
+    			'horasManha'    => $horasManha,
+			    'horasTarde'    => $horasTarde,
+			    'horasNoite'    => $horasNoite,
     			'intervalos'    => $intervalos,
     			'intervalos_abreviados' => $intervalos_abreviados
  
