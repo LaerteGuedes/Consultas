@@ -15,8 +15,11 @@
 
         <div class="col-xs-6">
            <div class="input-group">
-                <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                {!! Form::text('name',old('name'),['class'=>'form-control','placeholder'=>'Nome', 'id' => 'name'] ) !!}
+                <div class="input-group-addon" style="display:block; float: left; width:50px;"><i class="fa fa-user"></i></div>
+                <div style="display: block;float: right;width:192px;">
+                    {!! Form::text('name',old('name'),['class'=>'form-control','placeholder'=>'Nome', 'id' => 'name'] ) !!}
+                </div>
+
            </div>
         </div>
 
