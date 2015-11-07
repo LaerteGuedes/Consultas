@@ -31,8 +31,6 @@ class RamoController extends Controller
 
     public function index()
     {
-
-
         $ramos = $this->userRamoService->paginateByUser(\Auth::user()->id);
         return view('ramo.index')->with('ramos',$ramos);
     }

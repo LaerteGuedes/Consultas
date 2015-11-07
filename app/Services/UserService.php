@@ -116,6 +116,15 @@ class UserService extends Service
         return $this->repository->update($id,$data);
     }
 
+    public function findPlanoParents($user_id){
+        return $this->repository->findPlanoParents($user_id);
+    }
+
+    public function deleteplano($user_id, $plano_id)
+    {
+        $this->repository->deleteplano($user_id, $plano_id);
+    }
+
     public function logarUsuarioApi($data)
     {
         return $this->repository->logarUsuarioApi($data);

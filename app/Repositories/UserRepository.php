@@ -18,14 +18,14 @@ class UserRepository extends Repository implements UserRepositoryInterface
         $this->avaliacaoModel = $avaliacao;
     }
 
-     public function atualizarViewProfissional($profissional_id)
-     {
-        
+    public function atualizarViewProfissional($profissional_id)
+    {
+
         $user = $this->model->find($profissional_id);
 
         return $user->update(['views'=> $user->views + 1]);
-                            
-     }
+
+    }
 
     public function create(array $data)
     {
@@ -48,10 +48,10 @@ class UserRepository extends Repository implements UserRepositoryInterface
         return $this->model->especialidade();
     }
 
-     public function pesquisar($data = array() , $perpage = 50)
-     {
+    public function pesquisar($data = array() , $perpage = 50)
+    {
 
-       return  \DB::table('users')
+        return  \DB::table('users')
             ->join('user_especialidades','users.id','=','user_especialidades.user_id')
             ->join('especialidades','user_especialidades.especialidade_id','=','especialidades.id')
             ->leftJoin('localidades','users.id','=','localidades.user_id')
@@ -66,19 +66,19 @@ class UserRepository extends Repository implements UserRepositoryInterface
                 {
                     $query->where('especialidades.id' , $data['especialidade_id']);
                 }
-                 if(isset($data['ramo_id']) && !empty($data['ramo_id']) )
+                if(isset($data['ramo_id']) && !empty($data['ramo_id']) )
                 {
                     $query->where('ramos.id' , $data['ramo_id']);
                 }
-                 if(isset($data['bairro_id']) && !empty($data['bairro_id']) )
+                if(isset($data['bairro_id']) && !empty($data['bairro_id']) )
                 {
                     $query->where('localidades.bairro_id' , $data['bairro_id']);
                 }
-                 if(isset($data['cidade_id']) && !empty($data['cidade_id']))
+                if(isset($data['cidade_id']) && !empty($data['cidade_id']))
                 {
                     $query->where('localidades.cidade_id' , $data['cidade_id']);
                 }
-                 if(isset($data['uf']) && !empty($data['uf']))
+                if(isset($data['uf']) && !empty($data['uf']))
                 {
                     $query->where('localidades.uf' , $data['uf']);
                 }
@@ -98,12 +98,12 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
 '))
             ->paginate($perpage);
-     }
+    }
 
-     public function logarUsuarioApi($data)
-     {
+    public function logarUsuarioApi($data)
+    {
         $user =  $this->model->where('email',$data['email'])
-                             ->where('active',1)->first();
+            ->where('active',1)->first();
 
         if($user)
         {
@@ -112,13 +112,13 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
                 return $user;
             }
 
-      
+
         }
 
         return false;
-     }
-     public function registrarNovoUsuarioApi($data)
-     {
+    }
+    public function registrarNovoUsuarioApi($data)
+    {
 
         if($this->model->where('email',$data['email'])->count() > 0)
         {
@@ -136,12 +136,24 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
             $data['role_id'] = 2;
         }
 
-        return $this->model->create($data);  
+        return $this->model->create($data);
 
-     }
+    }
 
-     public function listarDadosProfissionalApi($id)
-     {
+    public function deleteplano($user_id, $plano_id)
+    {
+        $user = $this->model->find($user_id);
+        $user->planos()->detach($plano_id);
+    }
+
+    public function findPlanoParents($user_id){
+        return $this->model->whereHas('planos', function($q) use ($user_id){
+           $q->where('user_id', '=', $user_id);
+        })->groupBy('id_pai')->get();
+    }
+
+    public function listarDadosProfissionalApi($id)
+    {
         $data     = [];
         $locais   = [];
         $homes    = [];
@@ -157,17 +169,17 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
                 $locais[]=[
 
-                        'id'          => $local->id,
-                        'logradouro'  => $local->logradouro,
-                        'numero'      => $local->numero,
-                        'complemento' => $local->complemento,
-                        'bairro'      => $local->bairro->nome,
-                        'cep'         => $local->cep,
-                        'cidade'      => $local->cidade->nome,
-                        'uf'          => $local->uf
+                    'id'          => $local->id,
+                    'logradouro'  => $local->logradouro,
+                    'numero'      => $local->numero,
+                    'complemento' => $local->complemento,
+                    'bairro'      => $local->bairro->nome,
+                    'cep'         => $local->cep,
+                    'cidade'      => $local->cidade->nome,
+                    'uf'          => $local->uf
                 ];
             }
-        } 
+        }
 
         $homeCares = $user->localidades()->where('tipo','DOMICILIO')->get();
         if($homeCares)
@@ -176,17 +188,17 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
                 $homes[]=[
 
-                        'id'          => $local->id,
-                        'logradouro'  => $local->logradouro,
-                        'numero'      => $local->numero,
-                        'complemento' => $local->complemento,
-                        'bairro'      => $local->bairro->nome,
-                        'cep'         => $local->cep,
-                        'cidade'      => $local->cidade->nome,
-                        'uf'          => $local->uf
+                    'id'          => $local->id,
+                    'logradouro'  => $local->logradouro,
+                    'numero'      => $local->numero,
+                    'complemento' => $local->complemento,
+                    'bairro'      => $local->bairro->nome,
+                    'cep'         => $local->cep,
+                    'cidade'      => $local->cidade->nome,
+                    'uf'          => $local->uf
                 ];
             }
-        } 
+        }
 
         if($user->curriculos()->count() > 0 )
         {
@@ -194,8 +206,8 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
                 $curriculos[] = $c;
             }
-        }         
-        
+        }
+
         if( $user->servicos->count() > 0 )
         {
             foreach($user->servicos as $servico)
@@ -210,15 +222,15 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
             foreach($user->comentarios as $comentario)
             {
                 $star_votos = $this->avaliacaoModel->where('avaliador',$comentario->user_id)
-                                                    ->where('user_id',$user->id)
-                                                    ->avg('nota');
+                    ->where('user_id',$user->id)
+                    ->avg('nota');
 
                 $comentarios[]=[
 
-                        'id'         => $comentario->id,
-                        'descricao'  => $comentario->descricao,
-                        'comentador' => $comentario->user->name .' ' . $comentario->user->lastname,
-                        'star_votos' => $star_votos > 0 ? round($star_votos,1) : 0
+                    'id'         => $comentario->id,
+                    'descricao'  => $comentario->descricao,
+                    'comentador' => $comentario->user->name .' ' . $comentario->user->lastname,
+                    'star_votos' => $star_votos > 0 ? round($star_votos,1) : 0
                 ];
             }
         }
@@ -279,7 +291,7 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
         return $data;
 
-     }
+    }
 
 } 
 

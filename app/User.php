@@ -105,6 +105,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('App\Avaliacao','user_id','id');
     }
 
+    public function planos(){
+        return $this->belongsToMany('App\Plano', 'user_planos', 'user_id', 'plano_id');
+    }
+
 
     public function hasRole($roles)
     {

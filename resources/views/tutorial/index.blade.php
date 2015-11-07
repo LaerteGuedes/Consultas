@@ -49,6 +49,7 @@
 									  </li>
 									  @endif
 
+
 									 <li class="list-group-item">
 									  	3º Após criar seu primeiro local de atendimento, por favor crie sua grade de horários.
 									  	<a href="{{ route('grade') }}">[Criar Grade de Horário]</a>

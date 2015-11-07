@@ -95,7 +95,7 @@
                   <li><a href="{{ route('edit.perfil') }}"> <i class="glyphicon glyphicon-user"></i> Editar Perfil</a></li>
                 
                   @if(Auth::user()->role->name=="Profissional")
-
+                  <li><a href="{{route('planos') }}"><i class="glyphicon glyphicon-info-sign"> Planos de saúde</i></a></li>
                   <li><a href="{{ route('ramos') }}"> <i class="glyphicon glyphicon-education"> Minhas Especializações</i> </a></li>
                   <li><a href="{{ route('curriculos') }}"> <i class="glyphicon glyphicon-file"> Minhas Experiências</i> </a></li>
                   <li><a href="{{ route('localidades') }}"> <i class="glyphicon glyphicon-map-marker"> Minhas Localidades</i> </a></li>

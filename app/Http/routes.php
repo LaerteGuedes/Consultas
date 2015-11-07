@@ -70,6 +70,18 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
     Route::get('/delete/especializacao/{id}',['as'=>'delete.ramo','uses'=>'RamoController@delete']);
     Route::get('/listar-ramos/{especialidade_id?}',['as'=>'listar.ramos','uses'=>'RamoController@all']);
 
+    #rotas para planos de saúde (adm)
+    Route::get("/admplanos", ['as' => 'admplanos', 'uses' => "PlanoController@index"]);
+    Route::get("/admplanos/novo", ['as' => 'admplano.novo', 'uses' => "PlanoController@novo"]);
+    Route::post("/admplanos/salvar", ['as' => 'admplano.salvar', 'uses' => 'PlanoController@salvar']);
+
+    #rotas para planos de saúde (profissional de saúde)
+    Route::get("/planos", ['as' => 'planos', 'uses' => "UserPlanoController@index"]);
+    Route::get("/planos/novo", ['as' => 'plano.novo', 'uses' => "UserPlanoController@novo"]);
+    Route::post("/planos/salvar", ['as' => 'plano.salvar', 'uses' => 'UserPlanoController@salvar']);
+    Route::get("/planos/ajaxplano", ['as' => 'plano.ajaxplano', 'uses' => "UserPlanoController@ajaxplano"]);
+    Route::get("/planos/delete", ['as' => 'plano.delete', 'uses' => 'UserPlanoController@delete']);
+
     #rotas para localidades
     Route::get('/localidades',['as'=>'localidades','uses'=>'LocalidadeController@index']);
     Route::get('/editar/localidade/{id}',['as'=>'edit.localidade','uses'=>'LocalidadeController@edit']);
