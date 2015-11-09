@@ -2,20 +2,39 @@
     <label for="plano_pai"></label>
     <h3>Escolha a empresa</h3>
     <form action="{{route('plano.salvar')}}" method="post">
-        @foreach($planos as $plano)
+
+        @if ($vPlanos)
+            @foreach($vPlanos as $id => $plano)
+                <div class="checkbox-inline checkbox-categoria">
+                    <input type="checkbox" value="{{$id}}" {{$plano['checked']}}> {{$plano['titulo']}}
+                </div>
+            @endforeach
+        @else
             <div class="checkbox-inline checkbox-categoria">
                 <input type="checkbox" value="{{$plano->id}}"> {{$plano->titulo}}
             </div>
-        @endforeach
+        @endif
+
 
         <div id="planos">
-
+            @if ($vPlanos)
+                @foreach($vPlanos as $id => $plano)
+                    <div class="planos-{{$id}}">
+                        <h4>Planos de saúde da {{$plano['titulo']}}</h4>
+                        @foreach($plano['filhos'] as $filho)
+                            <div class="foreach">
+                                <input type="checkbox" name="planos[]" value="{{$filho['id']}}"  {{$filho['checked']}}> {{$filho['titulo']}}
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            @endif
         </div>
-            <br><br>
+        <br><br>
         <div class="form-group submit-form">
             <button class="btn btn-success">Enviar</button>
         </div>
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
     </form>
 </div>
 <script>

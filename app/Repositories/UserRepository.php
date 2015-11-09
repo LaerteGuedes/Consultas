@@ -117,6 +117,7 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
         return false;
     }
+
     public function registrarNovoUsuarioApi($data)
     {
 
@@ -149,7 +150,7 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
     public function findPlanoParents($user_id){
         return $this->model->whereHas('planos', function($q) use ($user_id){
            $q->where('user_id', '=', $user_id);
-        })->groupBy('id_pai')->get();
+        })->get();
     }
 
     public function listarDadosProfissionalApi($id)

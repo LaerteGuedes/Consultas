@@ -14,7 +14,9 @@ class Debug
 
     public static function dump($var, $exit = true)
     {
-        echo '<pre>'.print_r($var).'</pre>';
+        echo '<pre>';
+        print_r($var);
+        echo '</pre>';
         ($exit) ? die() : '';
     }
 

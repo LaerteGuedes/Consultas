@@ -42,6 +42,22 @@ class PlanoService
         return $this->planoRepository->findChildren($id);
     }
 
+    public function findParentsById($id)
+    {
+        return $this->planoRepository->findParentsById($id);
+    }
+
+    public function findAllChildrenCheckbox()
+    {
+        $planos = $this->planoRepository->findAllChildren();
+        $vPlano = array();
+        foreach ($planos as $plano){
+            $vPlano[$plano->id] = ['checked' => 'false', 'titulo' => $plano->titulo];
+        }
+
+        return $vPlano;
+    }
+
     public function insertUserPlanos($id, $planos)
     {
         return $this->planoRepository->insertUserPlanos($id, $planos);

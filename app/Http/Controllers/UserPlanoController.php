@@ -33,25 +33,42 @@ class UserPlanoController extends Controller
 
     public function novo()
     {
-        $planos = $this->planoService->findParents();
-        $planosExistentes = $this->planoService->paginateByUser(Auth::user()->id);
-        $todosPlanos = $this->planoService->findAllChildren();
-        $planosMostrar = array();
-        $planosPai = array();
+        $planosPai = $this->planoService->findParents();
+        $planosPaiExistentes = $this->planoService->findParentsById(Auth::user()->id);
+        $planosFilho = $this->planoService->findAllChildrenCheckbox();
+        $planosFilhoExistentes = $this->planoService->paginateByUser(Auth::user()->id);
+        $vPlanosPais = array();
 
-        foreach ($todosPlanos as $plano){
-            foreach ($planosExistentes as $planoExistente){
-                if ($planoExistente->id == $plano->id){
-                    $planosMostrar[$plano->id] = ['checked' => 'true', 'titulo' => $plano->titulo];
+        foreach ($planosPai as $key => $planoPai){
+            $vPlanos[$planoPai->id] = $planoPai->toArray();
+            foreach ($planosPaiExistentes as $planoPaiExistente){
+                if ($planoPai->id == $planoPaiExistente->id){
+                    $vPlanos[$planoPai->id] = ['checked' => 'checked', 'titulo' => $planoPai->titulo];
+                    break;
                 }else{
-                    if(!isset($planosMostrar[$plano->id])){
-                        $planosMostrar[$plano->id] = ['checked' => 'false', 'titulo' => $plano->titulo];
+                    $vPlanos[$planoPai->id] = ['checked' => '', 'titulo' => $planoPai->titulo];
+                }
+            }
+        }
+
+        foreach ($vPlanos as $id => $plano){
+            $vPlanos[$id]['filhos'] = $this->planoService->findChildren($id)->toArray();
+        }
+
+        foreach ($vPlanos as $key => $plano){
+            foreach ($plano['filhos'] as $keyFilho => $planoFilho){
+                foreach ($planosFilhoExistentes as $planoFilhoExistente){
+                    if ($planoFilho['id'] == $planoFilhoExistente->id){
+                        $vPlanos[$key]['filhos'][$keyFilho] = ['checked' => 'checked', 'titulo' => $planoFilhoExistente->titulo, 'id' => $planoFilho['id']];
+                        break;
+                    }else{
+                        $vPlanos[$key]['filhos'][$keyFilho] = ['checked' => '', 'titulo' => $planoFilho['titulo'], 'id' => $planoFilho['id']];
                     }
                 }
             }
         }
 
-        return view("plano.novo")->with('planos', $planos);
+        return view("plano.novo")->with('planos', $planosPai)->with('vPlanos', $vPlanos);
     }
 
     public function salvar(){

@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col-lg-12">
 
-                    @include('plano.form', ['planos' => $planos])
+                    @include('plano.form', ['planos' => $planos, 'vPlanos' => $vPlanos])
 
                 </div>
             </div>
