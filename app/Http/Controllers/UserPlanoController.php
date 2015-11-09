@@ -35,11 +35,20 @@ class UserPlanoController extends Controller
     {
         $planos = $this->planoService->findParents();
         $planosExistentes = $this->planoService->paginateByUser(Auth::user()->id);
+        $todosPlanos = $this->planoService->findAllChildren();
+        $planosMostrar = array();
         $planosPai = array();
 
-        foreach($planosExistentes as $plano){
-
-            $planosPai[$plano->parent->id] = $plano->parent->titulo;
+        foreach ($todosPlanos as $plano){
+            foreach ($planosExistentes as $planoExistente){
+                if ($planoExistente->id == $plano->id){
+                    $planosMostrar[$plano->id] = ['checked' => 'true', 'titulo' => $plano->titulo];
+                }else{
+                    if(!isset($planosMostrar[$plano->id])){
+                        $planosMostrar[$plano->id] = ['checked' => 'false', 'titulo' => $plano->titulo];
+                    }
+                }
+            }
         }
 
         return view("plano.novo")->with('planos', $planos);
