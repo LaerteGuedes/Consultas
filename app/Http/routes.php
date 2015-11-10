@@ -134,8 +134,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get('/listar/dados/profissional',['uses'=>'ServerController@listarDadosProfissional']);
     Route::get('/avaliar/profissional',['uses'=>'ServerController@avaliarProfissional']);
     Route::get('/enviar/comentario',['uses'=>'ServerController@enviarComentario']);
-
-
+    Route::post("/registrar/editar/usuario", ['uses' => 'ServerController@editarUsuario']);
 });
 
 

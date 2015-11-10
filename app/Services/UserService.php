@@ -130,6 +130,11 @@ class UserService extends Service
         return $this->repository->logarUsuarioApi($data);
     }
 
+    public function editarUsuarioApi($params)
+    {
+        return $this->repository->editarUsuarioApi($params);
+    }
+
     public function registrarNovoUsuarioApi($data)
     {
         return $this->repository->registrarNovoUsuarioApi($data);

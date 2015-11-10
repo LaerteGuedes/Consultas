@@ -24,244 +24,262 @@ class ServerController extends Controller
 	protected $cidadeService;
 	protected $especialidadeService;
 	protected $ramoService;
-   protected $comentarioService;
-   protected $avaliacaoService;
+	protected $comentarioService;
+	protected $avaliacaoService;
 
 	public function __construct(
 
-			UserService          $userService,
-			EstadoService        $estadoService,
-			CidadeService        $cidadeService,
-			EspecialidadeService $especialidadeService,
-			RamoService          $ramoService,
-         ComentarioService    $comentarioService,
-         AvaliacaoService     $avaliacaoService
+		UserService          $userService,
+		EstadoService        $estadoService,
+		CidadeService        $cidadeService,
+		EspecialidadeService $especialidadeService,
+		RamoService          $ramoService,
+		ComentarioService    $comentarioService,
+		AvaliacaoService     $avaliacaoService
 
-		)
+	)
 	{
 
 		$this->userService          = $userService;
 		$this->estadoService        = $estadoService;
 		$this->cidadeService        = $cidadeService;
 		$this->especialidadeService = $especialidadeService;
-		$this->ramoService          = $ramoService; 
-      $this->comentarioService    = $comentarioService;
-      $this->avaliacaoService     = $avaliacaoService;
+		$this->ramoService          = $ramoService;
+		$this->comentarioService    = $comentarioService;
+		$this->avaliacaoService     = $avaliacaoService;
 
 	}
 
-   	public function listarEstados()
-   	{
-   		$data = $this->estadoService->listarEstadosApi();
+	public function listarEstados()
+	{
+		$data = $this->estadoService->listarEstadosApi();
 
-   		return response()->json([
+		return response()->json([
 
-   				'success' => true,
-   				'data'    => $data 
-   			]);
-   	}
+			'success' => true,
+			'data'    => $data
+		]);
+	}
 
-   	public function listarCidades(Request $request)
-   	{	
-   		$uf = $request->get('uf');
+	public function listarCidades(Request $request)
+	{
+		$uf = $request->get('uf');
 
-   		if($uf)
-   		{
-   			$data = $this->cidadeService->listarCidadesApi($uf);
-   		}else
-   		{
-   			$data = [];
-   		}
-   		return response()->json([
+		if($uf)
+		{
+			$data = $this->cidadeService->listarCidadesApi($uf);
+		}else
+		{
+			$data = [];
+		}
+		return response()->json([
 
-   				'success' => true,
-   				'data'    => $data 
-   			]);
+			'success' => true,
+			'data'    => $data
+		]);
 
-   	}
+	}
 
-   	public function listarEspecialidades()
-   	{
-   		$data = $this->especialidadeService->listarEspecialidadesApi();
+	public function listarEspecialidades()
+	{
+		$data = $this->especialidadeService->listarEspecialidadesApi();
 
-   		return response()->json([
-				
-				'success' => true,
-   				'data'    => $data
+		return response()->json([
 
-   			]);
+			'success' => true,
+			'data'    => $data
 
-   	}
+		]);
 
-   	public function listarRamos(Request $request)
-   	{	
-   		$especialidade_id = $request->get('especialidade_id');
+	}
 
-   		if($especialidade_id)
-   		{
-   			$data = $this->ramoService->listarRamosApi($especialidade_id);
-   		}else
-   		{
-   			$data = [];
-   		}
-   		return response()->json([
+	public function listarRamos(Request $request)
+	{
+		$especialidade_id = $request->get('especialidade_id');
 
-   				'success' => true,
-   				'data'    => $data 
-   			]);
-   	}
+		if($especialidade_id)
+		{
+			$data = $this->ramoService->listarRamosApi($especialidade_id);
+		}else
+		{
+			$data = [];
+		}
+		return response()->json([
 
-   	public function pesquisarProfissional(Request $request)
-   	{
-   		$data = $this->userService->pesquisar($request->all());
-   			
-   		return response()->json([
+			'success' => true,
+			'data'    => $data
+		]);
+	}
 
-   				'success' => true,
-   				'data'    => $data->toArray()
-   			]);
-   	}
+	public function pesquisarProfissional(Request $request)
+	{
+		$data = $this->userService->pesquisar($request->all());
 
-   	public function logarUsuario(Request $request)
-   	{
-   		$data = $this->userService->logarUsuarioApi( $request->all() );
+		return response()->json([
 
-   		if($data)
-   		{
-   			$success = true;
+			'success' => true,
+			'data'    => $data->toArray()
+		]);
+	}
 
-   		}else
-   		{
-   			$success = false;
-   			$data = [];
+	public function logarUsuario(Request $request)
+	{
+		$data = $this->userService->logarUsuarioApi( $request->all() );
 
-   		}
-   		return response()->json([
+		if($data)
+		{
+			$success = true;
 
-   				'success' => $success,
-   				'data'    => $data
-   			]);
-   	}
+		}else
+		{
+			$success = false;
+			$data = [];
 
-   	public function registrarNovoUsuario(Request $request)
-   	{
-   		$data = $this->userService->registrarNovoUsuarioApi( $request->all() );
+		}
+		return response()->json([
 
-   		if($data)
-   		{
-   			$success = true;
+			'success' => $success,
+			'data'    => $data
+		]);
+	}
 
-   		}else
-   		{
-   			$success = false;
-   			$data = [];
+	public function registrarNovoUsuario(Request $request)
+	{
+		$data = $this->userService->registrarNovoUsuarioApi( $request->all() );
 
-   		}
-   		return response()->json([
+		if($data)
+		{
+			$success = true;
 
-   				'success' => $success,
-   				'data'    => $data
-   			]);
-   	}
+		}else
+		{
+			$success = false;
+			$data = [];
 
-      public function getTotalComentarioProfissional(Request $request)
-      {
-         $data = $this->comentarioService->getTotalComentarioProfissional( $request->get('id') );
+		}
+		return response()->json([
 
-         if($data)
-         {
-            $success = true;
+			'success' => $success,
+			'data'    => $data
+		]);
+	}
 
-         }else
-         {
-            $success = false;
-            $data = [];
+	public function editarUsuario(Request $request)
+	{
+		$params = $request->all();
 
-         }
-         return response()->json([
+		try{
+			$this->userService->editarUsuarioApi($params);
+		}catch (Exception $ex){
+		    $error = $ex->getMessage();
+			return response()->json([
+				'error' => $error
+			]);
+		}
 
-               'success' => $success,
-               'data'    => $data
-            ]);       
+		return response()->json([
+			'message' => 'Perfil editado com sucesso'
+		]);
+	}
 
-      }
+	public function getTotalComentarioProfissional(Request $request)
+	{
+		$data = $this->comentarioService->getTotalComentarioProfissional( $request->get('id') );
 
-      public function listarDadosProfissional(Request $request)
-      {
-         $data = $this->userService->listarDadosProfissionalApi( $request->get('id') );
+		if($data)
+		{
+			$success = true;
 
-         if($data)
-         {
-            $success = true;
+		}else
+		{
+			$success = false;
+			$data = [];
 
-         }else
-         {
-            $success = false;
-            $data = [];
+		}
+		return response()->json([
 
-         }
-         return response()->json([
+			'success' => $success,
+			'data'    => $data
+		]);
 
-               'success' => $success,
-               'data'    => $data
-            ]); 
+	}
 
-      }
+	public function listarDadosProfissional(Request $request)
+	{
+		$data = $this->userService->listarDadosProfissionalApi( $request->get('id') );
 
-      public function listarComentariosProfissional(Request $request)
-      {
+		if($data)
+		{
+			$success = true;
 
-         $data = $this->userService->listarComentariosProfissionalApi( $request->get('id') );
+		}else
+		{
+			$success = false;
+			$data = [];
 
-         if($data)
-         {
-            $success = true;
+		}
+		return response()->json([
 
-         }else
-         {
-            $success = false;
-            $data = [];
+			'success' => $success,
+			'data'    => $data
+		]);
 
-         }
-         return response()->json([
+	}
 
-               'success' => $success,
-               'data'    => $data
-            ]);
+	public function listarComentariosProfissional(Request $request)
+	{
 
-      }
+		$data = $this->userService->listarComentariosProfissionalApi( $request->get('id') );
 
-      public function avaliarProfissional(Request $request)
-      {
-         $success = false;
+		if($data)
+		{
+			$success = true;
 
-         if($this->avaliacaoService->create($request->all()))
-         {
-            $success = true;
-         }
+		}else
+		{
+			$success = false;
+			$data = [];
 
-         return response()->json([
+		}
+		return response()->json([
 
-                  'success' => $success,
+			'success' => $success,
+			'data'    => $data
+		]);
 
-      
-            ]);
-      }
-      public function enviarComentario(Request $request)
-      {
-         $success = false;
+	}
 
-         if($this->comentarioService->create($request->all()))
-         {
-            $success = true;
-         }
+	public function avaliarProfissional(Request $request)
+	{
+		$success = false;
 
-         return response()->json([
+		if($this->avaliacaoService->create($request->all()))
+		{
+			$success = true;
+		}
 
-                  'success' => $success,
-                  
-      
-            ]);
-      }
+		return response()->json([
+
+			'success' => $success,
+
+
+		]);
+	}
+	public function enviarComentario(Request $request)
+	{
+		$success = false;
+
+		if($this->comentarioService->create($request->all()))
+		{
+			$success = true;
+		}
+
+		return response()->json([
+
+			'success' => $success,
+
+
+		]);
+	}
 
 }

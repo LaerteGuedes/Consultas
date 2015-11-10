@@ -138,7 +138,18 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
         }
 
         return $this->model->create($data);
+    }
 
+    public function editarUsuarioApi($params)
+    {
+        $user = User::find($params['id']);
+        unset($params['id']);
+
+        foreach ($params as $attr => $param){
+            $user->$attr = $param;
+        }
+
+        $user->save();
     }
 
     public function deleteplano($user_id, $plano_id)
@@ -149,7 +160,7 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
     public function findPlanoParents($user_id){
         return $this->model->whereHas('planos', function($q) use ($user_id){
-           $q->where('user_id', '=', $user_id);
+            $q->where('user_id', '=', $user_id);
         })->get();
     }
 
