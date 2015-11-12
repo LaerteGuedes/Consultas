@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Debug;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -207,7 +208,6 @@ class ServerController extends Controller
 	public function listarDadosProfissional(Request $request)
 	{
 		$data = $this->userService->listarDadosProfissionalApi( $request->get('id') );
-
 		if($data)
 		{
 			$success = true;
@@ -279,6 +279,15 @@ class ServerController extends Controller
 			'success' => $success,
 
 
+		]);
+	}
+
+	public function buscaAvancada(Request $request)
+	{
+		$users = $this->userService->pesquisar($request->all())->toArray();
+
+		return response()->json([
+			'users' => $users
 		]);
 	}
 

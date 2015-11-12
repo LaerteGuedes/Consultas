@@ -120,7 +120,7 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
 
 
 
-Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
+Route::group(['prefix'=>'api/sallus'], function(){
     Route::get('/listar/estados',['uses'=>'ServerController@listarEstados']);
     Route::get('/listar/cidades',['uses'=>'ServerController@listarCidades']);
     Route::get('/listar/especialidades',['uses'=>'ServerController@listarEspecialidades']);
@@ -133,6 +133,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get('/avaliar/profissional',['uses'=>'ServerController@avaliarProfissional']);
     Route::get('/enviar/comentario',['uses'=>'ServerController@enviarComentario']);
     Route::post("/registrar/editar/usuario", ['uses' => 'ServerController@editarUsuario']);
+    Route::get("/buscaavancada", ['uses' => 'ServerController@buscaAvancada']);
 });
 
 
