@@ -40,8 +40,9 @@
 			</div>				
 					
 			<div class="form-group">
-				<select name="bairro_id" id="bairro_id" class="form-control" data-title="Selecione o Bairro">
-						</select>
+				{{--<select name="bairro_id" id="bairro_id" class="form-control" data-title="Selecione o Bairro">--}}
+						{{--</select>--}}
+                <input type="text" name="bairro_nome" id="bairro_nome" placeholder="Bairro" class="form-control">
 			</div>		
 						
 
