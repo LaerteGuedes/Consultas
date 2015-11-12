@@ -8,8 +8,7 @@
 <section class="main">
 
     <div class="container">
-
-         <div class="row">
+        <div class="row">
              <div class="col-lg-12">
                      <ol class="breadcrumb">
                        <li><a href="{{ route('dashboard')  }}">Início</a></li>
@@ -17,13 +16,10 @@
                        <li class="active">Editar Local</li>
                      </ol>
              </div>
-         </div>
-
+        </div>
         <div class="row">
             <div class="col-lg-12">
-
                 @include('alerts')
-
                 <!-- Painel padrão -->
                 <div class="panel panel-default">
                   <div class="panel-body">
@@ -33,12 +29,9 @@
                 <!-- /Painel padrão -->
             </div>
         </div>
-
         <div class="row">
             <div class="col-lg-12">
-
                     @include('localidade.form')
-
             </div>
         </div>
 

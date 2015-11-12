@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Debug;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\LocalidadeRequest;
@@ -17,13 +18,18 @@ class LocalidadeController extends Controller
 {
     protected $localidadeService;
     protected $messageService;
+    protected $estadoService;
+    protected $cidadeService;
 
-    public function __construct(LocalidadeService $localidadeService , MessageService $messageService)
+    public function __construct(LocalidadeService $localidadeService, MessageService $messageService,
+                                EstadoService $estadoService, CidadeService $cidadeService)
     {
         $this->localidadeService = $localidadeService;
-        $this->messageService   = $messageService;
-
+        $this->messageService = $messageService;
+        $this->estadoService = $estadoService;
+        $this->cidadeService = $cidadeService;
     }
+
 
     public function index()
     {
@@ -31,14 +37,15 @@ class LocalidadeController extends Controller
 
         return view('localidade.index')->with('localidades',$localidades);
     }
-    public function novo(EstadoService $estadoService)
+    public function novo(EstadoService $estadoService, CidadeService $cidadeService)
     {
-        $estados = $estadoService->listCombo();
+        $estados = array('PA' => 'PA');
+        $cidades = $cidadeService->listCidadesAreaMetropolitanaBelem();
         $tipos   = $this->localidadeService->getTipos();
 
         return view('localidade.novo')->with([
-
                 'estados' => $estados,
+                'cidades_belem' => $cidades,
                 'tipos'   => $tipos
         ]);
     }
@@ -80,11 +87,11 @@ class LocalidadeController extends Controller
         return redirect()->route('novo.localidade')->withErros([$this->messageService->getMessage('error')]);
 
     }
-    public function edit($id , EstadoService $estadoService , CidadeService $cidadeService)
+    public function edit($id , EstadoService $estadoService , CidadeService $cidadeService, BairroService $bairroService)
     {
         $localidade = $this->localidadeService->find($id);
-        $estados = $estadoService->listCombo();
-        $cidades =$cidadeService->listCidadesByUf($localidade->uf);
+        $estados = array('PA');
+        $cidades =$cidadeService->listCidadesAreaMetropolitanaBelem();
         $tipos   = $this->localidadeService->getTipos();
 
 
@@ -104,7 +111,6 @@ class LocalidadeController extends Controller
 
         $data = array_add( $request->all() , 'user_id' , \Auth::user()->id );
 
-
         if(!$request->get('bairro_id') || $request->get('bairro_id') == "")
         {
             $bairro    = $bairroService->create([
@@ -116,7 +122,7 @@ class LocalidadeController extends Controller
 
             if($bairro)
             {
-                $data = array_add( $data , 'bairro_id' , $bairro->id );
+                $data['bairro_id'] =  $bairro->id;
             }
 
         }

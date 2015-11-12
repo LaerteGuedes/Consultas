@@ -121,8 +121,6 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
 
 
 Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
-
-
     Route::get('/listar/estados',['uses'=>'ServerController@listarEstados']);
     Route::get('/listar/cidades',['uses'=>'ServerController@listarCidades']);
     Route::get('/listar/especialidades',['uses'=>'ServerController@listarEspecialidades']);

@@ -10,37 +10,37 @@
 
     <div class="row">
 
-            <div class="col-xs-2">
+        <div class="col-xs-2">
 
-                {!! Form::label('tipo','*Tipo:') !!}
+            {!! Form::label('tipo','*Tipo:') !!}
 
-                 <select name="tipo" id="tipo" class="form-control" data-title="Selecione">
+            <select name="tipo" id="tipo" class="form-control" data-title="Selecione">
 
-                        @foreach($tipos as $tipo => $label_tipo )
-                            <option value="{{ $tipo  }}" {{ isset($localidade->id) && $localidade->tipo == $tipo ? 'selected' : null }} >{{ $label_tipo }}</option>
-                        @endforeach
+                @foreach($tipos as $tipo => $label_tipo )
+                    <option value="{{ $tipo  }}" {{ isset($localidade->id) && $localidade->tipo == $tipo ? 'selected' : null }} >{{ $label_tipo }}</option>
+                @endforeach
 
-                 </select>
+            </select>
 
-            </div>
-            <div class="col-xs-4">
+        </div>
+        <div class="col-xs-4">
 
-                      {!! Form::label('logradouro','*Logradouro:') !!}
-                      {!! Form::text('logradouro', isset($localidade->id) ? $localidade->logradouro : null , [ 'class' => 'form-control' ]) !!}
+            {!! Form::label('logradouro','*Logradouro:') !!}
+            {!! Form::text('logradouro', isset($localidade->id) ? $localidade->logradouro : null , [ 'class' => 'form-control' ]) !!}
 
-            </div>
-            <div class="col-xs-2">
+        </div>
+        <div class="col-xs-2">
 
-                {!! Form::label('numero','*Numero:') !!}
-                {!! Form::text('numero',isset($localidade->id) ? $localidade->numero : null ,['class'=>'form-control']) !!}
+            {!! Form::label('numero','*Numero:') !!}
+            {!! Form::text('numero',isset($localidade->id) ? $localidade->numero : null ,['class'=>'form-control']) !!}
 
-            </div>
-            <div class="col-xs-4">
+        </div>
+        <div class="col-xs-4">
 
-                 {!! Form::label('complemento','Complemento:') !!}
-                 {!! Form::text('complemento',isset($localidade->id) ? $localidade->complemento : null ,['class'=>'form-control']) !!}
+            {!! Form::label('complemento','Complemento:') !!}
+            {!! Form::text('complemento',isset($localidade->id) ? $localidade->complemento : null ,['class'=>'form-control']) !!}
 
-            </div>
+        </div>
 
     </div>
 
@@ -51,54 +51,55 @@
 <div class="form-group">
 
     <div class="row">
-            <div class="col-xs-3">
-                     {!! Form::label('cep','*CEP:') !!}
-                     {!! Form::text('cep',isset($localidade->id) ? $localidade->cep : null ,['class'=>'form-control','data-mask'=>'cep']) !!}
-            </div>
-            <div class="col-xs-3">
-                    {!! Form::label('uf','*Estado:') !!}
-                    {!! Form::select('uf' , $estados , isset($localidade->id) ? $localidade->uf : null , ['class'=>'form-control'] ) !!}
-            </div>
-            <div class="col-xs-3">
-                {!! Form::label('cidade_id','*Cidade:') !!}
+        <div class="col-xs-3">
+            {!! Form::label('cep','*CEP:') !!}
+            {!! Form::text('cep',isset($localidade->id) ? $localidade->cep : null ,['class'=>'form-control','data-mask'=>'cep']) !!}
+        </div>
+        <div class="col-xs-3">
+            {!! Form::label('uf','*Estado:') !!}
+            {!! Form::select('uf' , $estados , isset($localidade->id) ? $localidade->uf : 'PA' , ['class'=>'form-control'] ) !!}
+        </div>
+        <div class="col-xs-3">
+            {!! Form::label('cidade_id','*Cidade:') !!}
 
-                <select name="cidade_id" id="cidade_id" class="form-control">
+            <select name="cidade_id" id="cidade_id" class="form-control">
 
-                        <option value="">Selecione um estado</option>
+                @if(isset($cidades))
+                    @foreach($cidades as $cidade)
+                        <option value="{{ $cidade->id }}" {{ $cidade->id == $localidade->cidade_id ? 'selected': null }}>{{ $cidade->nome  }}</option>
+                    @endforeach
+                @endif
 
-                        @if(isset($cidades))
-                            @foreach($cidades as $cidade)
+                @if(isset($cidades_belem))
+                    @foreach($cidades_belem as $cidade)
+                        <option value="{{ $cidade->id }}" {{ $cidade->id == (isset($localidade) && $localidade->cidade_id) ? 'selected': null }}>{{ $cidade->nome  }}</option>
+                    @endforeach
+                @endif
 
-                                <option value="{{ $cidade->id }}" {{ $cidade->id == $localidade->cidade_id ? 'selected': null }}>{{ $cidade->nome  }}</option>
+            </select>
 
-                            @endforeach
-                        @endif
+        </div>
 
-                </select>
+        <div class="col-xs-3">
 
-            </div>
+            {!! Form::label('bairro','*Bairro:') !!}
 
-            <div class="col-xs-3">
+            {!! Form::text('bairro' , isset($localidade->id) ? $localidade->bairro->nome : null , [
 
-                {!! Form::label('bairro','*Bairro:') !!}
+                'class'        => 'form-control',
+                'autocomplete' => 'off'
 
-                {!! Form::text('bairro' , isset($localidade->id) ? $localidade->bairro->nome : null , [
 
-                    'class'        => 'form-control',
-                    'autocomplete' => 'off',
+             ]) !!}
+
+            {!! Form::hidden('bairro_id',isset($localidade->id) ? $localidade->bairro_id : null,[
+
+                    'id'   =>   'bairro_id',
                     isset($localidade->id) ? null : 'disabled'
 
 
-                 ]) !!}
-
-                {!! Form::hidden('bairro_id',isset($localidade->id) ? $localidade->bairro_id : null,[
-
-                        'id'   =>   'bairro_id',
-                        isset($localidade->id) ? null : 'disabled'
-
-
-                ]) !!}
-            </div>
+            ]) !!}
+        </div>
     </div>
 
 
@@ -106,7 +107,7 @@
 </div>
 
 <div class="form-group">
-    
+
     {!! Form::label('preco','Valor da consulta') !!}
     {!! Form::text('preco', isset($localidade->id) ? $localidade->preco : null , ['class'=>'form-control','data-mask'=>'decimal'])  !!}
 </div>
@@ -125,69 +126,69 @@
 
 @section('lib')
 
-<script src="{{ asset('lib/bootstrap3-typeahead/bootstrap3-typeahead.js') }}"></script>
+    <script src="{{ asset('lib/bootstrap3-typeahead/bootstrap3-typeahead.js') }}"></script>
 
 @endsection
 
 @section('script')
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $(function(){
+        $(function(){
 
 
             $("#tipo").on("change",function(){
-                    var self = $(this);
-                    var logradouro = $("#logradouro");
-                    var numero     = $("#numero");
-                    var complemento = $("#complemento");
-                    var cep = $("#cep");
-                    var preco = $("#preco");
+                var self = $(this);
+                var logradouro = $("#logradouro");
+                var numero     = $("#numero");
+                var complemento = $("#complemento");
+                var cep = $("#cep");
+                var preco = $("#preco");
 
-                    if(self.val()==='CONSULTORIO')
-                    {
-                        preco.parent('div').hide();
-                        logradouro.parent('div').show();
-                        numero.parent('div').show();
-                        complemento.parent('div').show();
-                        cep.parent('div').show();
+                if(self.val()==='CONSULTORIO')
+                {
+                    preco.parent('div').hide();
+                    logradouro.parent('div').show();
+                    numero.parent('div').show();
+                    complemento.parent('div').show();
+                    cep.parent('div').show();
 
-                    }else
-                    {
-                        preco.parent('div').show();
-                        logradouro.parent('div').hide();
-                        numero.parent('div').hide();
-                        complemento.parent('div').hide();
-                        cep.parent('div').hide();
-                    }
+                }else
+                {
+                    preco.parent('div').show();
+                    logradouro.parent('div').hide();
+                    numero.parent('div').hide();
+                    complemento.parent('div').hide();
+                    cep.parent('div').hide();
+                }
 
             });
 
 
             $("#uf").on("change", function(){
 
-                    var self = $(this);
-                    var uf   = self.val();
-                    var url = "{{ url('listar-cidades')  }}/" + uf;
-                    if(uf != ""){
-                        $.get(url,function(response){
+                var self = $(this);
+                var uf   = self.val();
+                var url = "{{ url('listar-cidades')  }}/" + uf;
+                if(uf != ""){
+                    $.get(url,function(response){
 
-                            var options = '';
+                        var options = '';
 
-                            $.each(response.data , function(v,k){
+                        $.each(response.data , function(v,k){
 
-                                 options += '<option value="'+ k.id +'">'+ k.nome +'</option>';
-                            });
-
-                           $("#cidade_id").empty().html(options);
-                           $("#cidade_id").selectpicker('refresh');
-
+                            options += '<option value="'+ k.id +'">'+ k.nome +'</option>';
                         });
-                    }else{
-                       var options = '<option value="">Selecione um Estado</option>';
-                       $("#cidade_id").empty().html(options);
-                       $("#cidade_id").selectpicker('refresh');
-                    }
+
+                        $("#cidade_id").empty().html(options);
+                        $("#cidade_id").selectpicker('refresh');
+
+                    });
+                }else{
+                    var options = '<option value="">Selecione um Estado</option>';
+                    $("#cidade_id").empty().html(options);
+                    $("#cidade_id").selectpicker('refresh');
+                }
             });
 
 
@@ -237,9 +238,20 @@
 
             });
 
+            var bairroAtual = $("#bairro").val();
+            var bairroIdAtual = $("#bairro_id").val();
 
-    });
+            $("#bairro").on("keyup", function(){
+                var bairro = $(this).val();
+                if (bairroAtual != bairro){
+                    $("#bairro_id").val('');
+                }else{
+                    $("#bairro_id").val(bairroIdAtual);
+                }
+            });
 
-</script>
+        });
+
+    </script>
 
 @endsection

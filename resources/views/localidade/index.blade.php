@@ -6,7 +6,6 @@
 
 
 <section class="main">
-
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -44,28 +43,27 @@
                         <p>{{ $localidades->total() }} registros.</p>
 
                         <ul class="list-group">
-                            @foreach($localidades as $localidade)
-                              <li class="list-group-item">
-                                  <div class="row">
-                                      <div class="col-lg-10">
+                            @if($localidades)
+                                @foreach($localidades as $localidade)
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-10">
+                                                <a href="{{ route('edit.localidade' , $localidade->id )  }}" class="text-lowercase">
+                                                    {{ $localidade->tipo }} -  {{ $localidade->logradouro }} {{ $localidade->numero }} , {{ $localidade->bairro->nome }},
+                                                    {{ $localidade->cidade->nome }} - {{ $localidade->uf }}
+                                                </a>
+                                            </div><!-- /.col-lg-7 -->
 
-                                        <a href="{{ route('edit.localidade' , $localidade->id )  }}" class="text-lowercase">
-                                       {{ $localidade->tipo }} -  {{ $localidade->logradouro }} {{ $localidade->numero }} , {{ $localidade->bairro->nome }},
-                                        {{ $localidade->cidade->nome }} - {{ $localidade->uf }} 
-                                        </a>
-                                      </div><!-- /.col-lg-7 -->
+                                            <div class="col-lg-2 text-right">
+                                                <a class="btn btn-primary" href="{{ route('edit.localidade' , $localidade->id )  }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="glyphicon glyphicon-edit"></i></a>
+                                                <a class="btn btn-danger" href="{{ route('delete.localidade' , $localidade->id )  }}" data-toggle="tooltip" data-placement="top" title="Apagar" data-confirm="true"><i class="glyphicon glyphicon-trash"></i></a>
 
-                                      <div class="col-lg-2 text-right">
-                                        <a class="btn btn-primary" href="{{ route('edit.localidade' , $localidade->id )  }}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="glyphicon glyphicon-edit"></i></a>
-                                        <a class="btn btn-danger" href="{{ route('delete.localidade' , $localidade->id )  }}" data-toggle="tooltip" data-placement="top" title="Apagar" data-confirm="true"><i class="glyphicon glyphicon-trash"></i></a>
-
-                                      </div><!-- /.col-lg-2 -->
-                                  </div>
-                              </li>
-                              @endforeach
+                                            </div><!-- /.col-lg-2 -->
+                                        </div>
+                                    </li>
+                                @endforeach
+                            @endif
                         </ul>
-
-
                     {!! $localidades->render() !!}
 
                     @endif

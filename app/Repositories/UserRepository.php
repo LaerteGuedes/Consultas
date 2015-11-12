@@ -55,6 +55,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
             ->join('user_especialidades','users.id','=','user_especialidades.user_id')
             ->join('especialidades','user_especialidades.especialidade_id','=','especialidades.id')
             ->leftJoin('localidades','users.id','=','localidades.user_id')
+            ->leftJoin('bairros', 'localidades.bairro_id', '=', 'bairros.id')
             ->leftJoin('user_ramos','users.id','=','user_ramos.user_id')
             ->leftJoin('ramos','user_ramos.ramo_id','=','ramos.id')
             ->where(function($query)use($data){
@@ -73,6 +74,10 @@ class UserRepository extends Repository implements UserRepositoryInterface
                 if(isset($data['bairro_id']) && !empty($data['bairro_id']) )
                 {
                     $query->where('localidades.bairro_id' , $data['bairro_id']);
+                }
+                if (isset($data['bairro_nome']) && !empty($data['bairro_nome']))
+                {
+                    $query->where("bairros.nome", 'LIKE' , '%'.$data['bairro_nome'].'%');
                 }
                 if(isset($data['cidade_id']) && !empty($data['cidade_id']))
                 {

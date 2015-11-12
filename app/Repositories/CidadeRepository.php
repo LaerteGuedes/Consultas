@@ -25,4 +25,15 @@ class CidadeRepository extends Repository implements CidadeRepositoryInterface
     {
         return $this->model->where('uf','=',$uf)->orderBy('nome','asc')->get(['id','nome']);
     }
+
+    public function listCidadesAreaMetropolitanaBelem()
+    {
+        return $this->model->where('uf', '=', 'PA')->where(function($query) {
+            $query->where('nome', 'LIKE', '%BELEM%')
+                ->orWhere('nome', 'LIKE', '%ANANINDEUA%')
+                ->orWhere('nome', 'LIKE', '%BENEVIDES%')
+                ->orWhere('nome', 'LIKE', '%CASTANHAL%')
+                ->orWhere('nome', 'LIKE', '%MARITUBA%');
+        })->get();
+    }
 } 

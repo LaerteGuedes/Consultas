@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Custom\Debug;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\RegisterUserRequest;
@@ -13,6 +14,7 @@ use App\Services\MessageService;
 
 use App\Services\EstadoService;
 use App\Services\EspecialidadeService;
+use App\Services\CidadeService;
 
 class HomeController extends Controller
 {
@@ -21,15 +23,18 @@ class HomeController extends Controller
     protected $messageService;
     protected $estadoService;
     protected $especialidadeService;
+    protected $cidadeService;
 
     public function __construct(UserService $userService , 
                                 MessageService $messageService,
                                 EstadoService $estadoService,
-                                EspecialidadeService $especialidadeService)
+                                EspecialidadeService $especialidadeService,
+                                CidadeService $cidadeService)
+
     {
         $this->userService    = $userService;
         $this->messageService = $messageService;
-
+        $this->cidadeService = $cidadeService;
         $this->estadoService = $estadoService;
         $this->especialidadeService = $especialidadeService;
     }
@@ -39,11 +44,13 @@ class HomeController extends Controller
         if(\Auth::guest())
         {
             $estados = $this->estadoService->listCombo();
+            $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelem();
             $especialidades = $this->especialidadeService->listCombo();
 
             return view('home.home')->with([
 
                 'estados' => $estados,
+                'cidades' => $cidades,
                 'especialidades' => $especialidades,
 
                 ]);

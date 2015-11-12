@@ -31,4 +31,7 @@ class EstadoRepository extends Repository implements EstadoRepositoryInterface
     	return  $this->model->orderBy('uf')->get(['uf','nome']);  
     }
 
+
+
+
 } 

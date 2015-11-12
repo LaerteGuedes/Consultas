@@ -41,4 +41,9 @@ class CidadeService extends Service
         return $data;  
     }
 
+    public function listCidadesAreaMetropolitanaBelem()
+    {
+        return $this->repository->listCidadesAreaMetropolitanaBelem();
+    }
+
 } 
