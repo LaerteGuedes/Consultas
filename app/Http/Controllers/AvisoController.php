@@ -23,18 +23,14 @@ class AvisoController extends Controller
    		if(\Auth::user()->role->name =='Cliente')
    		{
    			$avisos = $this->avisoService->listarAvisosByCliente(\Auth::user()->id );
-
             $this->avisoService->atualizaViewByCliente( \Auth::user()->id  );
-
    		}else
    		{
-			   $avisos = $this->avisoService->listarAvisosByProfissional(\Auth::user()->id );
-
+			$avisos = $this->avisoService->listarAvisosByProfissional(\Auth::user()->id );
             $this->avisoService->atualizaViewByProfissional( \Auth::user()->id );
    		}
 
    		return view('aviso.index')->with([
-
    				'avisos'=> $avisos
    			]);
    }

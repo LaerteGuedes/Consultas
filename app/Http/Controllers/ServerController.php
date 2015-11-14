@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Custom\Debug;
+use App\Services\AvisoService;
+use App\Services\LocalidadeService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -27,6 +29,8 @@ class ServerController extends Controller
 	protected $ramoService;
 	protected $comentarioService;
 	protected $avaliacaoService;
+	protected $localidadeService;
+	protected $avisoService;
 
 	public function __construct(
 
@@ -36,8 +40,9 @@ class ServerController extends Controller
 		EspecialidadeService $especialidadeService,
 		RamoService          $ramoService,
 		ComentarioService    $comentarioService,
-		AvaliacaoService     $avaliacaoService
-
+		AvaliacaoService     $avaliacaoService,
+		LocalidadeService	 $localidadeService,
+		AvisoService		 $avisoService
 	)
 	{
 
@@ -48,7 +53,8 @@ class ServerController extends Controller
 		$this->ramoService          = $ramoService;
 		$this->comentarioService    = $comentarioService;
 		$this->avaliacaoService     = $avaliacaoService;
-
+		$this->localidadeService    = $localidadeService;
+		$this->avisoService		    = $avisoService;
 	}
 
 	public function listarEstados()
@@ -279,6 +285,31 @@ class ServerController extends Controller
 			'success' => $success,
 
 
+		]);
+	}
+
+	public function avisos(Request $request)
+	{
+		$avisos = $this->avisoService->listarAvisosByCliente($request->get('user_id'));
+		$this->avisoService->atualizaViewByCliente($request->get('user_id'));
+
+		return response()->json([
+			'avisos' => $avisos
+		]);
+	}
+
+	public function confirmar(Request $request)
+	{
+		$usuario      = $this->userService->find($request->get('user_id'));
+		$profissional = $this->userService->find($request->get('profissional_id'));
+		$localidade   = $this->localidadeService->find($request->get('localidade_id'));
+
+		return response()->json([
+			'usuario'      => $usuario,
+			'profissional' => $profissional,
+			'localidade'   => $localidade,
+			'dia_agenda'   => $request->get('dia_agenda'),
+			'horario_agenda' => $request->get('horario_agenda')
 		]);
 	}
 
