@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CidadeService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -21,14 +22,17 @@ class DashboardController extends Controller
 	protected $userService;
 	protected $especialidadeService;
 	protected $avaliacaoService;
+	protected $cidadeService;
 
 	public function __construct(EstadoService $estadoService,
 								UserService $userService,
 								EspecialidadeService $especialidadeService,
 								ConsultaService $consultaService,
-								AvaliacaoService $avaliacaoService)
+								AvaliacaoService $avaliacaoService,
+								CidadeService $cidadeService)
 	{
 		$this->estadoService = $estadoService;
+		$this->cidadeService = $cidadeService;
 		$this->userService   = $userService;
 		$this->especialidadeService = $especialidadeService;
 		$this->consultaService = $consultaService;
@@ -38,7 +42,8 @@ class DashboardController extends Controller
     public function index()
     {
 
-    	$estados = $this->estadoService->listCombo();
+    	$estados = array("PA" => "PA");
+		$cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelem();
     	$especialidades = $this->especialidadeService->listCombo();
     	$totalConsultasFuturas = $this->consultaService->getTotalConsultasFuturasByUser( \Auth::user()->id );
     	$totalAvaliacao =  $this->avaliacaoService->getAvaliacaoProfissional( \Auth::user()->id );
@@ -46,6 +51,7 @@ class DashboardController extends Controller
         return view('dashboard.index')->with([
 
         		'estados' => $estados,
+				'cidades' => $cidades,
         		'especialidades' => $especialidades,
         		'total_consultas' => $totalConsultasFuturas,
         		'total_avaliacao'  => $totalAvaliacao

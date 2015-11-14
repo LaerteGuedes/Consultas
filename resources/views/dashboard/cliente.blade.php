@@ -22,10 +22,14 @@
                                         <div class="row">
 
                                                 <div class="col-lg-3 col-xs-12">
-                                {!! Form::select('uf' , $estados , null , ['class'=>'form-control','data-title'=>'Selecione o Estado','id'=>'uf'] ) !!}
+                                {!! Form::select('uf' , $estados , null , ['class'=>'form-control','id'=>'uf', 'disabled'] ) !!}
                                                 </div>
                                                 <div class="col-lg-3 col-xs-12">
                                                         <select name="cidade_id" id="cidade_id" class="form-control" data-title="Selecione a Cidade">
+                                                            <option value="">Selecione a cidade: </option>
+                                                            @foreach($cidades as $cidade)
+                                                                <option value="{{$cidade->id}}">{{$cidade->nome}}</option>
+                                                            @endforeach
                                                         </select>
                                                 </div>
 
@@ -59,8 +63,9 @@
                                                 -->
 
                                                 <div class="col-lg-3 col-xs-12">
-                                                        <select name="bairro_id" id="bairro_id" class="form-control" data-title="Selecione o Bairro">
-                                                        </select>
+                                                        {{--<select name="bairro_id" id="bairro_id" class="form-control" data-title="Selecione o Bairro">--}}
+                                                        {{--</select>--}}
+                                                    <input class="form-control" type="text" name="bairro_nome" placeholder="Bairro">
                                                 </div>
 
 
