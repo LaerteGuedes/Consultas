@@ -11,20 +11,21 @@
         "Illuminate/Html": "^5.0",
         "barryvdh/laravel-cors": "0.7.x",
         "guzzlehttp/guzzle": "5.3"
-
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~4.0",
-        "phpspec/phpspec": "~2.1"
+        "phpspec/phpspec": "~2.1",
+        "pagseguro/php": "dev-master"
     },
     "autoload": {
         "classmap": [
             "database"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Lib\\": "lib/"
         }
     },
     "autoload-dev": {

@@ -33,6 +33,8 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
     #rota tutorial
     Route::get('/tutorial/inicial',['as'=>'tutorial.inicial','uses'=>'TutorialController@index']);
 
+    #rota pagamento
+    Route::get("/pagamento/assinatura", ['as' => 'pagamento.assinatura', 'uses' => 'PagamentoController@assinatura']);
 
     #rotas comentario
     Route::post('/store/comentario',['as'=>'store.comentario','uses'=>'ComentarioController@store']);
@@ -137,7 +139,6 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get("/avisos", ['uses' => 'ServerController@avisos']);
     Route::get("/buscaavancada", ['uses' => 'ServerController@buscaAvancada']);
 });
-
 
 Route::group(['prefix'=>'ajax'],function(){
 
