@@ -6,6 +6,7 @@ use App\Repository;
 use App\Contracts\UserRepositoryInterface;
 use App\User;
 use App\Avaliacao;
+use Illuminate\Support\Facades\DB;
 
 
 class UserRepository extends Repository implements UserRepositoryInterface
@@ -46,6 +47,11 @@ class UserRepository extends Repository implements UserRepositoryInterface
     public function especialidade()
     {
         return $this->model->especialidade();
+    }
+
+    public function comentariosPorUsuario($user_id){
+
+        return $this->model->find($user_id)->comentarios();
     }
 
     public function pesquisar($data = array() , $perpage = 50)

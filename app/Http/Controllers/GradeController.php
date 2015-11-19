@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Debug;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\GradeService;
 use App\Services\LocalidadeService;
+use Illuminate\Support\Facades\Auth;
 
 class GradeController extends Controller
 {
@@ -23,7 +25,6 @@ class GradeController extends Controller
 
     public function index()
     {
-
     	$localidades   = $this->localidadeService->listForComboByUser(\Auth::user()->id);
     	$dias_semanais = $this->gradeService->getDiasSemanais();
     	$turnos        = $this->gradeService->getTurnos();

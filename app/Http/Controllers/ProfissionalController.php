@@ -16,6 +16,8 @@ use App\Services\LocalidadeService;
 use App\Services\CalendarService;
 use App\Services\ConsultaService;
 use App\Services\ComentarioService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProfissionalController extends Controller
 {
@@ -50,13 +52,14 @@ class ProfissionalController extends Controller
 	public function detalhe($id)
 	{
 		$user =  $this->userService->find($id);
+		$comentarios = $this->userService->comentariosPorUsuario(Auth::user()->id);
 		$dias_semanais = $this->gradeService->getDiasSemanais();
 
 		$this->userService->atualizarViewProfissional($user->id);
 
 		return view('profissional.detalhe')->with([
-
 				'user' => $user,
+				'comentarios' => $comentarios,
 				'dias_semanais' => $dias_semanais
 			]);
 	}
