@@ -49,9 +49,9 @@ class UserRepository extends Repository implements UserRepositoryInterface
         return $this->model->especialidade();
     }
 
-    public function comentariosPorUsuario($user_id){
+    public function comentariosPorUsuario($user_id, $comentado){
 
-        return $this->model->find($user_id)->comentarios();
+        return $this->model->find($user_id)->comentadores()->where('comentado', '=', $comentado)->get();
     }
 
     public function pesquisar($data = array() , $perpage = 50)

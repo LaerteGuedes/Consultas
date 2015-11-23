@@ -45,9 +45,9 @@ class UserService extends Service
         return $this->repository->atualizarViewProfissional($profissional_id);
     }
 
-    public function comentariosPorUsuario($user_id)
+    public function comentariosPorUsuario($user_id, $comentado)
     {
-        return $this->repository->comentariosPorUsuario($user_id);
+        return $this->repository->comentariosPorUsuario($user_id, $comentado);
     }
 
     public function pesquisar($data = array() , $perpage = 50)

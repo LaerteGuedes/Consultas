@@ -48,7 +48,6 @@
 
                       <div class="col-lg-3">
                           <p class="list-group-item-text">
-                            <i class="fa fa-comment"></i> {{ $userService->find($user->id)->comentarios()->count()   }} comentários<br>
 
                              <?php
                               $votos = $avaliacaoService->getAvaliacaoProfissional($user->id);

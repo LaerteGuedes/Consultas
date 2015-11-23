@@ -15,56 +15,55 @@
     <section class="main">
         <div class="container">
           <div class="row">
-              
+
             <!-- Sidebar -->
             <div class="col-lg-3">
                 @include('partials.filtro')
             </div><!-- /.col-lg-3 -->
             <!-- /Sidebar -->
-            
+
             <!-- Conteúdo -->
             <div class="col-lg-9">
-               
-                
+
+
                 <!-- Painel profissional -->
                 <div class="panel panel-default profissional">
-                    
+
                   <div class="panel-heading header-sallus">
                         <div class="row">
                             <div class="col-lg-7">
-                                
+
                             @if(!$user->thumbnail)
                                 <img src="{{ asset('img/no-profile.png') }}" class="avatar">
-                            @else  
+                            @else
                                 <img src="{{ $user->thumbnail }}" class="avatar">
                             @endif
 
 
                               <h2 class="list-group-item-heading">{{  $user->name }} {{  $user->lastname }}</h2>
-                             <p class="list-group-item-text text-capitalize">{{ $user->cid }}<br>{{ $user->especialidade->especialidade->nome }} 
-                                
+                             <p class="list-group-item-text text-capitalize">{{ $user->cid }}<br>{{ $user->especialidade->especialidade->nome }}
+
                                 @if($user->ramos()->count())
                                     @foreach($user->ramos as $ramo)
                                         , {{ $ramo->ramo->nome }}
                                     @endforeach
                                 @endif
-                                
+
                              </p>
                             </div><!-- /.col-lg-7 -->
                             <div class="col-lg-3">
                                 <p class="list-group-item-text">
-                                <i class="fa fa-comment"></i> {{ $user->comentarios()->count() }} comentários<br>
 
-                                 <?php 
+                                 <?php
                                     $votos = $avaliacaoService->getAvaliacaoProfissional($user->id);
-                                 ?>   
+                                 ?>
 
 
                                  <i class="fa fa-star{{  $votos >= 1 ? '':'-o' }}"></i>
                                  <i class="fa fa-star{{  $votos >= 2 ? '':'-o' }}"></i>
                                  <i class="fa fa-star{{  $votos >= 3 ? '':'-o' }}"></i>
                                  <i class="fa fa-star{{  $votos >= 4 ? '':'-o' }}"></i>
-                                 <i class="fa fa-star{{  $votos >= 5 ? '':'-o' }}"></i> 
+                                 <i class="fa fa-star{{  $votos >= 5 ? '':'-o' }}"></i>
 
                                 ({{ $votos }})
                                 </p>
@@ -88,11 +87,11 @@
                                   </div>
                                 </div><!-- /Painel padrão com locais de atendimento -->
                                 @endif
-                                
+
                             </div><!-- /.col-lg-2 -->
                         </div>
                   </div>
-                    
+
                   <div class="panel-body">
                         <div>
 
@@ -104,10 +103,10 @@
 
                           <!-- Tab panes -->
                           <div class="tab-content">
-                              
+
                             <!-- Tab DETALHES -->
                             <div role="tabpanel" class="tab-pane active" id="detalhes">
-                                
+
                                 @if($user->localidades()->where('tipo','CONSULTORIO')->count())
                                 <div id="locais-atendimento">
                                     <h3><i class="fa fa-hospital-o fa-2"></i> Locais de atendimento</h3>
@@ -128,19 +127,19 @@
                                                     <div class="col-lg-4">
                                                         <div class="profile-adrress">
                                                             {!! $local->complemento <> null ?  $local->complemento .'<br>' : null !!}
-                                                           
+
                                                             {{ $local->bairro->nome }} • {{ $local->cep }} • {{ $local->cidade->nome }} / {{ $local->uf }}
                                                         </div>
-                                                       
+
                                                         <div class="profile-phone">
                                                             <i class="fa fa-phone"></i>
                                                             {{ $user->phone }}
                                                         </div>
 
-                                                        
-                                                       
+
+
                                                     </div><!-- ./col-lg-4 -->
-                                                    
+
                                                     <div class="col-lg-8">
                                                         <div class="profile-schedule">
                                                             <h4><i class="fa fa-clock-o"></i> Dias e horários de atendimento</h4>
@@ -151,16 +150,16 @@
                                                                 ?>
                                                                 @foreach($dias_semanais as $dia_semana => $dia )
 
-                                                                     @if($horarios)  
+                                                                     @if($horarios)
 
-                                                                         @if(isset($horarios[$dia_semana])) 
+                                                                         @if(isset($horarios[$dia_semana]))
                                                                          <li>
                                                                                 <span class="day text-uppercase">{{ $dia_semana }}:</span>
                                                                                 @foreach($horarios[$dia_semana] as $horario)
-                                                                           
+
                                                                                     <span>{{ $horario['minimo'] }} - {{ $horario['maximo'] }}</span>
-                                                                           
-                                                                                 @endforeach  
+
+                                                                                 @endforeach
                                                                          </li>
                                                                          @endif
 
@@ -178,7 +177,7 @@
                                     </div>
                                     @endforeach
                                 </div><!-- /#locais-atendimento -->
-                                @endif   
+                                @endif
 
                                @if($user->localidades()->where('tipo','DOMICILIO')->count())
                                 <div id="home-care">
@@ -199,8 +198,8 @@
                                             <div class="panel-body">
                                                 <div class="row">
                                                     <div class="col-lg-4">
-                                                      
-                                                       
+
+
                                                         <div class="profile-phone">
                                                             <i class="fa fa-phone"></i>
                                                             {{ $user->phone }}
@@ -208,11 +207,11 @@
 
                                                         <div class="profile-price">
                                                             <i class="fa fa-money"></i>
-                                                            R$ {{ number_format($local->preco,2,',','.') }} a consulta 
+                                                            R$ {{ number_format($local->preco,2,',','.') }} a consulta
                                                         </div>
-                                                       
+
                                                     </div><!-- ./col-lg-4 -->
-                                                    
+
                                                     <div class="col-lg-8">
                                                         <div class="profile-schedule">
                                                             <h4><i class="fa fa-clock-o"></i> Dias e horários de atendimento</h4>
@@ -223,16 +222,16 @@
                                                                 ?>
                                                                 @foreach($dias_semanais as $dia_semana => $dia )
 
-                                                                     @if($horarios)  
+                                                                     @if($horarios)
 
-                                                                         @if(isset($horarios[$dia_semana])) 
+                                                                         @if(isset($horarios[$dia_semana]))
                                                                          <li>
                                                                                 <span class="day text-uppercase">{{ $dia_semana }}:</span>
                                                                                 @foreach($horarios[$dia_semana] as $horario)
-                                                                           
+
                                                                                     <span>{{ $horario['minimo'] }} - {{ $horario['maximo'] }}</span>
-                                                                           
-                                                                                 @endforeach  
+
+                                                                                 @endforeach
                                                                          </li>
                                                                          @endif
 
@@ -253,7 +252,7 @@
                                 @endif
 
                                 @if($user->curriculos()->count())
-                                
+
                                 <div id="perfil">
                                     <h3><i class="fa fa-user-md fa-2"></i> Perfil</h3>
 
@@ -282,10 +281,10 @@
                                 </div><!-- /#perfil -->
 
                                 @endif
-                                    
 
-                                @if( $user->servicos()->count() )    
-                                
+
+                                @if( $user->servicos()->count() )
+
                                 <div id="servicos">
                                     <h3><i class="fa fa-user-md fa-2"></i> Serviços Oferecidos</h3>
 
@@ -312,20 +311,19 @@
                                     </div>
                                 </div><!-- /#servicos -->
                                 @endif
-                                
+
                             </div><!-- /Tab DETALHES -->
-                            
+
                             <!-- Tab AVALIACOES -->
                             <div role="tabpanel" class="tab-pane" id="avaliacoes">
-                                
+
                                 <!-- COMENTÁRIOS -->
                                 <div class="col-lg-6">
-
-                                    @if($user->comentarios()->count())
-                                   <h3><i class="fa fa-hospital-o fa-2"></i> {{$user->comentarios()->count()}} Comentários</h3>
+                                    @if(sizeof($comentarios) > 0)
+                                   <h3><i class="fa fa-hospital-o fa-2"></i> Seus comentários</h3>
                                     <ul class="list-group avaliacoes">
 
-                                        @foreach($user->comentarios as $comentario)
+                                        @foreach($comentarios as $comentario)
 
                                             <?php
 
@@ -345,7 +343,7 @@
                                                 <i class="fa fa-star{{  $star_votos >= 3 ? '':'-o' }}"></i>
                                                 <i class="fa fa-star{{  $star_votos >= 4 ? '':'-o' }}"></i>
                                                 <i class="fa fa-star{{  $star_votos >= 5 ? '':'-o' }}"></i>
-                                               
+
 
                                                 <strong>{{ $comentario->user->name . ' ' . $comentario->user->lastname }}</strong>
                                             </span>
@@ -371,14 +369,14 @@
                                             
                                         </li>
                                         -->
-                                    </ul> 
+                                    </ul>
                                     @else
 
                                     <h3><i class="fa fa-hospital-o fa-2"></i> Nenhum comentário no momento.</h3>
 
-                                    @endif       
+                                    @endif
                                 </div>
-                                
+
                                 <!-- ENVIO DE COMENTÁRIO -->
                                 @if(!Auth::guest())
                                 <div class="col-lg-6">
@@ -399,10 +397,10 @@
                                                 <form>
                                                     <input type="number" id="star-rate" value="{{ !isset($votos) ? 3 : $votos }}" data-user-id="{{ $user->id }}" data-avaliador="{{ Auth::user()->id }}">
                                                 </form>
-                                                   
+
                                                 </div>
 
-                                              
+
                                                 {!! Form::open([
 
                                                         'route'  => 'store.comentario',
@@ -412,7 +410,7 @@
                                                     ]) !!}
 
 
-                                               
+
 
                                                 <textarea class="form-control" rows="3" name="descricao" required></textarea>
 
@@ -425,23 +423,23 @@
                                           </div>
                                         </div>
                                     </div>
-                                   
+
                                 </div>
                                 @endif
 
                             </div><!-- /Tab AVALIACOES -->
-                            
+
                           </div>
 
                         </div>
                   </div>
-                    
+
                 </div><!-- /Painel profissional -->
 
-                
+
            </div><!-- /.col-lg-9 -->
            <!-- /Conteúdo -->
-            
+
           </div><!-- /.row -->
         </div> <!-- /container -->
     </section> <!-- /section -->
@@ -466,7 +464,7 @@
             ShowCaption:false,
             clearCaption:'Regular',
             size:'xs'
-        
+
         });
 
         $('#star-rate').on('rating.change', function(event, value, caption) {
@@ -477,7 +475,7 @@
                     user_id: self.data('user-id'),
                     nota: value
             };
-            
+
             $.get('/avaliar/profissional',data,function(response){
 
                     console.log(response);

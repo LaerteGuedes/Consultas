@@ -52,7 +52,12 @@ class ProfissionalController extends Controller
 	public function detalhe($id)
 	{
 		$user =  $this->userService->find($id);
-		$comentarios = $this->userService->comentariosPorUsuario(Auth::user()->id);
+		if (isset(Auth::user()->id)){
+			$comentarios = $this->userService->comentariosPorUsuario(Auth::user()->id, $id);
+		}else{
+			$comentarios = array();
+		}
+
 		$dias_semanais = $this->gradeService->getDiasSemanais();
 
 		$this->userService->atualizarViewProfissional($user->id);
