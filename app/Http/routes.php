@@ -3,13 +3,12 @@
 #rotas home
 Route::get('/',['as'=>'home','uses'=>'HomeController@index']);
 Route::get('/home', function(){
-    
     return redirect()->route('dashboard');
 });
 
 Route::get('/home/cliente',['as'=>'home.cliente','middleware'=>'guest','uses'=>'HomeController@homeCliente']);
 Route::get('/home/profissional',['as'=>'home.profissional','middleware'=>'guest','uses'=>'HomeController@homeProfissional']);
-
+Route::get("/planos/ajaxplanocliente", ['as' => 'plano.ajaxplanocliente', 'uses' => "UserPlanoController@ajaxPlanoCliente"]);
 Route::post('/register/user',['as'=>'register.user','uses'=>'HomeController@registerUser']);
 
 #rota profissional

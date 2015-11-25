@@ -10,8 +10,6 @@
 ])!!}
 
 <div class="form-group">
-
-
     <div class="row">
 
         <div class="col-xs-6">
@@ -21,9 +19,7 @@
         <div class="col-xs-6">
         {!! Form::text('lastname',old('lastname'),['class'=>'form-control','placeholder'=>'Sobrenome'] ) !!}
         </div>
-
     </div>
-
 </div>
 
 <div class="form-group">

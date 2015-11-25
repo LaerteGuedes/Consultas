@@ -33,7 +33,6 @@ class PesquisaController extends Controller
 	{
 		$users =  $this->userService->pesquisar($request->all());
 
-
 		return view('pesquisa.index')->with([
 
 				'users' => $users

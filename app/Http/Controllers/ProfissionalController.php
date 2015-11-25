@@ -59,12 +59,13 @@ class ProfissionalController extends Controller
 		}
 
 		$dias_semanais = $this->gradeService->getDiasSemanais();
-
+		$planos = $user->planos()->get();
 		$this->userService->atualizarViewProfissional($user->id);
 
 		return view('profissional.detalhe')->with([
 				'user' => $user,
 				'comentarios' => $comentarios,
+				'planos' => $planos,
 				'dias_semanais' => $dias_semanais
 			]);
 	}
@@ -102,12 +103,25 @@ class ProfissionalController extends Controller
 		$profissional = $this->userService->find($request->get('profissional_id'));
 		$localidade   = $this->localidadeService->find($request->get('localidade_id'));
 
+		$planosAtendidos = $profissional->planos()->get();
+		$planoUsuario = $usuario->planos()->first();
+
+		$planoAtendido = false;
+
+		foreach ($planosAtendidos as $plano) {
+			if ($planoUsuario->id == $plano->id){
+				$planoAtendido = $plano;
+				break;
+			}
+		}
+
 		return view('profissional.confirmar')->with([
 				'usuario'      => $usuario,
 				'profissional' => $profissional,
 				'localidade'   => $localidade,
 				'dia_agenda'   => $request->get('dia_agenda'),
-				'horario_agenda' => $request->get('horario_agenda')
+				'horario_agenda' => $request->get('horario_agenda'),
+				'planoAtendido' => $planoAtendido
 			]);
 	}
 

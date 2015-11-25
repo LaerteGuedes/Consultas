@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Custom\Debug;
+use App\Services\PlanoService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\RegisterUserRequest;
@@ -15,6 +16,7 @@ use App\Services\MessageService;
 use App\Services\EstadoService;
 use App\Services\EspecialidadeService;
 use App\Services\CidadeService;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,12 +26,14 @@ class HomeController extends Controller
     protected $estadoService;
     protected $especialidadeService;
     protected $cidadeService;
+    protected $planoService;
 
-    public function __construct(UserService $userService , 
+    public function __construct(UserService $userService ,
                                 MessageService $messageService,
                                 EstadoService $estadoService,
                                 EspecialidadeService $especialidadeService,
-                                CidadeService $cidadeService)
+                                CidadeService $cidadeService,
+                                PlanoService $planoService)
 
     {
         $this->userService    = $userService;
@@ -37,6 +41,7 @@ class HomeController extends Controller
         $this->cidadeService = $cidadeService;
         $this->estadoService = $estadoService;
         $this->especialidadeService = $especialidadeService;
+        $this->planoService = $planoService;
     }
 
     public function index()
@@ -53,14 +58,15 @@ class HomeController extends Controller
                 'cidades' => $cidades,
                 'especialidades' => $especialidades,
 
-                ]);
+            ]);
         }else{
             return redirect()->route('dashboard');
         }
     }
     public function homeCliente()
     {
-        return view('home.home-cliente');
+        $planos = $this->planoService->findParents();
+        return view('home.home-cliente')->with(array('planos' => $planos));
     }
 
     public function homeProfissional()
@@ -70,11 +76,12 @@ class HomeController extends Controller
 
     public function registerUser(RegisterUserRequest $request)
     {
-        if($this->userService->register($request->all()))
-        {
+        $user_id = $this->userService->register($request->all());
+        if ($user_id){
+            $planos = array($request->input('id_plano'));
+            $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
             return redirect()->route('dashboard');
         }
-
         return back()->withErrors([$this->messageService->getMessage('error')]);
     }
 }

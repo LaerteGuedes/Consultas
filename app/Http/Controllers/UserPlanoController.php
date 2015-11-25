@@ -91,6 +91,16 @@ class UserPlanoController extends Controller
         return response()->json($response);
     }
 
+    public function ajaxPlanoCliente()
+    {
+        $planoPai = $this->planoService->find(Request::input('id'));
+        $planos = $planoPai->children;
+
+        $response = ['planoPai' => $planoPai, 'planos' => $planos];
+
+        return response()->json($response);
+    }
+
     public function delete(){
         $id = Request::input('id');
         $this->userService->deleteplano(Auth::user()->id,$id);

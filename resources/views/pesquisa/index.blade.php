@@ -8,7 +8,6 @@
 @inject('userService','App\Services\UserService')
 @inject('avaliacaoService','App\Services\AvaliacaoService')
 
-
 <section class="main">
     <div class="container">
       <div class="row">
@@ -48,6 +47,7 @@
 
                       <div class="col-lg-3">
                           <p class="list-group-item-text">
+                            <i class="fa fa-comment"></i> {{ $userService->find($user->id)->comentarios()->count()   }} comentários<br>
 
                              <?php
                               $votos = $avaliacaoService->getAvaliacaoProfissional($user->id);
