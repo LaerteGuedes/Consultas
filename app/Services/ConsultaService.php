@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Custom\Debug;
 use App\Service;
 use App\Contracts\ConsultaRepositoryInterface;
 
@@ -57,7 +58,7 @@ class ConsultaService extends Service
     	{
     			$data['pessoal'] = 0;
     	}else{
-
+            $data['id_plano'] = ($data['id_plano']) ? $data['id_plano'] : null;
             $data['pessoal'] = 1;
         }
 

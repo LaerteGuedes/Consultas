@@ -76,8 +76,19 @@
                 }
             });
         }
-
         //validateProfissional();
     });
-
 })(jQuery);
+
+function profissionalConfirmaHideShowPlano(){
+    $("input[name='pessoal']").on("change", function(){
+        var self = $(this);
+        // console.log(self.prop('checked'));
+        if (self.val() == 1){
+            $("#plano-atendido").fadeOut();
+            $("#plano-atendido").find('input:last-child').prop('checked', true);
+        }else{
+            $("#plano-atendido").fadeIn();
+        }
+    });
+}

@@ -108,10 +108,12 @@ class ProfissionalController extends Controller
 
 		$planoAtendido = false;
 
-		foreach ($planosAtendidos as $plano) {
-			if ($planoUsuario->id == $plano->id){
-				$planoAtendido = $plano;
-				break;
+		if ($planoUsuario){
+			foreach ($planosAtendidos as $plano) {
+				if ($planoUsuario->id == $plano->id){
+					$planoAtendido = $plano;
+					break;
+				}
 			}
 		}
 

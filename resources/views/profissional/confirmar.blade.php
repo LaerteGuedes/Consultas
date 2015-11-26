@@ -103,7 +103,7 @@
                                             </div>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="pessoal" value="1">
+                                                    <input type="radio" name="pessoal" value="1" id="outro-radio">
                                                     Estou marcando para alguém.
                                                 </label>
                                             </div>
@@ -144,5 +144,9 @@
             </div><!-- /.row -->
         </div> <!-- /container -->
     </section> <!-- /section -->
-
+    <script>
+        $(function(){
+            profissionalConfirmaHideShowPlano();
+        });
+    </script>
 @endsection

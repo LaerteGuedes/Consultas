@@ -11,7 +11,7 @@ class Consulta extends Model
 
     protected $fillable = [
         'user_id','pessoal','outro','nota','status',
-        'profissional_id','localidade_id','data_agenda','horario_agenda'
+        'profissional_id','localidade_id','data_agenda','horario_agenda', 'id_plano'
     ];
 
     public function listStatus()
@@ -29,6 +29,11 @@ class Consulta extends Model
     public function user()
     {
         return $this->belongsTo('App\User','user_id','id');
+    }
+
+    public function plano()
+    {
+        return $this->hasOne('App\Plano', 'id', 'id_plano');
     }
      public function profissional()
     {
