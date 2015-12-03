@@ -135,7 +135,43 @@
     <script type="text/javascript">
 
         $(function(){
+            $("#cep").on("change", function(){
+                console.log("teste 40");
+                var value = $(this).val();
+                var data = {cep: value, formato: 'jsonp'};
 
+                $.ajax({
+                    url: "http://cep.republicavirtual.com.br/web_cep.php",
+                    jsonp: "callback",
+                    dataType: "jsonp",
+                    data: data,
+                    success: function(response){
+                        if (response.resultado){
+                            var verificador = response.cidade.substr(0,3).toUpperCase();
+                            var target = $("#cidade_id").next().find('.dropdown-menu').find('ul').find('li');
+                            var success = false;
+
+                            target.each(function(index){
+                                var span = $(this).find('a').find('span.text');
+                                if (span.html().indexOf(verificador) > -1){
+                                    success = true;
+                                    span.parent('a').trigger('click');
+                                    return success;
+                                }
+                            });
+
+                            if (success){
+                                $("#bairro").val(response.bairro);
+                                $("#logradouro").val(response.logradouro);
+                            }else{
+                                alert('CEP não encontrado');
+                            }
+                        }else{
+                            alert('CEP não encontrado');
+                        }
+                    }
+                });
+            });
 
             $("#tipo").on("change",function(){
                 var self = $(this);
@@ -201,39 +237,39 @@
 
                 if(cidade != "")
                 {
-                    $.get(url, function(response){
-
-                        $("#bairro").prop('disabled',false);
-
-                        $("#bairro").val('');
-
-                        $("#bairro_id").val('');
-
-                        $("#bairro").typeahead('destroy');
-
-                        $("#bairro").typeahead({
-                            source : response.data,
-                            autoSelect: true
-                        });
-
-                        $("#bairro").change(function(){
-
-                            var that            = $(this);
-                            var bairro_id   = $("#bairro_id");
-                            var current         = that.typeahead('getActive');
-
-                            if( current.name === that.val() )
-                            {
-                                bairro_id.prop('disabled',false).val( current.id );
-
-                            }else{
-
-                                bairro_id.prop('disabled',true ).val('');
-                            }
-
-                        });
-
-                    });
+//                    $.get(url, function(response){
+//
+//                        $("#bairro").prop('disabled',false);
+//
+//                        $("#bairro").val('');
+//
+//                        $("#bairro_id").val('');
+//
+//                        $("#bairro").typeahead('destroy');
+//
+//                        $("#bairro").typeahead({
+//                            source : response.data,
+//                            autoSelect: true
+//                        });
+//
+//                        $("#bairro").change(function(){
+//
+//                            var that            = $(this);
+//                            var bairro_id   = $("#bairro_id");
+//                            var current         = that.typeahead('getActive');
+//
+//                            if( current.name === that.val() )
+//                            {
+//                                bairro_id.prop('disabled',false).val( current.id );
+//
+//                            }else{
+//
+//                                bairro_id.prop('disabled',true ).val('');
+//                            }
+//
+//                        });
+//
+//                    });
                 }
 
             });
@@ -242,12 +278,12 @@
             var bairroIdAtual = $("#bairro_id").val();
 
             $("#bairro").on("keyup", function(){
-                var bairro = $(this).val();
-                if (bairroAtual != bairro){
-                    $("#bairro_id").val('');
-                }else{
-                    $("#bairro_id").val(bairroIdAtual);
-                }
+//                var bairro = $(this).val();
+//                if (bairroAtual != bairro){
+//                    $("#bairro_id").val('');
+//                }else{
+//                    $("#bairro_id").val(bairroIdAtual);
+//                }
             });
 
         });

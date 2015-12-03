@@ -63,5 +63,13 @@ class PlanoService
         return $this->planoRepository->insertUserPlanos($id, $planos);
     }
 
+    public function create($params)
+    {
+        return $this->planoRepository->create($params);
+    }
 
+    public function update($id, $params)
+    {
+        return $this->planoRepository->update($id, $params);
+    }
 }

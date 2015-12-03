@@ -135,6 +135,7 @@ class LocalidadeController extends Controller
         return redirect()->route('edit.localidade' , $id )->withErros([$this->messageService->getMessage('error')]);
 
     }
+    
     public function delete($id)
     {
         if($this->localidadeService->destroy($id))
@@ -143,6 +144,17 @@ class LocalidadeController extends Controller
         }
 
         return redirect()->route('localidades' )->withErros([$this->messageService->getMessage('error')]);
+
+    }
+
+    public function deleteFromGrade($id)
+    {
+        if($this->localidadeService->destroy($id))
+        {
+            return redirect()->route('grade')->with('message',$this->messageService->getMessage('success'));
+        }
+
+        return redirect()->route('grade' )->withErros([$this->messageService->getMessage('error')]);
 
     }
 

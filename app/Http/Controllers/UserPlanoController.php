@@ -41,28 +41,37 @@ class UserPlanoController extends Controller
 
         foreach ($planosPai as $key => $planoPai){
             $vPlanos[$planoPai->id] = $planoPai->toArray();
-            foreach ($planosPaiExistentes as $planoPaiExistente){
-                if ($planoPai->id == $planoPaiExistente->id){
-                    $vPlanos[$planoPai->id] = ['checked' => 'checked', 'titulo' => $planoPai->titulo];
-                    break;
-                }else{
-                    $vPlanos[$planoPai->id] = ['checked' => '', 'titulo' => $planoPai->titulo];
+            if (sizeof($planosPaiExistentes)){
+                foreach ($planosPaiExistentes as $planoPaiExistente){
+                    if ($planoPai->id == $planoPaiExistente->id){
+                        $vPlanos[$planoPai->id] = ['checked' => 'checked', 'titulo' => $planoPai->titulo];
+                        break;
+                    }else{
+                        $vPlanos[$planoPai->id] = ['checked' => '', 'titulo' => $planoPai->titulo];
+                    }
                 }
             }
         }
 
-        foreach ($vPlanos as $id => $plano){
-            $vPlanos[$id]['filhos'] = $this->planoService->findChildren($id)->toArray();
+        if (sizeof($planosPaiExistentes)){
+            foreach ($vPlanos as $id => $plano){
+                $vPlanos[$id]['filhos'] = $this->planoService->findChildren($id)->toArray();
+            }
         }
 
+
         foreach ($vPlanos as $key => $plano){
-            foreach ($plano['filhos'] as $keyFilho => $planoFilho){
-                foreach ($planosFilhoExistentes as $planoFilhoExistente){
-                    if ($planoFilho['id'] == $planoFilhoExistente->id){
-                        $vPlanos[$key]['filhos'][$keyFilho] = ['checked' => 'checked', 'titulo' => $planoFilhoExistente->titulo, 'id' => $planoFilho['id']];
-                        break;
-                    }else{
-                        $vPlanos[$key]['filhos'][$keyFilho] = ['checked' => '', 'titulo' => $planoFilho['titulo'], 'id' => $planoFilho['id']];
+            if (isset($plano['filhos'])){
+                foreach ($plano['filhos'] as $keyFilho => $planoFilho){
+                    if(sizeof($planosFilhoExistentes)){
+                        foreach ($planosFilhoExistentes as $planoFilhoExistente){
+                            if ($planoFilho['id'] == $planoFilhoExistente->id){
+                                $vPlanos[$key]['filhos'][$keyFilho] = ['checked' => 'checked', 'titulo' => $planoFilhoExistente->titulo, 'id' => $planoFilho['id']];
+                                break;
+                            }else{
+                                $vPlanos[$key]['filhos'][$keyFilho] = ['checked' => '', 'titulo' => $planoFilho['titulo'], 'id' => $planoFilho['id']];
+                            }
+                        }
                     }
                 }
             }

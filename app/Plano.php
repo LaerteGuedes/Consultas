@@ -9,6 +9,8 @@ class Plano extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = ['titulo', 'exibir', 'id_pai'];
+
     public function parent(){
         return $this->belongsTo('App\Plano', "id_pai");
     }

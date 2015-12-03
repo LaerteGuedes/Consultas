@@ -3,10 +3,15 @@
     <h3>Escolha a empresa</h3>
     <form action="{{route('plano.salvar')}}" method="post">
 
-        @if ($vPlanos)
+        @if (sizeof($vPlanos) > 0)
             @foreach($vPlanos as $id => $plano)
                 <div class="checkbox-inline checkbox-categoria">
-                    <input type="checkbox" value="{{$id}}" {{$plano['checked']}}> {{$plano['titulo']}}
+                    @if(isset($plano['checked']))
+                        <input type="checkbox" value="{{$id}}" {{$plano['checked']}}> {{$plano['titulo']}}
+                    @else
+                        <input type="checkbox" value="{{$id}}"> {{$plano['titulo']}}
+                    @endif
+
                 </div>
             @endforeach
         @else
@@ -17,16 +22,19 @@
 
 
         <div id="planos">
-            @if ($vPlanos)
+            @if (sizeof($vPlanos) > 0)
                 @foreach($vPlanos as $id => $plano)
+                    @if(isset($plano['filhos']))
                     <div class="planos-{{$id}}">
                         <h4>Planos de saúde da {{$plano['titulo']}}</h4>
-                        @foreach($plano['filhos'] as $filho)
-                            <div class="foreach">
-                                <input type="checkbox" name="planos[]" value="{{$filho['id']}}"  {{$filho['checked']}}> {{$filho['titulo']}}
-                            </div>
-                        @endforeach
+
+                            @foreach($plano['filhos'] as $filho)
+                                <div class="foreach">
+                                    <input type="checkbox" name="planos[]" value="{{$filho['id']}}"  {{$filho['checked']}}> {{$filho['titulo']}}
+                                </div>
+                            @endforeach
                     </div>
+                    @endif
                 @endforeach
             @endif
         </div>

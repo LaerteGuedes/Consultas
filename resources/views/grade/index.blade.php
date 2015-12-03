@@ -28,12 +28,36 @@
                     </div>
                     <!-- /Painel padrão -->
                 </div>
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>Cancelamento de consultas</h3>
+                            <form action="{{route('grade.cancelardia')}}">
+                                <div class="form-group">
+                                    <div class="col-lg-3">
+                                        <label for="">Cancelar consultas do dia: </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="date" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-success" value="Confirmar">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     @if($localidades)
                         @foreach($localidades as $localidade)
-                            <h2><small><i class="glyphicon glyphicon-map-marker"></i> - {{ $localidade['local'] }}</small></h2>
+                            <div class="col-lg-10">
+                                <h2><small><i class="glyphicon glyphicon-map-marker"></i> - {{ $localidade['local'] }}</small><a class="btn btn-danger pull-right" href="{{ route('deletefromgrade.localidade' , $localidade['id'] )  }}" data-toggle="tooltip" data-placement="top" title="Apagar" data-confirm="true">Excluir</a>
+                                </h2>
+                            </div>
+
                             <table class="table table-bordered table-horario">
                                 <thead>
                                 <tr>

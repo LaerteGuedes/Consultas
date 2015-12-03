@@ -26,8 +26,8 @@ class RegisterUserRequest extends Request
         $data = $this->request->all();
 
         $rules = [
-            'name'     => 'required|min:2|max:255|alpha',
-            'lastname' => 'required|min:2|max:255|alpha',
+            'name'     => 'required|min:2|max:255',
+            'lastname' => 'required|min:2|max:255',
             'phone'    => 'required|min:15|max:15',
             'email'    => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:5|max:10'

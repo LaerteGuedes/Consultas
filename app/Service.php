@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Contracts\ServiceInterface;
+use App\Custom\Debug;
 
 abstract class Service implements ServiceInterface
 {

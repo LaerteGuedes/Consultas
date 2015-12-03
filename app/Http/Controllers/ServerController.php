@@ -313,6 +313,29 @@ class ServerController extends Controller
 		]);
 	}
 
+	public function agendar($user_id, $localidade_id, Request $request)
+	{
+		$user =  $this->userService->find($user_id);
+		$localidade = $this->localidadeService->find($localidade_id);
+		$dias_semanais = $this->gradeService->getDiasSemanais();
+		$turnos        = $this->gradeService->getTurnos();
+		if ($request->get('next')) {
+			$semana_atual = $this->calendarService->getNextSemana($request->get('next'));
+		}
+		elseif($request->get('previous')){
+			$semana_atual = $this->calendarService->getPreviousSemana($request->get('previous'));
+		}else {
+			$semana_atual = $this->calendarService->getSemanaAtual();
+		}
+		return response()->json([
+			'user' => $user,
+			'localidade' => $localidade,
+			'dias_semanais' => $dias_semanais,
+			'turnos' => $turnos,
+			'semana_atual' => $semana_atual
+		]);
+	}
+
 	public function buscaAvancada(Request $request)
 	{
 		$users = $this->userService->pesquisar($request->all())->toArray();

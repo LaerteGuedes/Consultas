@@ -6,6 +6,7 @@ Route::get('/home', function(){
     return redirect()->route('dashboard');
 });
 
+
 Route::get('/home/cliente',['as'=>'home.cliente','middleware'=>'guest','uses'=>'HomeController@homeCliente']);
 Route::get('/home/profissional',['as'=>'home.profissional','middleware'=>'guest','uses'=>'HomeController@homeProfissional']);
 Route::get("/planos/ajaxplanocliente", ['as' => 'plano.ajaxplanocliente', 'uses' => "UserPlanoController@ajaxPlanoCliente"]);
@@ -21,9 +22,9 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
     Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@index']);
 
     #rota pesquisa profissional
-   
+
     #rota profissional
-   
+
     Route::get('/agendar/profissional/{user_id}/local/{localidade_id}',['as'=>'profissional.agendar','uses'=>'ProfissionalController@agendar']);
     Route::post('/confirmar/agendamento',['as'=>'profissional.confirmar.agendamento','uses'=>'ProfissionalController@confirmar']);
     Route::post('/finalizar/agendamento',['as'=>'profissional.finalizar.agendamento','uses'=>'ProfissionalController@finalizar']);
@@ -90,6 +91,7 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
     Route::post('/store/localidade',['as'=>'store.localidade','uses'=>'LocalidadeController@store']);
     Route::put('/update/localidade/{id}',['as'=>'update.localidade','uses'=>'LocalidadeController@update']);
     Route::get('/delete/localidade/{id}',['as'=>'delete.localidade','uses'=>'LocalidadeController@delete']);
+    Route::get('/delete/localidadegrade/{id}', ['as' => 'deletefromgrade.localidade', 'uses' => 'LocalidadeController@deleteFromGrade']);
     Route::get('/listar-cidades/{uf}',['as'=>'listar.cidades','uses'=>'LocalidadeController@listCidades']);
     Route::get('/listar-bairros/{cidade_id}',['as'=>'listar.bairros','uses'=>'LocalidadeController@listBairros']);
 
@@ -115,7 +117,7 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
     Route::get('/grade',['as'=>'grade','uses'=>'GradeController@index']);
     Route::post('/store/grade',['as'=>'store.grade','uses'=>'GradeController@store']);
     Route::get('/delete/horario-da-grade/{id}',['as'=>'delete.horario.grade','uses'=>'GradeController@deleteHorario']);
-
+    Route::get("/grade/cancelardia", ['as' => 'grade.cancelardia', 'uses' => 'GradeController@cancelarDia']);
 
 });
 
@@ -134,18 +136,52 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get('/avaliar/profissional',['uses'=>'ServerController@avaliarProfissional']);
     Route::get('/enviar/comentario',['uses'=>'ServerController@enviarComentario']);
     Route::post("/registrar/editar/usuario", ['uses' => 'ServerController@editarUsuario']);
+    Route::get("/agendar/horarios", ['uses' => 'ServerController@agendar']);
     Route::post("/confirmar/agendamento", ['uses' => 'ServerController@confirmar']);
     Route::get("/avisos", ['uses' => 'ServerController@avisos']);
     Route::get("/buscaavancada", ['uses' => 'ServerController@buscaAvancada']);
 });
 
 Route::group(['prefix'=>'ajax'],function(){
-
     Route::get('/listar-cidades/{uf}',['as'=>'listar.cidades','uses'=>'LocalidadeController@listCidades']);
     Route::get('/listar-bairros/{cidade_id}',['as'=>'listar.bairros','uses'=>'LocalidadeController@listBairros']);
     Route::get('/listar-ramos/{especialidade_id?}',['as'=>'listar.ramos','uses'=>'RamoController@all']);
+});
 
-
+Route::group(['prefix'=>'adm'], function(){
+    Route::get('dashboard', ['as' => 'adm.dashboard', 'uses' => 'AdmController@dashboard']);
+    Route::get('usuarios', ['as' => 'adm.usuarios', 'uses' => 'AdmController@usuarios']);
+    Route::get('deleteusuario/{user_id}', ['as' => 'adm.deleteusuario', 'uses' => 'AdmController@deleteusuario']);
+    Route::get('operadoras', ['as' => 'adm.operadoras', 'uses' => 'AdmController@operadoras']);
+    Route::get("novoplano", ['as' => "adm.novoplano", 'uses' => "AdmController@novoplano"]);
+    Route::post("salvaplano", ['as' => "adm.salvaplano", 'uses' => "AdmController@salvaplano"]);
+    Route::post("updateplano", ['as' => "adm.updateplano", 'uses' => "AdmController@updateplano"]);
+    Route::get("planos", ['as' => "adm.planos", 'uses' => "AdmController@planos"]);
+//    Route::get("novoplano", ['as' => "adm.novoplano", 'uses' => "AdmController@novoplano"]);
+//    Route::post("salvaplano", ['as' => "adm.salvaplano", 'uses' => "AdmController@salvaplano"]);
+//    Route::get("profissionais", ['as' => "adm.profissionais", 'uses' => "AdmController@profissionais"]);
+//    Route::post("alteraassinatura", ['as' => "adm.alteraassinatura", 'uses' => "AdmController@alteraassinatura"]);
+//    Route::get("especialidades", ['as' => "adm.especialidade", 'uses' => "AdmController@especialidades"]);
+//    Route::get("estados", ['as' => "adm.estados", 'uses' => "AdmController@estados"]);
+//    Route::get("novoestado", ['as' => "adm.novoestado", 'uses' => "AdmController@novoestado"]);
+//    Route::post("salvaestado", ['as' => "adm.salvaestado", 'uses' => "AdmController@salvaestado"]);
+//    Route::get("editestado", ['as' => "adm.editestado", 'uses' => "AdmController@editestado"]);
+//    Route::post("updatestado", ['as' => "adm.updateestado", 'uses' => "AdmController@updateestado"]);
+//    Route::get("excluirestado", ['as' => "adm.excluirestado", 'uses' => "AdmController@excluirestado"]);
+//    Route::get("cidades", ['as' => "adm.cidades", 'uses' => "AdmController@cidades"]);
+//    Route::get("novacidade", ['as' => "adm.novacidade", 'uses' => "AdmController@novacidade"]);
+//    Route::post("salvacidade", ['as' => "adm.salvacidade", 'uses' => "AdmController@salvacidade"]);
+//    Route::get("editcidade", ['as' => "adm.editcidade", 'uses' => "AdmController@editcidade"]);
+//    Route::post("updatecidade", ['as' => "adm.updatecidade", 'uses' => "AdmController@updatecidade"]);
+//    Route::get("excluircidade", ['as' => "adm.excluir", 'uses' => "AdmController@excluircidade"]);
+//    Route::get("planos", ['as' => "adm.planos", 'uses' => "AdmController@planos"]);
+//    Route::get("novoplano", ['as' => "adm.novoplano", 'uses' => "AdmController@novaplano"]);
+//    Route::post("salvaplano", ['as' => "adm.salvaplano", 'uses' => "AdmController@salvaplano"]);
+//    Route::get("editplano", ['as' => "adm.editplano", 'uses' => "AdmController@editplano"]);
+//    Route::post("updateplano", ['as' => "adm.updateplano", 'uses' => "AdmController@updateplano"]);
+//    Route::get("excluirplano", ['as' => "adm.excluirplano", 'uses' => "AdmController@excluirplano"]);
+//    Route::get('dashboard', ['as' => 'adm.dashboard', 'uses' => 'AdmController@dashboard']);
+//    Route::get('dashboard', ['as' => 'adm.dashboard', 'uses' => 'AdmController@dashboard']);
 });
 
 
