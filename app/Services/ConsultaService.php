@@ -52,13 +52,30 @@ class ConsultaService extends Service
         return $this->repository->checkIfAgendado($data);
     }
 
+    public function countAgendadas()
+    {
+        return $this->repository->countAgendadas();
+    }
+
+    public function countRealizadas()
+    {
+        return $this->repository->countRealizadas();
+    }
+
+    public function countCanceladas()
+    {
+        return $this->repository->countCanceladas();
+    }
+
     public function create(array $data)
     {
     	if(isset($data['outro']) && !empty($data['outro']))
     	{
     			$data['pessoal'] = 0;
     	}else{
-            $data['id_plano'] = ($data['id_plano']) ? $data['id_plano'] : null;
+            if (isset($data['id_plano'])){
+                $data['id_plano'] = ($data['id_plano']) ? $data['id_plano'] : null;
+            }
             $data['pessoal'] = 1;
         }
 

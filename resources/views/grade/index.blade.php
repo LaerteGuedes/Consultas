@@ -69,7 +69,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($turnos as $sigla_turno => $turno)
-                                    <tr>
+                                    <tr id="{{$sigla_turno}}">
                                         <td class="text-uppercase">{{ $turno }}</td>
                                         @foreach($dias_semanais as $sigla_dia => $dia)
                                             <?php
@@ -109,6 +109,14 @@
                                         @endforeach
                                     </tr>
                                 @endforeach
+                                    <tr>
+                                        <td>CANCELAR CONSULTAS</td>
+                                        @foreach($dias_semanais as $sigla_dia => $dia)
+                                            <td style="text-align: center;">
+                                                <button id="botao-{{$sigla_dia}}" class="btn btn-xs btn-danger">Cancelar</button>
+                                            </td>
+                                        @endforeach
+                                    </tr>
                                 </tbody>
                             </table>
                         @endforeach

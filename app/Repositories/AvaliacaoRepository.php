@@ -20,6 +20,11 @@ class AvaliacaoRepository extends Repository implements AvaliacaoRepositoryInter
         $this->model = $avaliacao;
     }
 
+    public function total()
+    {
+        return $this->model->all()->count();
+    }
+
     public function getAvaliacaoUsuarioParaProfissional($avaliador,$user_id)
     {
     	return $this->model->where('avaliador',$avaliador)

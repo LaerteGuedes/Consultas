@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Repository;
 use App\Contracts\UserRepositoryInterface;
+use App\Role;
 use App\User;
 use App\Avaliacao;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,26 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
     }
 
+    public function totalProfissional()
+    {
+        return $this->model->where('role_id', Role::PROFISSIONAL)->count();
+    }
+
+    public function totalProfissionalAtivo()
+    {
+        return $this->model->where('role_id', Role::PROFISSIONAL)->where('active', 1)->count();
+    }
+
+    public function totalProfissionalInativo()
+    {
+        return $this->model->where('role_id', Role::PROFISSIONAL)->where('active', 0)->count();
+    }
+
+    public function total()
+    {
+        return $this->model->all()->count();
+    }
+
     public function create(array $data)
     {
         $data['password'] = bcrypt($data['password']);
@@ -42,6 +63,11 @@ class UserRepository extends Repository implements UserRepositoryInterface
         }
 
         return $this->model->create($data);
+    }
+
+    public function getByEmail($email)
+    {
+        return $this->model->where('email', $email)->first();
     }
 
     public function especialidade()

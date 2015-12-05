@@ -29,6 +29,31 @@ class UserService extends Service
        
     }
 
+    public function totalProfissional()
+    {
+        return $this->repository->totalProfissional();
+    }
+
+    public function totalProfissionalAtivo()
+    {
+        return $this->repository->totalProfissionalAtivo();
+    }
+
+    public function totalProfissionalInativo()
+    {
+        return $this->repository->totalProfissionalInativo();
+    }
+
+    public function getByEmail($email)
+    {
+        return $this->repository->getByEmail($email);
+    }
+
+    public function total()
+    {
+        return $this->repository->total();
+    }
+
     public function upload($request , $field)
     {
         $imageName = str_random(20) .'.'. $request->file($field)->getClientOriginalExtension();
@@ -149,6 +174,5 @@ class UserService extends Service
     {
         return $this->repository->listarDadosProfissionalApi($id);
     }
-
 
 } 

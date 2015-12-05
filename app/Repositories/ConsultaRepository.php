@@ -145,6 +145,21 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
 
     }
 
+    public function countAgendadas()
+    {
+        return $this->model->where('status', 'AGUARDANDO')->orWhere('status', 'CONFIRMADA')->count();
+    }
+
+    public function countRealizadas()
+    {
+        return $this->model->where('status', 'REALIZADA')->count();
+    }
+
+    public function countCanceladas()
+    {
+        return $this->model->where('status', 'CANCELADA')->count();
+    }
+
     public function listarConsultasFuturasByUser($id)
     {
         return $this->model->where('user_id',$id)

@@ -20,6 +20,11 @@ class AvaliacaoService extends Service
 
     }
 
+	public function total()
+	{
+		return $this->repository->total();
+	}
+
     public function getAvaliacaoUsuarioParaProfissional($avaliador,$user_id)
     {
     	$total = 0;

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
+
     use Authenticatable, CanResetPassword, SoftDeletes;
 
     /**

@@ -33,6 +33,7 @@ class Kernel extends HttpKernel
         'check.curriculo.user' 	 => \App\Http\Middleware\CheckCurriculoUser::class,
         'check.servico.user' 	 => \App\Http\Middleware\CheckServicoUser::class,
         'check.profissional.especialidade' => \App\Http\Middleware\CheckProfissionalEspecialidade::class,
-        'cors' => \App\Http\Middleware\Cors::class
+        'cors' => \App\Http\Middleware\Cors::class,
+        'admauth' => \App\Http\Middleware\AdmAuthenticate::class
     ];
 }
