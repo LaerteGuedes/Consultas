@@ -152,6 +152,7 @@ Route::group(['prefix'=>'ajax'],function(){
 Route::group(['prefix'=>'adm', 'middleware' => 'admauth'], function(){
     Route::get('dashboard', ['as' => 'adm.dashboard', 'uses' => 'AdmController@dashboard']);
     Route::get('usuarios', ['as' => 'adm.usuarios', 'uses' => 'AdmController@usuarios']);
+    Route::get("usuariodetalhe/{id}", ['as' => "adm.usuariodetalhe", 'uses' => "AdmController@usuariodetalhe"]);
     Route::get('deleteusuario/{user_id}', ['as' => 'adm.deleteusuario', 'uses' => 'AdmController@deleteusuario']);
     Route::get('operadoras', ['as' => 'adm.operadoras', 'uses' => 'AdmController@operadoras']);
     Route::get("novoplano", ['as' => "adm.novoplano", 'uses' => "AdmController@novoplano"]);
@@ -160,7 +161,7 @@ Route::group(['prefix'=>'adm', 'middleware' => 'admauth'], function(){
     Route::get("planos", ['as' => "adm.planos", 'uses' => "AdmController@planos"]);
     Route::get("profissionais", ['as' => "adm.profissionais", 'uses' => "AdmController@profissionais"]);
 //    Route::post("alteraassinatura", ['as' => "adm.alteraassinatura", 'uses' => "AdmController@alteraassinatura"]);
-    Route::get("especialidades", ['as' => "adm.especialidade", 'uses' => "AdmController@especialidades"]);
+    Route::get("especialidades", ['as' => "adm.especialidades", 'uses' => "AdmController@especialidades"]);
     Route::get("novaespecialidade", ['as' => "adm.novaespecialidade", 'uses' => "AdmController@novaespecialidade"]);
     Route::post("salvaespecialidade", ['as' => "adm.salvaespecialidade", 'uses' => "AdmController@salvaespecialidade"]);
     Route::get("editespecialidade", ['as' => "adm.editespecialidade", 'uses' => "AdmController@editespecialidade"]);

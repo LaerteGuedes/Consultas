@@ -29,6 +29,11 @@ class UserService extends Service
        
     }
 
+    public function usuariosClientes()
+    {
+        return $this->repository->usuariosClientes();
+    }
+
     public function totalProfissional()
     {
         return $this->repository->totalProfissional();

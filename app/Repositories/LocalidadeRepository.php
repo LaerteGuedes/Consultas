@@ -15,8 +15,6 @@ use App\Localidade;
 
 class LocalidadeRepository extends Repository implements LocalidadeRepositoryInterface
 {
-
-
     public function __construct(Localidade $localidade)
     {
         $this->model = $localidade;

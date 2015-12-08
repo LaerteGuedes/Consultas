@@ -32,8 +32,8 @@
                 <div class="col-lg-12">
                     @if($localidades)
                         @foreach($localidades as $localidade)
-                            <div class="col-lg-10">
-                                <h2><small><i class="glyphicon glyphicon-map-marker"></i> - {{ $localidade['local'] }}</small><a class="btn btn-danger pull-right" href="{{ route('deletefromgrade.localidade' , $localidade['id'] )  }}" data-toggle="tooltip" data-placement="top" title="Apagar" data-confirm="true">Excluir</a>
+                            <div class="col-lg-12">
+                                <h2><small><i class="glyphicon glyphicon-map-marker"></i> - {{ $localidade['local'] }}</small><a class="btn btn-danger pull-right" href="{{ route('deletefromgrade.localidade' , $localidade['id'] )  }}" data-toggle="tooltip" data-placement="top" title="Apagar" data-confirm="true">Excluir localidade</a>
                                 </h2>
                             </div>
 
@@ -599,7 +599,7 @@
                                         alert(response.message);
                                     }else{
                                         console.log(response);
-                                       // location.reload();
+                                        location.reload();
                                     }
                                 });
                             }

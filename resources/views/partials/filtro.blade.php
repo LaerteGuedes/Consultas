@@ -24,7 +24,7 @@
         </div>
 
         <div class="form-group">
-            {!! Form::select('ramo_id', isset($ramos) ? $ramos : array(), isset($ramo_id) ? $ramo_id : null, ['class'=>'form-control','data-title'=>'Ramo de especialidade','id'=>'ramo_id'] ) !!}
+            {!! Form::select('ramo_id', isset($ramos) ? $ramos : array(), isset($ramo_id) ? $ramo_id : null, ['class'=>'form-control','data-title'=>'Especialidade','id'=>'ramo_id'] ) !!}
 
         </div>
 

@@ -53,12 +53,12 @@
               <li class="{{ Menu::isActiveRoute('home.profissional') }}"><a href="{{ route('home.profissional') }}">Profissional da Saúde</a></li>
               <li class="{{ Menu::isActiveUrl(  url('auth/login') ) }}"><a href="{{  url('auth/login') }}">Entrar</a></li>
             @else
-             
-             @inject('avisoService','App\Services\AvisoService') 
+
+             @inject('avisoService','App\Services\AvisoService')
 
 
               <li>
-                <a href="{{ route('avisos') }}">Avisos 
+                <a href="{{ route('avisos') }}">Avisos
                  @if(Auth::user()->role->name=="Profissional")
 
                     @if($avisoService->getTotalAvisosPendentesByProfissional(Auth::user()->id) > 0)
@@ -77,10 +77,10 @@
                   @endif
                 </a>
               </li>
-          
 
 
-              
+
+
               @if(Auth::user()->role->name=="Profissional")
               <li><a href="{{ route('grade') }}">Meus Horários</a></li>
               @endif
@@ -92,7 +92,7 @@
                 </a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="{{ route('edit.perfil') }}"> <i class="glyphicon glyphicon-user"></i> Editar Perfil</a></li>
-                
+
                   @if(Auth::user()->role->name=="Profissional")
                   <li><a href="{{route('planos') }}"><i class="glyphicon glyphicon-info-sign"> Planos de saúde</i></a></li>
                   <li><a href="{{ route('ramos') }}"> <i class="glyphicon glyphicon-education"> Minhas Especializações</i> </a></li>
@@ -103,7 +103,7 @@
                   @endif
 
                   <li><a href="{{ url('/auth/logout') }}"> <i class="glyphicon glyphicon-log-out"></i> Sair</a></li>
-                  
+
                 </ul>
               </li>
 
@@ -131,7 +131,7 @@
             <a href="#">Profissional da área de saúde?</a>
             <span>Copyright &copy; 2015 Sallus. Todos os direitos reservados.</span>
           </footer>
-        </div> 
+        </div>
      </section>
     <!-- fim footer -->
 

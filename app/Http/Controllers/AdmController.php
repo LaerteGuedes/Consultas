@@ -84,9 +84,16 @@ class AdmController extends Controller
     }
 
     public function usuarios(){
-        $usuarios = $this->userService->all();
+        $usuarios = $this->userService->usuariosClientes();
 
         return view('adm.usuarios.index')->with('usuarios', $usuarios);
+    }
+    
+    public function usuariodetalhe($id){
+        $usuario = $this->userService->find($id);
+        $plano = $usuario->planos()->first();
+
+        return view("adm.usuarios.detalhe")->with(array('usuario' => $usuario, 'plano' => $plano));
     }
 
     public function deleteusuario($user_id){

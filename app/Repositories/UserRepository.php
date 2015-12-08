@@ -29,6 +29,11 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
     }
 
+    public function usuariosClientes()
+    {
+        return $this->model->where('role_id', Role::CLIENTE)->paginate(10);
+    }
+
     public function totalProfissional()
     {
         return $this->model->where('role_id', Role::PROFISSIONAL)->count();

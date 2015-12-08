@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Contracts\GradeRepositoryInterface;
 use App\Repository;
 use App\Grade;
+use App\User;
 use Mockery\CountValidator\Exception;
 use Symfony\Component\Debug\Debug;
 
@@ -94,9 +95,10 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
             ->get();
     }
 
-    public function isHorariosIncompativeis($user_id, $horario, $dia_semana)
+    public function isHorariosIncompativeis($user_id, $horario, $dia_semana, $localidades)
     {
-        if ($this->model->where('user_id', $user_id)->where('horario', $horario)->where('dia_semana', $dia_semana)->count()){
+        if ($this->model->where('user_id', $user_id)->where('horario', $horario)
+                        ->where('dia_semana', $dia_semana)->whereIn('localidade_id', $localidades)->count()){
             return true;
         }else{
             return false;
@@ -123,6 +125,14 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
         $intervalo   = $data['intervalo'];
         $inicio = strtotime($hora_inicio);
         $final  = strtotime($hora_final);
+        $user = new User();
+        $localidades = $user->find($userid)->localidades()->get();
+        $localidades_id = array();
+
+
+        foreach ($localidades as $localidade) {
+            $localidades_id[] = $localidade->id;
+        }
 
         while($inicio <= $final)
         {
@@ -135,7 +145,7 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
 
             $dia = $dia_semana <> false ? $dia_semana : $data['dia_semana'];
 
-            if ($this->isHorariosIncompativeis($userid,$horario, $dia)){
+            if ($this->isHorariosIncompativeis($userid,$horario, $dia, $localidades_id)){
                 $arr = array('horario' => $horario);
                 return $arr;
             }

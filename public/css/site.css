@@ -646,6 +646,27 @@ section.footer span {
 * FORMULÁRIOS
 ---------------------------------------------------
 */
+form .lead {
+    margin-bottom: 10px;
+}
+.form-filtro .form-control {
+    font-size: 13px;
+}
+.form-filtro .bootstrap-select.form-control:not([class*="col-"]), .form-filtro .bootstrap-select > .dropdown-toggle {
+    width: auto;
+}
+.form-group {
+    margin-bottom: 5px;
+}
+.form-control {
+    background-color: #FBFBFB;
+    font-size: 18px;
+    border: none;
+    height: auto;
+}
+.input-group-addon {
+    border: none;
+}
 form .btn {
     /* margin-top: 10px; */
 }
@@ -710,4 +731,53 @@ form .btn {
     padding-left:5px;
 }
 
+/*
+---------------------------------------------------
+* Área adinistrativa
+---------------------------------------------------
+*/
 
+.adm h1 {
+    font-size: 24px;
+    margin: 0px 0px 10px 0px;
+    line-height: 22px;
+}
+
+/* Menu */
+.menu .panel-body{
+    font-size:  16px;
+}
+.menu p {
+    font-weight: bold;
+}
+.menu .menu-itens {
+    border-top: 1px solid #eee;
+    padding: 4px 0px 0px 0px;
+    margin: 0px 0px 35px 0px;
+}
+.menu .menu-itens:last-child {
+    margin: 0px 0px 0px 0px;
+}
+
+.menu .menu-itens li{
+    list-style-type: none;
+}
+.menu .menu-itens a {
+    
+}
+
+/* Listas */
+.destaque {
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+    float: right;
+}
+.destaque i {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.adm .list-group-item-text {
+    color: #777777;
+}
