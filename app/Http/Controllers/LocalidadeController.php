@@ -44,9 +44,9 @@ class LocalidadeController extends Controller
         $tipos   = $this->localidadeService->getTipos();
 
         return view('localidade.novo')->with([
-                'estados' => $estados,
-                'cidades_belem' => $cidades,
-                'tipos'   => $tipos
+            'estados' => $estados,
+            'cidades_belem' => $cidades,
+            'tipos'   => $tipos
         ]);
     }
     public function store(LocalidadeRequest $request , BairroService $bairroService)
@@ -55,31 +55,26 @@ class LocalidadeController extends Controller
 
         if(!$request->get('bairro_id'))
         {
-            $bairro    = $bairroService->create([
-
+             $bairro    = $bairroService->create([
                 'cidade_id' => $request->get('cidade_id'),
                 'nome'      => $request->get('bairro')
-
             ]);
 
             if($bairro)
             {
                 $data = array_add( $data , 'bairro_id' , $bairro->id );
             }
-
         }
 
         if($this->localidadeService->create($data))
         {
-           if($data['tipo']=='DOMICILIO')
-           {
-
-            return redirect()->route('novo.localidade')->with('message',$this->messageService->getMessage('success'));
-
-           }else
-           {
-             return redirect()->route('grade')->with('message',$this->messageService->getMessage('success'));
-           }
+            if($data['tipo']=='DOMICILIO')
+            {
+                return redirect()->route('grade')->with('message',$this->messageService->getMessage('success'));
+            }else
+            {
+                return redirect()->route('grade')->with('message',$this->messageService->getMessage('success'));
+            }
         }
 
 
@@ -135,7 +130,7 @@ class LocalidadeController extends Controller
         return redirect()->route('edit.localidade' , $id )->withErros([$this->messageService->getMessage('error')]);
 
     }
-    
+
     public function delete($id)
     {
         if($this->localidadeService->destroy($id))
@@ -160,7 +155,7 @@ class LocalidadeController extends Controller
 
     public function listCidades($uf , CidadeService $cidadeService)
     {
-            return \Response::json( ['data' => $cidadeService->listCidadesByUf($uf) ] );
+        return \Response::json( ['data' => $cidadeService->listCidadesByUf($uf) ] );
     }
 
     public function listBairros($cidade_id, BairroService $bairroService)

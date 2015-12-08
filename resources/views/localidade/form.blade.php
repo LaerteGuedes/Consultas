@@ -63,7 +63,7 @@
             {!! Form::label('cidade_id','*Cidade:') !!}
 
             <select name="cidade_id" id="cidade_id" class="form-control">
-
+                <option value="">Selecione...</option>
                 @if(isset($cidades))
                     @foreach($cidades as $cidade)
                         <option value="{{ $cidade->id }}" {{ $cidade->id == $localidade->cidade_id ? 'selected': null }}>{{ $cidade->nome  }}</option>
@@ -133,6 +133,14 @@
 @section('script')
 
     <script type="text/javascript">
+
+        $("#tipo").on("change", function(){
+            if ($("#tipo").val() == 'DOMICILIO'){
+                $("#bairro").prev('label').html('*Bairros atendidos');
+            }else{
+                $("#bairro").prev('label').html('*Bairro');
+            }
+        });
 
         $(function(){
             $("#cep").on("change", function(){

@@ -1,7 +1,6 @@
 @extends('site')
 @section('title','Grade de Horários')
 @section('content')
-
     <section class="main">
         <div class="container">
             <div class="row">
@@ -27,26 +26,6 @@
                         </div>
                     </div>
                     <!-- /Painel padrão -->
-                </div>
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3>Cancelamento de consultas</h3>
-                            <form action="{{route('grade.cancelardia')}}">
-                                <div class="form-group">
-                                    <div class="col-lg-3">
-                                        <label for="">Cancelar consultas do dia: </label>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <input type="date" class="form-control"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-success" value="Confirmar">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="row">
@@ -88,7 +67,7 @@
                                                             @foreach($horarios as $horario)
                                                                 <li>
                                                                     {{ date("H:i",strtotime($horario->horario)) }}
-                                                                    <a href="{{ route('delete.horario.grade' , $horario->id ) }}">
+                                                                    <a href="{{ route('delete.horario.grade' , $horario->id ) }}" class="disable-button">
                                                                         <i class="glyphicon glyphicon-remove"></i>
                                                                     </a>
                                                                 </li>
@@ -113,7 +92,7 @@
                                         <td>CANCELAR CONSULTAS</td>
                                         @foreach($dias_semanais as $sigla_dia => $dia)
                                             <td style="text-align: center;">
-                                                <button id="botao-{{$sigla_dia}}" class="btn btn-xs btn-danger">Cancelar</button>
+                                                <a href="grade/cancelardia/{{$localidade['id']}}/{{$sigla_dia}}" id="botao-{{$sigla_dia}}-{{$localidade['id']}}" class="btn btn-xs btn-danger cancelar-dia">Cancelar</a>
                                             </td>
                                         @endforeach
                                     </tr>
@@ -485,8 +464,11 @@
                                 }
                                 var url = "{{ url('/store/grade')  }}";
                                 $.post(url,data,function(response){
-                                    console.log(response);
-                                    location.reload();
+                                    if (response.message){
+                                        alert(response.message);
+                                    }else{
+                                        location.reload();
+                                    }
                                 });
                             }
                         }
@@ -547,8 +529,12 @@
                                 }
                                 var url = "{{ url('/store/grade')  }}";
                                 $.post(url,data,function(response){
-                                    console.log(response);
-                                    location.reload();
+                                    if (response.message){
+                                        alert(response.message);
+                                    }else{
+                                        console.log(response);
+                                        location.reload();
+                                    }
                                 });
                             }
                         }
@@ -609,8 +595,12 @@
                                 }
                                 var url = "{{ url('/store/grade')  }}";
                                 $.post(url,data,function(response){
-                                    console.log(response);
-                                    location.reload();
+                                    if (response.message){
+                                        alert(response.message);
+                                    }else{
+                                        console.log(response);
+                                       // location.reload();
+                                    }
                                 });
                             }
                         }

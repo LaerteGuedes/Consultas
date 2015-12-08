@@ -16,10 +16,11 @@ class RamoRepository extends Repository implements RamoRepositoryInterface
 
    	public function listarRamoByEspecialidade($especialidade_id)
    	{
-
    		return $this->model->where('especialidade_id',$especialidade_id)->orderBy('nome','asc')->get(['id','nome']);
-
    	}
 
-
+    public function listarRamoByEspecialidadeCombo($especialidade_id)
+    {
+        return $this->model->where('especialidade_id',$especialidade_id)->orderBy('nome','asc')->lists('nome','id');
+    }
 } 

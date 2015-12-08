@@ -118,7 +118,7 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
     Route::get('/grade',['as'=>'grade','uses'=>'GradeController@index']);
     Route::post('/store/grade',['as'=>'store.grade','uses'=>'GradeController@store']);
     Route::get('/delete/horario-da-grade/{id}',['as'=>'delete.horario.grade','uses'=>'GradeController@deleteHorario']);
-    Route::get("/grade/cancelardia", ['as' => 'grade.cancelardia', 'uses' => 'GradeController@cancelarDia']);
+    Route::get("/grade/cancelardia/{localidade_id}/{dia_semana}", ['as' => 'grade.cancelardia', 'uses' => 'GradeController@cancelarDia']);
 
 });
 

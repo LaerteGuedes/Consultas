@@ -1,62 +1,61 @@
-  <p>Filtro de pesquisa</p>
-  
+<p>Filtro de pesquisa</p>
+
 
 @inject('estadoService','App\Services\EstadoService')
 @inject('especialidadeService','App\Services\EspecialidadeService')
-                
+
 <div class="panel panel-default filtro">
-	<div class="panel-body">
-				{!! Form::open([
-			
-				'route' => 'resultado.busca',
-				'method'=> 'get',
-				
+    <div class="panel-body">
+        {!! Form::open([
 
-			]) !!}	
-			
-			
-			<div class="form-group">
-				{!! Form::text('name',isset($_GET['name']) ? $_GET['name'] : null  ,['class'=>'form-control','placeholder'=>'Nome do Profissional']) !!}
-			</div>	
+        'route' => 'resultado.busca',
+        'method'=> 'get',
+    ]) !!}
 
-			<div class="form-group">
 
-				{!! Form::select('especialidade_id' , $especialidadeService->listCombo() , isset($_GET['especialidade_id']) ? $_GET['especialidade_id'] : null , ['class'=>'form-control','data-title'=>'Tipo de Profissional','id'=>'especialidade_id'] ) !!}
+        <div class="form-group">
+            {!! Form::text('name',isset($_GET['name']) ? $_GET['name'] : null  ,['class'=>'form-control','placeholder'=>'Nome do Profissional']) !!}
+        </div>
 
-			</div>	
+        <div class="form-group">
 
-			<div class="form-group">
-					<select name="ramo_id" id="ramo_id" class="form-control" data-title="Selecione a Especialidade"></select>
-			</div>	
+            {!! Form::select('especialidade_id' , $especialidadeService->listCombo() , isset($_GET['especialidade_id']) ? $_GET['especialidade_id'] : null , ['class'=>'form-control','data-title'=>'Tipo de Profissional','id'=>'especialidade_id'] ) !!}
 
-			<div class="form-group">
-				
-                {!! Form::select('uf' , $estadoService->listCombo() , isset($_GET['uf']) ? $_GET['uf'] : null , ['class'=>'form-control','data-title'=>'Selecione o Estado','id'=>'uf'] ) !!}
-			</div>
+        </div>
 
-			<div class="form-group">
-				<select name="cidade_id" id="cidade_id" class="form-control" data-title="Selecione a Cidade">
-						</select>
-			</div>				
-					
-			<div class="form-group">
-				{{--<select name="bairro_id" id="bairro_id" class="form-control" data-title="Selecione o Bairro">--}}
-						{{--</select>--}}
-                <input type="text" name="bairro_nome" id="bairro_nome" placeholder="Bairro" class="form-control">
-			</div>		
-						
+        <div class="form-group">
+            {!! Form::select('ramo_id', isset($ramos) ? $ramos : array(), isset($ramo_id) ? $ramo_id : null, ['class'=>'form-control','data-title'=>'Ramo de especialidade','id'=>'ramo_id'] ) !!}
 
-			<div class="form-group">
-				
-				<button class="btn btn-primary">
-						<i class="glyphicon glyphicon-search"></i>
-						Pesquisar
-				</button>
+        </div>
 
-			</div>
+        <div class="form-group">
 
-		{!! Form::close() !!}
-	</div>
+            {!! Form::select('uf' , $estadoService->listCombo() , isset($_GET['uf']) ? $_GET['uf'] : null , ['class'=>'form-control','data-title'=>'Selecione o Estado','id'=>'uf'] ) !!}
+        </div>
+
+        <div class="form-group">
+            <select name="cidade_id" id="cidade_id" class="form-control" data-title="Selecione a Cidade">
+            </select>
+        </div>
+
+        <div class="form-group">
+            {{--<select name="bairro_id" id="bairro_id" class="form-control" data-title="Selecione o Bairro">--}}
+            {{--</select>--}}
+            <input type="text" name="bairro_nome" id="bairro_nome" placeholder="Bairro" class="form-control">
+        </div>
+
+
+        <div class="form-group">
+
+            <button class="btn btn-primary">
+                <i class="glyphicon glyphicon-search"></i>
+                Pesquisar
+            </button>
+
+        </div>
+
+        {!! Form::close() !!}
+    </div>
 </div>
 
 
@@ -64,37 +63,37 @@
 
 @section('script_filtro')
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $(function(){
+        $(function(){
 
 
             $("#uf").on("change", function(){
 
-                    var self = $(this);
-                    var uf   = self.val();
-                    var url = "{{ url('ajax/listar-cidades')  }}/" + uf;
-                    if(uf != ""){
+                var self = $(this);
+                var uf   = self.val();
+                var url = "{{ url('ajax/listar-cidades')  }}/" + uf;
+                if(uf != ""){
 
-                        $.get(url,function(response){
+                    $.get(url,function(response){
 
-                            var options = '';
+                        var options = '';
 
-                            $.each(response.data , function(v,k){
+                        $.each(response.data , function(v,k){
 
-                                 options += '<option value="'+ k.id +'">'+ k.nome +'</option>';
-                            });
-
-                           $("#cidade_id").empty().html(options);
-                           $("#cidade_id").selectpicker('refresh');
-
+                            options += '<option value="'+ k.id +'">'+ k.nome +'</option>';
                         });
 
-                    }else{
-                       var options = '';
-                       $("#cidade_id").empty().html(options);
-                       $("#cidade_id").selectpicker('refresh');
-                    }
+                        $("#cidade_id").empty().html(options);
+                        $("#cidade_id").selectpicker('refresh');
+
+                    });
+
+                }else{
+                    var options = '';
+                    $("#cidade_id").empty().html(options);
+                    $("#cidade_id").selectpicker('refresh');
+                }
             });
 
 
@@ -109,22 +108,22 @@
                 {
                     $.get(url, function(response){
 
-                    		var options = '';
+                        var options = '';
 
-                            $.each(response.data , function(v,k){
+                        $.each(response.data , function(v,k){
 
-                                 options += '<option value="'+ k.id +'">'+ k.name +'</option>';
-                            });
+                            options += '<option value="'+ k.id +'">'+ k.name +'</option>';
+                        });
 
-                           $("#bairro_id").empty().html(options);
-                           $("#bairro_id").selectpicker('refresh');
+                        $("#bairro_id").empty().html(options);
+                        $("#bairro_id").selectpicker('refresh');
 
                     });
                 }else{
 
-                		var options = '';
-                       $("#bairro_id").empty().html(options);
-                       $("#bairro_id").selectpicker('refresh');
+                    var options = '';
+                    $("#bairro_id").empty().html(options);
+                    $("#bairro_id").selectpicker('refresh');
 
                 }
 
@@ -141,30 +140,30 @@
                 {
                     $.get(url, function(response){
 
-                    		var options = '';
+                        var options = '';
 
-                            $.each(response.data , function(v,k){
+                        $.each(response.data , function(v,k){
 
-                                 options += '<option value="'+ k.id +'">'+ k.nome +'</option>';
-                            });
+                            options += '<option value="'+ k.id +'">'+ k.nome +'</option>';
+                        });
 
-                           $("#ramo_id").empty().html(options);
-                           $("#ramo_id").selectpicker('refresh');
+                        $("#ramo_id").empty().html(options);
+                        $("#ramo_id").selectpicker('refresh');
 
                     });
                 }else{
 
-                		var options = '';
-                       $("#ramo_id").empty().html(options);
-                       $("#ramo_id").selectpicker('refresh');
+                    var options = '';
+                    $("#ramo_id").empty().html(options);
+                    $("#ramo_id").selectpicker('refresh');
 
                 }
 
-            });            
+            });
 
 
-    });
+        });
 
-</script>
+    </script>
 
 @endsection

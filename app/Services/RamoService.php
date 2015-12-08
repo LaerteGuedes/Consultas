@@ -18,6 +18,11 @@ class RamoService extends  Service
         return $this->repository->listarRamoByEspecialidade($especialidade_id);
     }
 
+    public function listarRamoByEspecialidadeCombo($especialidade_id)
+    {
+        return $this->repository->listarRamoByEspecialidadeCombo($especialidade_id);
+    }
+
     public function listarRamosApi($especialidade_id)
     {
         $data = [];

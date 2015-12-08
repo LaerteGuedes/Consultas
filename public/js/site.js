@@ -2,6 +2,10 @@
 
     $(document).ready(function(){
 
+        $(".disable-button").click(function(){
+            $(this).css('pointer-events', 'none');
+        })
+
         /***verificador de abas aberta**/
         var hash = document.location.hash;
         if (hash) {

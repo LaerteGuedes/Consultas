@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Custom\Debug;
+use App\Custom\Util;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -75,24 +76,30 @@ class ProfissionalController extends Controller
 
 		$user =  $this->userService->find($user_id);
 		$localidade = $this->localidadeService->find($localidade_id);
-		$dias_semanais = $this->gradeService->getDiasSemanais();
-		$turnos        = $this->gradeService->getTurnos();
+        $diaDeHoje = date('Y-m-d');
+        $horarioAtual = date('h:i:s');
+
+		$diasSemanais = $this->gradeService->getDiasSemanais();
+
+		$turnos = $this->gradeService->getTurnos();
 		if ($request->get('next')) {
-			$semana_atual = $this->calendarService->getNextSemana($request->get('next'));
+			$semanaAtual = $this->calendarService->getNextSemana($request->get('next'));
 		}
 		elseif($request->get('previous')){
-			$semana_atual = $this->calendarService->getPreviousSemana($request->get('previous'));
+			$semanaAtual = $this->calendarService->getPreviousSemana($request->get('previous'));
 		}else {
-			$semana_atual = $this->calendarService->getSemanaAtual();
-		}		
-		
-		return view('profissional.agendar')->with([
+			$semanaAtual = $this->calendarService->getSemanaAtual();
+		}
+
+        return view('profissional.agendar')->with([
 
 				'user' => $user,
 				'localidade' => $localidade,
-				'dias_semanais' => $dias_semanais,
-				'semana_atual' => $semana_atual,
-				'turnos'       => $turnos
+				'dias_semanais' => $diasSemanais,
+				'semana_atual' => $semanaAtual,
+				'turnos'       => $turnos,
+                'dia_de_hoje'  => $diaDeHoje,
+                'horario_atual' => $horarioAtual
 			]);
 	}
 

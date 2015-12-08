@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Custom\Debug;
+use App\Services\MessageService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,12 +16,15 @@ class GradeController extends Controller
 {
     protected $gradeService;
     protected $localidadeService;
+	protected $messageService;
 
     public function __construct(GradeService $gradeService,
-    							LocalidadeService $localidadeService)
+    							LocalidadeService $localidadeService,
+								MessageService $messageService)
     {
     	$this->gradeService      = $gradeService;
     	$this->localidadeService = $localidadeService;
+		$this->messageService = $messageService;
     }
 
     public function index()
@@ -35,7 +39,6 @@ class GradeController extends Controller
 		$intervalos_abreviados    = $this->gradeService->getIntervalosAbreviados();
 
     	return view('grade.index')->with([
-
     			'localidades'   => $localidades,
     			'turnos'        => $turnos,
     			'dias_semanais' => $dias_semanais,
@@ -45,14 +48,16 @@ class GradeController extends Controller
 			    'horasNoite'    => $horasNoite,
     			'intervalos'    => $intervalos,
     			'intervalos_abreviados' => $intervalos_abreviados
- 
     		]);
     }
 
     public function store(Request $request)
     {
-
     	$response = $this->gradeService->save(\Auth::user()->id,$request->all());
+        if (is_array($response)){
+            $message = 'O horário '.$response['horario'].' está incompatível com outros horários que você possui.';
+            return \Response::json(['message'=> $message]);
+        }
     	return \Response::json(['data'=> $response ]);
     }
 
@@ -63,4 +68,10 @@ class GradeController extends Controller
     		return redirect()->route('grade')->with(['message'=> 'registro apagado com sucesso!']);
     	}
     }
+
+	public function cancelarDia($localidade_id, $dia_semana)
+	{
+		$this->gradeService->cancelarDia(Auth::user()->id, $localidade_id, $dia_semana);
+		return redirect()->to('grade')->with('message', $this->messageService->getMessage('success'));
+	}
 }

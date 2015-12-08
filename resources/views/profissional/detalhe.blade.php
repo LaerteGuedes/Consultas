@@ -147,6 +147,7 @@
                                                                                 <?php
 
                                                                                 $horarios = $gradeService->getHorarioFuncionamentoPorLocalidadeByUser($user->id,$local->id );
+
                                                                                 ?>
                                                                                 @foreach($dias_semanais as $dia_semana => $dia )
 

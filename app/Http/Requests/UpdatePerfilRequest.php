@@ -26,8 +26,8 @@ class UpdatePerfilRequest extends Request
 
 
         $rules = [
-            'name'     => 'required|min:2|max:255|alpha',
-            'lastname' => 'required|min:2|max:255|alpha',
+            'name'     => 'required|min:2|max:255',
+            'lastname' => 'required|min:2|max:255',
             'phone'    => 'required|min:15|max:15'
 
         ];

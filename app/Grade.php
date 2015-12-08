@@ -24,6 +24,7 @@ class Grade extends Model
 
         ];
 
+
     public function getDiasSemanais()
     {
         return $this->dias_semanais;
