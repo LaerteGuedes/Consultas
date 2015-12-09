@@ -96,3 +96,32 @@ function profissionalConfirmaHideShowPlano(){
         }
     });
 }
+
+function populateFormPlanoSelect(){
+    $("#user_plano_empresa").on("change", function(){
+        var checked = $(this).find('option:selected');
+
+        if (checked){
+            var value = $(this).val();
+
+            if (value){
+                var params = {id:value};
+                $.ajax({
+                    url: "/planos/ajaxplanocliente",
+                    method: "get",
+                    dataType: "json",
+                    data: params,
+                    success: function(json) {
+                        $("#planos").fadeIn();
+                        $("#planos").find('select').html('<option value="">Selecione o plano</option>');
+
+                        for (var i = 0; i < json.planos.length; i++) {
+                            $("#id_plano").append('<option value="' + json.planos[i].id + '">' + json.planos[i].titulo + '</option>');
+                            $("#id_plano").selectpicker('refresh');
+                        }
+                    }
+                });
+            }
+        }
+    });
+}

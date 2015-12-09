@@ -29,6 +29,23 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
     }
 
+    public function usuarioBusca($nome = null, $cidade = null)
+    {
+        if (!$nome && !$cidade){
+            $query = $this->model;
+        }
+        if ($nome && !$cidade){
+            $query = $this->model->where('name', $nome);
+        }
+        if ($cidade && !$nome){
+            $query = $this->model->where('cidade_id', $cidade);
+        }
+        if ($cidade && $nome){
+            $query = $this->model->where("cidade_id", $cidade)->where('nome', $nome);
+        }
+        return $query->paginate(10);
+    }
+
     public function usuariosClientes()
     {
         return $this->model->where('role_id', Role::CLIENTE)->paginate(10);

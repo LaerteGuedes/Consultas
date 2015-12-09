@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Avaliacao;
 use App\Custom\Debug;
+use App\Http\Requests\UpdatePerfilRequest;
 use App\Role;
 use App\Services\AvaliacaoService;
 use App\Services\CidadeService;
@@ -46,11 +47,11 @@ class AdmController extends Controller
         $this->consultaService = $consultaService;
         $this->avaliacaoService = $avaliacaoService;
     }
-    
+
     public function login(){
         return view("adm.login.index");
     }
-    
+
     public function auth(Request $request){
         $user = $this->userService->getByEmail($request->get('email'));
         if (!(isset($user->id) && $user->role_id == Role::ADMINISTRADOR)){
@@ -74,26 +75,64 @@ class AdmController extends Controller
         $totalProfissionaisInativos = $this->userService->totalProfissionalInativo();
 
         return view("adm.dashboard")->with(['totalUsuarios' => $totalUsuarios,
-                                            'totalAgendadas' => $totalAgendadas,
-                                            'totalRealizadas' => $totalRealizadas,
-                                            'totalCanceladas' => $totalCanceladas,
-                                            'totalAvaliacoes' => $totalAvaliacoes,
-                                            'totalProfissionais' => $totalProfissionais,
-                                            'totalProfissionaisAtivos' => $totalProfissionaisAtivos,
-                                            'totalProfissionaisInativos' => $totalProfissionaisInativos]);
+            'totalAgendadas' => $totalAgendadas,
+            'totalRealizadas' => $totalRealizadas,
+            'totalCanceladas' => $totalCanceladas,
+            'totalAvaliacoes' => $totalAvaliacoes,
+            'totalProfissionais' => $totalProfissionais,
+            'totalProfissionaisAtivos' => $totalProfissionaisAtivos,
+            'totalProfissionaisInativos' => $totalProfissionaisInativos]);
     }
 
-    public function usuarios(){
-        $usuarios = $this->userService->usuariosClientes();
+    public function usuarios(Request $request){
+        if (sizeof($request->all())){
+            $usuarios = $this->userService->usuarioBusca($request->get('nome'), $request->get('cidade'));
+        }else{
+            $usuarios = $this->userService->usuariosClientes();
+        }
 
-        return view('adm.usuarios.index')->with('usuarios', $usuarios);
+        $cidades = $this->cidadeService->listCidadesByUf('PA');
+
+        return view('adm.usuarios.index')->with(array('usuarios' => $usuarios, 'cidades' => $cidades));
     }
-    
+
     public function usuariodetalhe($id){
         $usuario = $this->userService->find($id);
         $plano = $usuario->planos()->first();
 
-        return view("adm.usuarios.detalhe")->with(array('usuario' => $usuario, 'plano' => $plano));
+        $operadoras = $this->planoService->findParents();
+        $operadorasOptions = array();
+
+        foreach ($operadoras as $operadora) {
+            $operadorasOptions[$operadora->id] = $operadora->titulo;
+        }
+
+        if (isset($plano->id)){
+            $planos = $this->planoService->findChildren($plano->id_pai);
+        }else{
+            $planos = null;
+        }
+
+        return view("adm.usuarios.detalhe")->with(array('usuario' => $usuario,
+            'plano' => $plano,
+            'operadorasOptions' => $operadorasOptions,
+            'operadoras' => $operadoras,
+            'planos' => $planos));
+    }
+
+    public function updateUsuario(UpdatePerfilRequest $request)
+    {
+        $this->userService->updatePerfil($request->get('user_id'),$request);
+
+//        $user = $this->userService->find($request->get('user_id'));
+//
+//        $planosParams['id_plano'] = $request->get('id_plano');
+//        $planosParams['user_id'] = $user->id;
+//        $planosParams['role'] = 0;
+//
+//        $user->planos()->sync($planosParams);
+
+        return redirect()->route('adm.usuarios')->with("message",$this->messageService->getMessage('success'));
     }
 
     public function deleteusuario($user_id){
@@ -101,7 +140,7 @@ class AdmController extends Controller
 
         return redirect()->route("adm.usuarios")->with("message", $this->messageService->getMessage('success'));
     }
-    
+
     public function operadoras(){
         $planos = $this->planoService->findParents();
 
@@ -117,18 +156,18 @@ class AdmController extends Controller
     public function novoplano(){
         return view("adm.planos.novo");
     }
-    
+
     public function salvaplano(Request $request){
         $this->planoService->create($request->all());
 
         return redirect()->route("adm.planos.index")->with("message", $this->messageService->getMessage('success'));
     }
-    
+
     public function editplano($id){
         $plano = $this->planoService->find($id);
         return view("adm.planos.edit")->with('plano', $plano);
-    }   
-    
+    }
+
     public function updateplano(Request $request){
         $params = array();
 
@@ -211,7 +250,7 @@ class AdmController extends Controller
 
         return view("adm.estados.edit")->with('estado', $estado);
     }
-    
+
     public function updateestado(Request $request){
         $params = array();
         $id = $request->get('id');
@@ -241,7 +280,7 @@ class AdmController extends Controller
     public function novacidade(){
         return view("adm.cidades.novo");
     }
-    
+
     public function salvacidade(Request $request){
         $this->cidadeService->create($request->all());
 

@@ -39,6 +39,11 @@ class UserService extends Service
         return $this->repository->totalProfissional();
     }
 
+    public function usuarioBusca($nome = null, $cidade = null)
+    {
+        return $this->repository->usuarioBusca($nome, $cidade);
+    }
+
     public function totalProfissionalAtivo()
     {
         return $this->repository->totalProfissionalAtivo();

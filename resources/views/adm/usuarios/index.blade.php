@@ -16,17 +16,18 @@
 
                 <!-- Conteúdo -->
                 <div class="col-lg-9">
-                    <form class="form-inline text-right form-filtro">
+                    <form class="form-inline text-right form-filtro" action="#" method="get">
                         <div class="form-group">
                             <label>Filtrar por:</label>
-                            <input type="text" class="form-control" id="nome" placeholder="Nome do usuário">
-                            <select class="form-control">
-                                <option value="">Estado</option>
-                            </select>
-                            <select class="form-control">
+                            <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome do usuário">
+                            <select class="form-control" name="cidade">
                                 <option value="">Cidade</option>
+                                @foreach($cidades as $cidade)
+                                    <option value="{{$cidade->id}}">{{$cidade->nome}}</option>
+                                @endforeach
                             </select>
                         </div>
+                        <button class="btn btn-success">Buscar</button>
                     </form>
 
                     <!-- Painel padrão com cabeçalho -->
