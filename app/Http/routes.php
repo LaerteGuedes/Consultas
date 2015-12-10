@@ -165,6 +165,8 @@ Route::group(['prefix'=>'adm', 'middleware' => 'admauth'], function(){
     Route::get("planos", ['as' => "adm.planos", 'uses' => "AdmController@planos"]);
 
     Route::get("profissionais", ['as' => "adm.profissionais", 'uses' => "AdmController@profissionais"]);
+    Route::get("profissional/{id}", ['as' => "adm.profissionaldetalhe", 'uses' => "AdmController@profissionalDetalhe"]);
+    Route::post("profissional/update", ['as' => "adm.profissionalupdate", 'uses' => "AdmController@profissionalUpdate"]);
 //    Route::post("alteraassinatura", ['as' => "adm.alteraassinatura", 'uses' => "AdmController@alteraassinatura"]);
 
     Route::get("especialidades", ['as' => "adm.especialidades", 'uses' => "AdmController@especialidades"]);

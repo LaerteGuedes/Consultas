@@ -38,10 +38,10 @@ class UserRepository extends Repository implements UserRepositoryInterface
             $query = $this->model->where('name', $nome);
         }
         if ($cidade && !$nome){
-            $query = $this->model->where('cidade_id', $cidade);
+            $query = $this->model->join('localidades', 'users.id', '=', 'localidades.user_id')->join('cidades', 'localidades.cidade_id', '=', 'cidades.id')->where('cidades.id', $cidade);
         }
         if ($cidade && $nome){
-            $query = $this->model->where("cidade_id", $cidade)->where('nome', $nome);
+            $query = $this->model->join('localidades', 'users.id', '=', 'localidades.user_id')->join('cidades', 'localidades.cidade_id', '=', 'cidades.id')->where('cidades.id', $cidade);
         }
         return $query->paginate(10);
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Avaliacao;
 use App\Custom\Debug;
+use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdatePerfilRequest;
 use App\Role;
 use App\Services\AvaliacaoService;
@@ -124,13 +125,13 @@ class AdmController extends Controller
     {
         $this->userService->updatePerfil($request->get('user_id'),$request);
 
-//        $user = $this->userService->find($request->get('user_id'));
-//
-//        $planosParams['id_plano'] = $request->get('id_plano');
-//        $planosParams['user_id'] = $user->id;
-//        $planosParams['role'] = 0;
-//
-//        $user->planos()->sync($planosParams);
+    //        $user = $this->userService->find($request->get('user_id'));
+    //
+    //        $planosParams['id_plano'] = $request->get('id_plano');
+    //        $planosParams['user_id'] = $user->id;
+    //        $planosParams['role'] = 0;
+    //
+    //        $user->planos()->sync($planosParams);
 
         return redirect()->route('adm.usuarios')->with("message",$this->messageService->getMessage('success'));
     }
@@ -181,10 +182,26 @@ class AdmController extends Controller
         return redirect()->route('adm.planos')->with('message', $this->messageService->getMessage('success'));
     }
 
-    public function profissionais(){
-        $profissionais = $this->userService->pesquisar(array(), 200);
+    public function profissionais(Request $request){
+        $profissionais = $this->userService->pesquisar($request->all(), 10);
+        $cidades = $this->cidadeService->listCidadesByUf('PA');
+        $especialidades = $this->especialidadeService->all();
 
-        return view("adm.profissionais.index")->with('profissionais', $profissionais);
+        return view("adm.profissionais.index")->with(array('profissionais' => $profissionais,
+                                                            'cidades' => $cidades,
+                                                            'especialidades' => $especialidades));
+    }
+
+    public function profissionalDetalhe($id){
+        $profissional = $this->userService->find($id);
+
+        return view("adm.profissionais.detalhe")->with('profissional', $profissional);
+    }
+
+    public function profissionalUpdate(Request $request){
+        $this->userService->updatePerfil($request->get('user_id'),$request);
+
+        return redirect()->route("adm.profissionais")->with("message", $this->messageService->getMessage('success'));
     }
 
     public function especialidades(){
