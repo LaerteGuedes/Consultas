@@ -1,5 +1,5 @@
 @extends('site')
-@section('title', 'Novo tipo')
+@section('title', 'Nova operadora')
 
 @section('content')
     <section class="main adm">
@@ -21,19 +21,21 @@
                     <div class="panel panel-default">
 
                         <div class="panel-heading header-sallus">
-                            <h2>Novo tipo</h2>
+                            <h2>Nova Operadora</h2>
                         </div>
 
 
                         <div class="panel-body">
                             <div>
-                                <form method="POST" action="{{route('adm.salvaespecialidade')}}" accept-charset="UTF-8" id="vue" class=""><input name="_token" type="hidden" value="kmwqLZmVK8Us7ngbtRRXQVnuVdLq10UxL8y5v3HR">
+                                <form method="POST" action="{{route('adm.salvaoperadora')}}" accept-charset="UTF-8" id="vue" class=""><input name="_token" type="hidden" value="kmwqLZmVK8Us7ngbtRRXQVnuVdLq10UxL8y5v3HR">
 
                                     <div class="form-group">
-                                        <label for="nome">Titulo: </label>
-                                        <input type="text" class="form-control" name="nome" id="nome"/>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><strong title="Nome da Operadora">Nome: </strong></div>
+                                            <input class="form-control" name="titulo" type="">
+                                        </div>
                                     </div>
-                                    <br>
+                                    <input type="hidden" name="exibir" value="1">
                                     <div class="form-group">
                                         <input class="btn btn-success btn-lg" type="submit" value="Salvar Informações">
                                     </div>

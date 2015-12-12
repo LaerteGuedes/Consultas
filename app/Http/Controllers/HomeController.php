@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Custom\Debug;
+use App\Services\MailService;
 use App\Services\PlanoService;
 use Illuminate\Http\Request;
 
@@ -27,13 +28,15 @@ class HomeController extends Controller
     protected $especialidadeService;
     protected $cidadeService;
     protected $planoService;
+    protected $mailService;
 
     public function __construct(UserService $userService ,
                                 MessageService $messageService,
                                 EstadoService $estadoService,
                                 EspecialidadeService $especialidadeService,
                                 CidadeService $cidadeService,
-                                PlanoService $planoService)
+                                PlanoService $planoService,
+                                MailService $mailService)
 
     {
         $this->userService    = $userService;
@@ -42,6 +45,7 @@ class HomeController extends Controller
         $this->estadoService = $estadoService;
         $this->especialidadeService = $especialidadeService;
         $this->planoService = $planoService;
+        $this->mailService = $mailService;
     }
 
     public function index()
@@ -80,6 +84,7 @@ class HomeController extends Controller
         if ($user_id){
             $planos = array($request->input('id_plano'));
             $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
+            $this->mailService->sendBoasVindas(Auth::user());
             return redirect()->route('dashboard');
         }
         return back()->withErrors([$this->messageService->getMessage('error')]);

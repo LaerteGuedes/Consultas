@@ -10,46 +10,37 @@ namespace App\Services;
 
 
 use App\Repositories\PlanoRepository;
+use App\Repositories\repository;
+use App\Service;
 
-class PlanoService
+class PlanoService extends Service
 {
-    protected $planoRepository;
-
-    public function __construct(PlanoRepository $planoRepository)
+    public function __construct(PlanoRepository $repository)
     {
-        $this->planoRepository = $planoRepository;
+        $this->repository = $repository;
     }
 
     public function paginateByUser($id)
     {
-        return $this->planoRepository->paginateByUser($id);
-    }
-
-    public function all(){
-        return $this->planoRepository->all();
-    }
-
-    public function find($id)
-    {
-        return $this->planoRepository->find($id);
+        return $this->repository->paginateByUser($id);
     }
 
     public function findParents(){
-        return $this->planoRepository->findParents();
+        return $this->repository->findParents();
     }
 
     public function findChildren($id){
-        return $this->planoRepository->findChildren($id);
+        return $this->repository->findChildren($id);
     }
 
     public function findParentsById($id)
     {
-        return $this->planoRepository->findParentsById($id);
+        return $this->repository->findParentsById($id);
     }
 
     public function findAllChildrenCheckbox()
     {
-        $planos = $this->planoRepository->findAllChildren();
+        $planos = $this->repository->findAllChildren();
         $vPlano = array();
         foreach ($planos as $plano){
             $vPlano[$plano->id] = ['checked' => 'false', 'titulo' => $plano->titulo];
@@ -60,16 +51,6 @@ class PlanoService
 
     public function insertUserPlanos($id, $planos)
     {
-        return $this->planoRepository->insertUserPlanos($id, $planos);
-    }
-
-    public function create($params)
-    {
-        return $this->planoRepository->create($params);
-    }
-
-    public function update($id, $params)
-    {
-        return $this->planoRepository->update($id, $params);
+        return $this->repository->insertUserPlanos($id, $planos);
     }
 }

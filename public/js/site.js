@@ -125,3 +125,53 @@ function populateFormPlanoSelect(){
         }
     });
 }
+
+function excluiRamo(){
+    $(".exclui-ramo").on('click', function(){
+        if (confirm('Deseja realmente excluir esta especialidade?')){
+            var self = $(this);
+            var classes = self.attr('class');
+            var str = classes.split(' ');
+            var classeCampo = str[1];
+            var classeCampoF = classeCampo.split('-');
+            var ramo_id = classeCampoF[1];
+            var rowParent = $("."+classeCampo).parent().parent();
+
+            $.ajax({
+                url: "/adm/excluirramo/"+ramo_id,
+                method: "get",
+                dataType: "json",
+                data: "",
+                success: function(json){
+                    alert(json.message);
+                    rowParent.fadeOut();
+                }
+            });
+        }
+    });
+}
+
+function excluiPlano(){
+    $(".exclui-plano").on('click', function(){
+        if (confirm('Deseja realmente excluir este plano?')){
+            var self = $(this);
+            var classes = self.attr('class');
+            var str = classes.split(' ');
+            var classePlano = str[1];
+            var classePlanoF = classePlano.split('-');
+            var plano_id = classePlanoF[1];
+            var rowParent = $("."+classePlano).parent().parent();
+
+            $.ajax({
+                url: "/adm/excluirplano/"+plano_id,
+                method: "get",
+                dataType: "json",
+                data: "",
+                success: function(json){
+                    alert(json.message);
+                    rowParent.fadeOut();
+                }
+            });
+        }
+    });
+}

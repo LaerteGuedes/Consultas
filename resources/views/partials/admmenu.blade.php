@@ -18,7 +18,7 @@
                 <li><a href="{{route('adm.estados')}}">Estados</a></li>
                 <li><a href="{{route('adm.cidades')}}">Cidades</a></li>
                 <li><a href="pacotes-assinatura.php">Pacotes de assinatura</a></li>
-                <li><a href="{{route('adm.planos')}}">Planos de Saúde</a></li>
+                <li><a href="{{route('adm.operadoras')}}">Planos de Saúde</a></li>
             </ul>
 
         </div>

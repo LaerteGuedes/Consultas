@@ -12,8 +12,10 @@ use App\Services\CidadeService;
 use App\Services\ConsultaService;
 use App\Services\EspecialidadeService;
 use App\Services\EstadoService;
+use App\Services\MailService;
 use App\Services\MessageService;
 use App\Services\PlanoService;
+use App\Services\RamoService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -29,6 +31,7 @@ class AdmController extends Controller
     protected $messageService;
     protected $consultaService;
     protected $avaliacaoService;
+    protected $ramoService;
 
     public function __construct(UserService $userService,
                                 PlanoService $planoService,
@@ -37,7 +40,8 @@ class AdmController extends Controller
                                 CidadeService $cidadeService,
                                 MessageService $messageService,
                                 ConsultaService $consultaService,
-                                AvaliacaoService $avaliacaoService)
+                                AvaliacaoService $avaliacaoService,
+                                RamoService $ramoService)
     {
         $this->userService = $userService;
         $this->planoService = $planoService;
@@ -47,6 +51,7 @@ class AdmController extends Controller
         $this->messageService = $messageService;
         $this->consultaService = $consultaService;
         $this->avaliacaoService = $avaliacaoService;
+        $this->ramoService = $ramoService;
     }
 
     public function login(){
@@ -143,9 +148,35 @@ class AdmController extends Controller
     }
 
     public function operadoras(){
-        $planos = $this->planoService->findParents();
+        $operadoras = $this->planoService->findParents();
 
-        return view("adm.planos.operadoras")->with("planos", $planos);
+        return view("adm.planos.operadoras")->with("operadoras", $operadoras);
+    }
+    
+    public function novaOperadora(){
+        return view("adm.planos.novaoperadora");
+    }
+
+    public function salvaOperadora(Request $request){
+        $this->planoService->create($request->all());
+
+        return redirect()->route("adm.operadoras")->with("message", $this->messageService->getMessage('success'));
+    }
+    
+    public function updateOperadora(Request $request){
+        $this->planoService->update($request->get('id'), $request->all());
+
+        return redirect()->route("adm.operadoras")->with("message", $this->messageService->getMessage('success'));
+    }
+
+    public function editOperadora($id){
+        $operadora = $this->planoService->find($id);
+        return view("adm.planos.editoperadora")->with('operadora', $operadora);
+    }
+
+    public function excluirOperadora($id){
+        $this->planoService->destroy($id);
+        return redirect()->route("adm.operadoras")->with("message", $this->messageService->getMessage('success'));
     }
 
     public function planos(){
@@ -154,19 +185,27 @@ class AdmController extends Controller
         return view("adm.planos.index")->with('planos', $planos);
     }
 
-    public function novoplano(){
-        return view("adm.planos.novo");
+    public function novoplano($id_pai){
+        $operadora = $this->planoService->find($id_pai);
+
+        return view("adm.planos.novo")->with('operadora', $operadora);
     }
 
     public function salvaplano(Request $request){
         $this->planoService->create($request->all());
 
-        return redirect()->route("adm.planos.index")->with("message", $this->messageService->getMessage('success'));
+        return redirect()->route("adm.operadoras")->with("message", $this->messageService->getMessage('success'));
     }
 
     public function editplano($id){
         $plano = $this->planoService->find($id);
         return view("adm.planos.edit")->with('plano', $plano);
+    }
+
+    public function excluirPlano($id)
+    {
+        $this->planoService->destroy($id);
+        return response()->json(['message' => 'Plano removido com sucesso!']);
     }
 
     public function updateplano(Request $request){
@@ -211,7 +250,7 @@ class AdmController extends Controller
     }
 
     public function novaespecialidade(){
-        return view("adm.especialidades.novo");
+        return view("adm.especialidades.nova");
     }
 
     public function salvaespecialidade(Request $request){
@@ -243,6 +282,26 @@ class AdmController extends Controller
 
     public function excluirespecialidade($id){
         $this->especialidadeService->destroy($id);
+
+        return redirect()->route("adm.especialidades")->with("message", $this->messageService->getMessage('success'));
+    }
+
+    public function novoRamo($especialidade_id){
+        $especialidade = $this->especialidadeService->find($especialidade_id);
+        return view("adm.ramos.novo")->with('especialidade', $especialidade);
+    }
+
+    public function excluirRamo($id){
+        try{
+        //    $this->ramoService->destroy($id);
+            return response()->json(['message' => 'Exclusão realizada com sucesso!']);
+        }catch (Exception $ex){
+            return response()->json(['message' => 'Houve um problema com a exclusão, tente novamente mais tarde!']);
+        }
+    }
+    
+    public function salvaRamo(Request $request){
+        $this->ramoService->create($request->all());
 
         return redirect()->route("adm.especialidades")->with("message", $this->messageService->getMessage('success'));
     }

@@ -159,10 +159,17 @@ Route::group(['prefix'=>'adm', 'middleware' => 'admauth'], function(){
     Route::get('deleteusuario/{user_id}', ['as' => 'adm.deleteusuario', 'uses' => 'AdmController@deleteusuario']);
 
     Route::get('operadoras', ['as' => 'adm.operadoras', 'uses' => 'AdmController@operadoras']);
-    Route::get("novoplano", ['as' => "adm.novoplano", 'uses' => "AdmController@novoplano"]);
+    Route::get("novaoperadora", ['as' => "adm.novaoperadora", 'uses' => "AdmController@novaOperadora"]);
+    Route::post("salvaoperadora", ['as' => "adm.salvaoperadora", 'uses' => "AdmController@salvaOperadora"]);
+    Route::post("updateoperadora", ['as' => "adm.updateoperadora", 'uses' => "AdmController@updateOperadora"]);
+    Route::get("editoperadora/{id}", ['as' => "adm.editoperadora", 'uses' => "AdmController@editOperadora"]);
+    Route::get("excluiroperadora/{id}", ['as' => "adm.excluiroperadora", 'uses' => "AdmController@excluirOperadora"]);
+    
+    Route::get("novoplano/{id_pai}", ['as' => "adm.novoplano", 'uses' => "AdmController@novoplano"]);
     Route::post("salvaplano", ['as' => "adm.salvaplano", 'uses' => "AdmController@salvaplano"]);
     Route::post("updateplano", ['as' => "adm.updateplano", 'uses' => "AdmController@updateplano"]);
     Route::get("planos", ['as' => "adm.planos", 'uses' => "AdmController@planos"]);
+    Route::get("excluirplano/{id}", ['as' => "adm.excluirplano", 'uses' => "AdmController@excluirPlano"]);
 
     Route::get("profissionais", ['as' => "adm.profissionais", 'uses' => "AdmController@profissionais"]);
     Route::get("profissional/{id}", ['as' => "adm.profissionaldetalhe", 'uses' => "AdmController@profissionalDetalhe"]);
@@ -172,10 +179,14 @@ Route::group(['prefix'=>'adm', 'middleware' => 'admauth'], function(){
     Route::get("especialidades", ['as' => "adm.especialidades", 'uses' => "AdmController@especialidades"]);
     Route::get("novaespecialidade", ['as' => "adm.novaespecialidade", 'uses' => "AdmController@novaespecialidade"]);
     Route::post("salvaespecialidade", ['as' => "adm.salvaespecialidade", 'uses' => "AdmController@salvaespecialidade"]);
-    Route::get("editespecialidade", ['as' => "adm.editespecialidade", 'uses' => "AdmController@editespecialidade"]);
+    Route::get("editespecialidade/{id}", ['as' => "adm.editespecialidade", 'uses' => "AdmController@editespecialidade"]);
     Route::post("updateespecialidade", ['as' => "adm.updateespecialidade", 'uses' => "AdmController@updateespecialidade"]);
-    Route::get("excluirespecialidade", ['as' => "adm.excluirespecialidade", 'uses' => "AdmController@excluirespecialidade"]);
+    Route::get("excluirespecialidade/{id}", ['as' => "adm.excluirespecialidade", 'uses' => "AdmController@excluirespecialidade"]);
 
+    Route::get("novoramo/{especialidade_id}", ['as' => "adm.novoramo", 'uses' => "AdmController@novoRamo"]);
+    Route::post("salvaramo", ['as' => "adm.salvaramo", 'uses' => "AdmController@salvaRamo"]);
+    Route::get("excluirramo/{id}", ['as' => "adm.excluirramo", 'uses' => "AdmController@excluirRamo"]);
+    
     Route::get("estados", ['as' => "adm.estados", 'uses' => "AdmController@estados"]);
     Route::get("novoestado", ['as' => "adm.novoestado", 'uses' => "AdmController@novoestado"]);
     Route::post("salvaestado", ['as' => "adm.salvaestado", 'uses' => "AdmController@salvaestado"]);
