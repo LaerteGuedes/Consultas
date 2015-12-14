@@ -13,6 +13,9 @@ Route::get('/home/profissional',['as'=>'home.profissional','middleware'=>'guest'
 Route::get("/planos/ajaxplanocliente", ['as' => 'plano.ajaxplanocliente', 'uses' => "UserPlanoController@ajaxPlanoCliente"]);
 Route::post('/register/user',['as'=>'register.user','uses'=>'HomeController@registerUser']);
 
+Route::get("/pagseguro/teste", ['as' => "adm.pagteste", 'uses' => "AssinaturaController@teste"]);
+Route::post("/assinatura/notificacao", ['as' => "assinatura.notificacao", 'uses' => "AssinaturaController@notificacao"]);
+
 #rota profissional
 
 Route::get('/resultado',['as'=>'resultado.busca','uses'=>'PesquisaController@index']);
@@ -35,7 +38,10 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
     Route::get('/tutorial/inicial',['as'=>'tutorial.inicial','uses'=>'TutorialController@index']);
 
     #rota pagamento
-    Route::get("/pagamento/assinatura", ['as' => 'pagamento.assinatura', 'uses' => 'PagamentoController@assinatura']);
+    Route::get("/assinatura/nova", ['as' => 'nova.assinatura', 'uses' => 'AssinaturaController@nova']);
+    Route::post("/assinatura/store", ['as' => "store.assinatura", 'uses' => "AssinaturaController@store"]);
+    Route::post("/assinatura/update", ['as' => "update.assinatura", 'uses' => "AssinaturaController@update"]);
+    Route::get("/assinatura/checkstatus", ['as' => "status.assinatura", 'uses' => "AssinaturaController@checkStatus"]);
 
     #rotas comentario
     Route::post('/store/comentario',['as'=>'store.comentario','uses'=>'ComentarioController@store']);
@@ -193,6 +199,13 @@ Route::group(['prefix'=>'adm', 'middleware' => 'admauth'], function(){
     Route::get("editestado", ['as' => "adm.editestado", 'uses' => "AdmController@editestado"]);
     Route::post("updatestado", ['as' => "adm.updateestado", 'uses' => "AdmController@updateestado"]);
     Route::get("excluirestado", ['as' => "adm.excluirestado", 'uses' => "AdmController@excluirestado"]);
+
+    Route::get("assinaturas", ['as' => "adm.assinaturas", 'uses' => "AdmController@assinaturas"]);
+    Route::get("novaassinatura", ['as' => "adm.novaassinatura", 'uses' => "AdmController@novaAssinatura"]);
+    Route::post("salvaassinatura", ['as' => "adm.salvaassinatura", 'uses' => "AdmController@salvaAssinatura"]);
+    Route::get("editassinatura/{id}", ['as' => "adm.editassinatura", 'uses' => "AdmController@editassinatura"]);
+    Route::post("updateassinatura", ['as' => "adm.updateassinatura", 'uses' => "AdmController@updateassinatura"]);
+    Route::get("excluirassinatura/{id}", ['as' => "adm.excluirassinatura", 'uses' => "AdmController@excluirassinatura"]);
 
     Route::get("cidades", ['as' => "adm.cidades", 'uses' => "AdmController@cidades"]);
     Route::get("novacidade", ['as' => "adm.novacidade", 'uses' => "AdmController@novacidade"]);

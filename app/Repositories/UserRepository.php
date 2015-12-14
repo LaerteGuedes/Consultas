@@ -364,6 +364,14 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
     }
 
+    public function updateAssinaturaAvaliacao($user_id, $params)
+    {
+        $user = $this->model->find($user_id);
+        $user->assinatura_id = $params['assinatura_id'];
+        $user->assinatura_status = $params['assinatura_status'];
+        return $user->save();
+    }
+
 } 
 
 

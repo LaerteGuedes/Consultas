@@ -81,6 +81,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasOne('App\UserEspecialidade','user_id');
     }
 
+    public function assinatura()
+    {
+        return $this->hasOne('App\Assinatura', 'assinatura_id');
+    }
+
     public function ramos()
     {
         return $this->hasMany('App\UserRamo','user_id','id');

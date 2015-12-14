@@ -48,6 +48,9 @@ class CheckProfissionalEspecialidade
                 {
                     return false;
                 }
+                if(!isset(\Auth::user()->assinatura_id)){
+                    return false;
+                }
             }
        }
 

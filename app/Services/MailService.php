@@ -34,5 +34,14 @@ class MailService
             $m->to($user->email, $user->name)->subject('Bem-vindo!');
         });
     }
+
+    public function notificacao($response)
+    {
+        Mail::send('emails.teste', ['response' => $response], function ($m) use ($response) {
+            $m->from('noreply@sallus.net', 'Sallus - Secretaria Virtual');
+
+            $m->to('laerteguedes8@gmail.com', 'Laerte')->subject('Notificacao!');
+        });
+    }
     
 }

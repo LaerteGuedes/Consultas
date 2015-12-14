@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Assinatura;
+use App\Custom\Debug;
 use App\Service;
 use App\Contracts\UserRepositoryInterface;
 
@@ -88,6 +90,12 @@ class UserService extends Service
     public function pesquisar($data = array() , $perpage = 50)
     {
         return $this->repository->pesquisar($data , $perpage);
+    }
+
+    public function updateAssinaturaAvaliacao($user_id, $params)
+    {
+        $params['assinatura_status'] = Assinatura::AVALIACAO;
+        return $this->repository->updateAssinaturaAvaliacao($user_id,$params);
     }
 
     public function register(array $data)

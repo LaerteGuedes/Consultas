@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Avaliacao;
-use App\Custom\Debug;
-use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdatePerfilRequest;
 use App\Role;
+use App\Services\AssinaturaService;
 use App\Services\AvaliacaoService;
 use App\Services\CidadeService;
 use App\Services\ConsultaService;
 use App\Services\EspecialidadeService;
 use App\Services\EstadoService;
-use App\Services\MailService;
 use App\Services\MessageService;
 use App\Services\PlanoService;
 use App\Services\RamoService;
@@ -32,6 +29,7 @@ class AdmController extends Controller
     protected $consultaService;
     protected $avaliacaoService;
     protected $ramoService;
+    protected $assinaturaService;
 
     public function __construct(UserService $userService,
                                 PlanoService $planoService,
@@ -41,7 +39,8 @@ class AdmController extends Controller
                                 MessageService $messageService,
                                 ConsultaService $consultaService,
                                 AvaliacaoService $avaliacaoService,
-                                RamoService $ramoService)
+                                RamoService $ramoService,
+                                AssinaturaService $assinaturaService)
     {
         $this->userService = $userService;
         $this->planoService = $planoService;
@@ -52,6 +51,7 @@ class AdmController extends Controller
         $this->consultaService = $consultaService;
         $this->avaliacaoService = $avaliacaoService;
         $this->ramoService = $ramoService;
+        $this->assinaturaService = $assinaturaService;
     }
 
     public function login(){
@@ -387,6 +387,40 @@ class AdmController extends Controller
         $this->cidadeService->destroy($id);
 
         return redirect()->route("adm.cidades")->with("message", $this->messageService->getMessage('success'));
+    }
+
+    public function assinaturas(){
+        $assinaturas = $this->assinaturaService->all();
+
+        return view("adm.assinaturas.index")->with('assinaturas', $assinaturas);
+    }
+    
+    public function novaAssinatura(){
+        return view("adm.assinaturas.nova");
+    }
+
+    public function salvaAssinatura(Request $request){
+        $this->assinaturaService->create($request->all());
+
+        return redirect()->route("adm.assinaturas")->with("message", $this->messageService->getMessage('success'));
+    }
+
+    public function editAssinatura($id){
+        $assinatura = $this->assinaturaService->find($id);
+
+        return view("adm.assinaturas.edit")->with('assinatura', $assinatura);
+    }
+    
+    public function updateAssinatura(Request $request){
+        $this->assinaturaService->update($request->get('id'), $request->all());
+
+        return redirect()->route("adm.assinaturas")->with("message", $this->messageService->getMessage('success'));
+    }
+    
+    public function excluirAssinatura($id){
+        $this->assinaturaService->destroy($id);
+
+        return redirect()->route("adm.assinaturas")->with("message", $this->messageService->getMessage('success'));
     }
 
 }
