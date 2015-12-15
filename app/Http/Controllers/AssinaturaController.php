@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-
 use App\Custom\Debug;
 use App\Services\AssinaturaService;
 use App\Services\MailService;
@@ -58,6 +57,9 @@ class AssinaturaController extends Controller
 
     public function notificacao(Request $request)
     {
+        $response = $this->pagSeguroService->consultaStatusByNotificacaoAssinatura($request->get('notificationCode'));
+        $this->assinaturaService->alteraAssinaturaByStatus($response->status, $response->reference);
+
         $response = response()->json(array('params' => $request->all()));
         $this->mailService->notificacao($response);
     }

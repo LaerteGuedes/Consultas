@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Assinatura;
 use App\Contracts\AssinaturaRepositoryInterface;
 use App\Contracts\UserRepositoryInterface;
 use App\Service;
@@ -25,6 +26,18 @@ class AssinaturaService extends Service
         $user = $this->userRepository->find($user_id);
         $assinatura = $this->repository->find($assinatura_id);
 
-        return $this->pagSeguroService->sendAssinaturaRequest($user->name, $user->phone, $user->email, $assinatura->titulo, $assinatura->valor, $assinatura->id);
+        return $this->pagSeguroService->sendAssinaturaRequest($user->name, $user->phone, $user->email, $assinatura->titulo, $assinatura->valor, $user_id);
+    }
+
+    public function alteraAssinaturaByStatus($status, $user_id)
+    {
+        $user = $this->userRepository->find($user_id);
+
+        if ($status == 'ACTIVE' || $status == 'PENDING'){
+            $user->assinatura_status = Assinatura::PAGO;
+            $user->save();
+            return true;
+        }
+        return false;
     }
 }

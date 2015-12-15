@@ -47,14 +47,14 @@
                                         <s>3º Após criar seu primeiro local de atendimento, por favor crie sua grade de horários.</s>
                                     </li>
                                 @endif
-                                @if(!Auth::user()->assinatura_id)
+                                @if(!(Auth::user()->assinatura_id && (Auth::user()->assinatura_status == 4 || Auth::user()->assinatura_status == 5)))
                                     <li class="list-group-item">
                                         4º Escolha um pacote de assinatura para utilizar a aplicação.
                                         <a href="{{ route('nova.assinatura') }}">[Selecionar pacote]</a>
                                     </li>
                                 @else
                                     <li class="list-group-item">
-                                        <s>Escolha um pacote de assinatura para utilizar a aplicação.</s>
+                                        <s>4º Escolha um pacote de assinatura para utilizar a aplicação.</s>
                                     </li>
                                 @endif
                             </ul>
