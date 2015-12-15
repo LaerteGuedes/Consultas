@@ -8,7 +8,6 @@
 <section class="main">
 
     <div class="container">
-
         <div class="row">
             <div class="col-lg-12">
                     <ol class="breadcrumb">
@@ -17,18 +16,11 @@
                     </ol>
             </div>
         </div>
-
-
         @if(Auth::user()->role->name=='Profissional')
-
             @if(!isset(Auth::user()->especialidade->especialidade->nome))
             <div class="row">
-
                 <div class="col-lg-12">
-
-
                         <div class="alert alert-info">
-
                         <strong>
                             <i class="glyphicon glyphicon-info-sign"></i>
                         </strong>
@@ -43,8 +35,8 @@
             @endif
 
         @endif
-        
-        
+
+
         <div class="panel panel-default">
 
             <div class="panel-heading header-sallus">
@@ -57,15 +49,9 @@
 
             <div class="panel-body">
                 <div class="row">
-
-
-
                     <div class="col-lg-6">
-
                         @include('alerts')
-
                         <h3>Editar Perfil</h3>
-
                          @include('perfil.form')
 
                     </div>

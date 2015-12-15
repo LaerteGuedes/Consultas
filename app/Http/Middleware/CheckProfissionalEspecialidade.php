@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Symfony\Component\Debug\Debug;
 
 class CheckProfissionalEspecialidade
 {
@@ -24,35 +25,34 @@ class CheckProfissionalEspecialidade
 
     public function check($request)
     {
-
         $rotas = [
-
             'edit.perfil',
             'update.perfil',
             'novo.localidade',
             'store.localidade',
             'update.localidade',
             'listar.cidades',
-            'listar.bairros'
+            'listar.bairros',
+            'nova.assinatura',
+            'store.assinatura'
         ];
 
-      if(in_array($request->route()->getName() , $rotas ))
-       {
+        if(in_array($request->route()->getName() , $rotas ))
+        {
             return true;
-       }
+        }
         elseif($request->route()->getName() <> 'tutorial.inicial')
-       {
-            if(\Auth::user()->role->name=='Profissional')
+        {
             {
                 if(!isset(\Auth::user()->especialidade->especialidade->nome) || !\Auth::user()->localidades()->count() )
                 {
                     return false;
                 }
-                if(!isset(\Auth::user()->assinatura_id)){
+                if(!isset(\Auth::user()->assinatura_id) || (\Auth::user()->assinatura_status == 3)){
                     return false;
                 }
             }
-       }
+        }
 
 
         return true;

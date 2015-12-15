@@ -59,9 +59,6 @@ class AssinaturaController extends Controller
     {
         $response = $this->pagSeguroService->consultaStatusByNotificacaoAssinatura($request->get('notificationCode'));
         $this->assinaturaService->alteraAssinaturaByStatus($response->status, $response->reference);
-
-        $response = response()->json(array('params' => $request->all()));
-        $this->mailService->notificacao($response);
     }
 
 }
