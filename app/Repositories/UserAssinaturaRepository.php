@@ -14,18 +14,16 @@ class UserAssinaturaRepository extends Repository implements UserAssinaturaRepos
         $this->model = $userAssinatura;
     }
 
-    public function getAssinaturaVigente($user_id)
+    public function getAllExpiradas()
     {
-        $userAssinaturas = $this->model->where('user_id', '=', $user_id)
-            ->where('expiracao', '>', 'now()')
-            ->where('assinatura_status', '=', 'TESTES')
-            ->orWhere('assinatura_status', '=', 'PAGO')
-            ->get();
-        return $userAssinaturas;
+        return $this->model->where('expiracao', '<', date('Y-m-d h:i:s'))
+            ->where('assinatura_status', '=', 'PERIODO_TESTES')->get();
     }
 
-    public function getAssinaturaTeste($user_id)
+    public function expirarAssinatura($userAssinatura)
     {
-        return $this->model->where('user_id', '=', $user_id)->where('assinatura_status', '=', 'PERIODO_TESTES')->first();
+        $userAssinatura->assinatura_status = 'SUSPENSO';
+        $userAssinatura->save();
     }
+
 }

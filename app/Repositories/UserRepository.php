@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Custom\Debug;
 use App\Repository;
 use App\Contracts\UserRepositoryInterface;
 use App\Role;
@@ -108,6 +109,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
         return  \DB::table('users')
             ->join('user_especialidades','users.id','=','user_especialidades.user_id')
             ->join('especialidades','user_especialidades.especialidade_id','=','especialidades.id')
+            ->join('user_assinaturas', 'user_assinaturas.user_id', '=', 'users.id')
             ->leftJoin('localidades','users.id','=','localidades.user_id')
             ->leftJoin('bairros', 'localidades.bairro_id', '=', 'bairros.id')
             ->leftJoin('user_ramos','users.id','=','user_ramos.user_id')
@@ -146,6 +148,8 @@ class UserRepository extends Repository implements UserRepositoryInterface
                     $query->where('users.name','like','%'. $data['name'].'%');
                     $query->orWhere('users.lastname','like','%'. $data['name'].'%');
                 }
+                $query->where('user_assinaturas.assinatura_status', '=', 'PERIODO_TESTES');
+                $query->orWhere('user_assinaturas.assinatura_status', '=', 'APROVADO');
             })
             ->groupBy('users.id')
             ->select(\DB::raw('users.id,users.name,users.lastname,users.thumbnail ,users.cid ,user_especialidades.especialidade_id,especialidades.nome as tipo,
@@ -370,6 +374,18 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
         $user->assinatura_id = $params['assinatura_id'];
         $user->assinatura_status = $params['assinatura_status'];
         return $user->save();
+    }
+
+    public function saveUserAssinatura($user_id, $params)
+    {
+        $user = $this->model->find($user_id);
+        $userAssinatura = $user->userAssinatura()->first();
+        if (isset($userAssinatura->id)){
+            $userAssinatura->update($params);
+        }else{
+            $params['expiracao'] = date('Y-m-d h:i:s', strtotime("+30 days"));
+            $user->userAssinatura()->create($params);
+        }
     }
 
 } 

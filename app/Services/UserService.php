@@ -193,4 +193,9 @@ class UserService extends Service
         return $this->repository->listarDadosProfissionalApi($id);
     }
 
+    public function saveUserAssinatura($user_id, $params)
+    {
+        return $this->repository->saveUserAssinatura($user_id, $params);
+    }
+
 } 

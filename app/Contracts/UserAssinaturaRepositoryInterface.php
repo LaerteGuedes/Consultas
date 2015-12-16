@@ -11,5 +11,5 @@ namespace App\Contracts;
 
 interface UserAssinaturaRepositoryInterface
 {
-    public function getAssinaturaVigente($user_id);
+    public function expirarAssinatura($userAssinatura);
 }

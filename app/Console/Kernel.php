@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Services\UserAssinaturaService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,8 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\Inspire::class,
-        \App\Console\Commands\Mail::class,
+        \App\Console\Commands\Inspire::class
     ];
 
     /**
@@ -27,6 +27,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('inspire')
                  ->hourly();
-        // $schedule->command('mail:teste')->everyMinute();
+        $schedule->call(function (){
+            $userAssinaturaService = new UserAssinaturaService();
+            $userAssinaturaService->expiraAssinaturas();
+        })->daily();
     }
 }

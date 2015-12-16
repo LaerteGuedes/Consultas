@@ -40,40 +40,24 @@ class AssinaturaController extends Controller
 
     public function nova(){
         $user_id = \Auth::user()->id;
-        $assinatura = $this->userAssinaturaService->getAssinaturaTestes($user_id);
-
-        if (isset($assinatura->id)){
-            return redirect()->to("/assinatura/edit/".$assinatura->id);
-        }
-
         $assinaturas = $this->assinaturaService->all();
 
         return view("assinatura.nova")->with(['assinaturas' => $assinaturas, 'user_id' => $user_id]);
-    }
-
-    public function edit($id)
-    {
-        $assinatura = $this->userAssinaturaService->find($id);
-
-        return view("assinatura.nova")->with('assinatura',$assinatura);
     }
 
     public function store(Request $request){
         $params = $request->all();
         $params['expiracao'] = date('Y-m-d h:i:s', strtotime("+30 days"));
 
-        $this->userAssinaturaService->create($params);
+        $this->userService->saveUserAssinatura($request->get('user_id'), $request->all());
         $urlPagSeguro = $this->assinaturaService->sendRequestPagSeguro($request->get('user_id'), $request->get('assinatura_id'));
 
         return redirect()->away($urlPagSeguro);
     }
 
-    public function update(Request $request)
+    public function expiraAssinaturas()
     {
-        $this->userAssinaturaService->update($request->get('user_id'), $request->all());
-        $urlPagSeguro = $this->assinaturaService->sendRequestPagSeguro($request->get('user_id'), $request->get('assinatura_id'));
-
-        return redirect()->away($urlPagSeguro);
+        $this->userAssinaturaService->expiraAssinaturas();
     }
 
     public function notificacao(Request $request)

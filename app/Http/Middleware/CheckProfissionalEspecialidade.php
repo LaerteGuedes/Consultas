@@ -48,12 +48,11 @@ class CheckProfissionalEspecialidade
                 {
                     return false;
                 }
-                if(!isset(\Auth::user()->assinatura_id) || (\Auth::user()->assinatura_status == 3)){
+                if(!isset(\Auth::user()->userAssinatura()->assinatura_id)){
                     return false;
                 }
             }
         }
-
 
         return true;
     }

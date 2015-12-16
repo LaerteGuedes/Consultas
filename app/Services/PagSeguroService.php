@@ -19,7 +19,8 @@ class PagSeguroService
     public function sendAssinaturaRequest($name, $phone, $email, $assinatura_titulo, $valor, $user_id)
     {
         $ch = curl_init();
-        $valor_total = $valor*12;
+        $valor_total = number_format($valor*12, 2);
+        $date = date('Y-m-d', strtotime('+2 years'));
 
         $fields = ['email' => $this->email,
             'token' => $this->token,
@@ -32,10 +33,10 @@ class PagSeguroService
             'preApprovalCharge' => urlencode('auto'),
             'preApprovalName' => urlencode($assinatura_titulo),
             'preApprovalDetails' => urlencode('Pacote de assinatura - Sallus'),
-            'preApprovalAmountPerPayment' => urlencode('1.00'),
+            'preApprovalAmountPerPayment' => urlencode(number_format($valor, 2)),
             'preApprovalPeriod' => urlencode('Monthly'),
-            'preApprovalFinalDate' => urlencode('2016-01-21T00:00:000-03:00'),
-            'preApprovalMaxTotalAmount' => urlencode('12.00'),
+            'preApprovalFinalDate' => urlencode($date),
+            'preApprovalMaxTotalAmount' => urlencode($valor_total),
             'reference' => urlencode($user_id),
             'redirectURL' => urlencode('http://www.sallus.net/dashboard'),
             'reviewURL' => urlencode('http://www.sallus.net/dashboard')];

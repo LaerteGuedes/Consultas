@@ -18,6 +18,8 @@ Route::post("/assinatura/notificacao", ['as' => "assinatura.notificacao", 'uses'
 
 #rota profissional
 
+Route::get("/assinatura/expira", ['as' => 'expira.assinatura', 'uses' => "AssinaturaController@expiraAssinaturas"]);
+
 Route::get('/resultado',['as'=>'resultado.busca','uses'=>'PesquisaController@index']);
 Route::get('/detalhes/profissional/{id}',['as'=>'profissional.detalhe','uses'=>'ProfissionalController@detalhe']);
 
@@ -39,10 +41,9 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
 
     #rota pagamento
     Route::get("/assinatura/nova", ['as' => 'nova.assinatura', 'uses' => 'AssinaturaController@nova']);
-    Route::get("/assinatura/edit/{id}", ['as' => 'edit.assinatura', 'uses' => 'AssinaturaController@edit']);
     Route::post("/assinatura/store", ['as' => "store.assinatura", 'uses' => "AssinaturaController@store"]);
-    Route::post("/assinatura/update", ['as' => "update.assinatura", 'uses' => "AssinaturaController@update"]);
     Route::get("/assinatura/checkstatus", ['as' => "status.assinatura", 'uses' => "AssinaturaController@checkStatus"]);
+
 
     #rotas comentario
     Route::post('/store/comentario',['as'=>'store.comentario','uses'=>'ComentarioController@store']);
