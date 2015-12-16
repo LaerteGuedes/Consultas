@@ -11,13 +11,21 @@
         <div class="col-xs-12">
             {!! Form::label('assinatura_id','*Pacote de assinatura:') !!}
             <select name="assinatura_id" id="assinatura_id" class="form-control" data-title="Selecione">
-                @foreach($assinaturas as $assinatura)
-                    <option value="{{$assinatura->id}}">{{$assinatura->titulo}} - {{$assinatura->valor}}</option>
+                @foreach($assinaturas as $ass)
+                    @if ($ass->id == $assinatura->id)
+                        <option value="{{$ass->id}}" selected>{{$ass->titulo}} - {{$ass->valor}}</option>
+                    @else
+                        <option value="{{$ass->id}}">{{$ass->titulo}} - {{$ass->valor}}</option>
+                    @endif
                 @endforeach
             </select>
             <br><br>
         </div>
         <input type="hidden" name="user_id" id="user_id" value="{{$user_id}}">
+        <input type="hidden" name="assinatura_status" id="assinatura_status" value="PERIODO_TESTES">
+        @if(isset($assinatura->id))
+            <input type="hidden" name="id" id="id" value="{{$assinatura->id}}">
+       @endif
     </div>
 </div>
 <hr/>

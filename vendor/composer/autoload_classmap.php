@@ -551,5 +551,6 @@ return array(
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Resources/stubs/SessionHandlerInterface.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
+    'UserAssinaturas' => $baseDir . '/database/migrations/2015_12_16_162302_user_assinaturas.php',
     'UserTableSeeder' => $baseDir . '/database/seeds/UserTableSeeder.php',
 );

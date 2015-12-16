@@ -3,7 +3,6 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Illuminate\Support\Facades\Mail;
 
 class Kernel extends HttpKernel
 {
@@ -38,15 +37,4 @@ class Kernel extends HttpKernel
         'admauth' => \App\Http\Middleware\AdmAuthenticate::class
     ];
 
-    protected function schedule(Schedule $schedule)
-    {
-        $schedule->call(function () {
-            $user = null;
-            Mail::send('emails.boasvindasusuario', ['user' => $user], function ($m) use ($user) {
-                $m->from('noreply@sallus.net', 'Sallus - Secretaria Virtual');
-
-                $m->to('laerteguedes8@gmail.com', 'Laerte Guedes')->subject('Bem-vindo!');
-            });
-        })->everyMinute();
-    }
 }

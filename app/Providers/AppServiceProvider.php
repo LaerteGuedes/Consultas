@@ -120,5 +120,9 @@ class AppServiceProvider extends ServiceProvider
             'App\Contracts\AssinaturaRepositoryInterface',
             'App\Repositories\AssinaturaRepository'
         );
+        $this->app->bind(
+            'App\Contracts\UserAssinaturaRepositoryInterface',
+            'App\Repositories\UserAssinaturaRepository'
+        );
     }
 }

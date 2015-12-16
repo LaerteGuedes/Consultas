@@ -39,6 +39,7 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
 
     #rota pagamento
     Route::get("/assinatura/nova", ['as' => 'nova.assinatura', 'uses' => 'AssinaturaController@nova']);
+    Route::get("/assinatura/edit/{id}", ['as' => 'edit.assinatura', 'uses' => 'AssinaturaController@edit']);
     Route::post("/assinatura/store", ['as' => "store.assinatura", 'uses' => "AssinaturaController@store"]);
     Route::post("/assinatura/update", ['as' => "update.assinatura", 'uses' => "AssinaturaController@update"]);
     Route::get("/assinatura/checkstatus", ['as' => "status.assinatura", 'uses' => "AssinaturaController@checkStatus"]);

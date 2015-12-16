@@ -6,6 +6,7 @@ use App\Services\AssinaturaService;
 use App\Services\MailService;
 use App\Services\MessageService;
 use App\Services\PagSeguroService;
+use App\Services\UserAssinaturaService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,16 +19,18 @@ class AssinaturaController extends Controller
     protected $messageService;
     protected $userService;
     protected $mailService;
+    protected $userAssinaturaService;
 
     public function __construct(PagSeguroService $pagSeguroService, AssinaturaService $assinaturaService,
                                 MessageService $messageService, UserService $userService,
-                                MailService $mailService)
+                                MailService $mailService, UserAssinaturaService $userAssinaturaService)
     {
         $this->pagSeguroService = $pagSeguroService;
         $this->assinaturaService = $assinaturaService;
         $this->messageService = $messageService;
         $this->userService = $userService;
         $this->mailService = $mailService;
+        $this->userAssinaturaService = $userAssinaturaService;
     }
 
     public function teste(){
@@ -36,21 +39,39 @@ class AssinaturaController extends Controller
     }
 
     public function nova(){
-        $assinaturas = $this->assinaturaService->all();
         $user_id = \Auth::user()->id;
+        $assinatura = $this->userAssinaturaService->getAssinaturaTestes($user_id);
+
+        if (isset($assinatura->id)){
+            return redirect()->to("/assinatura/edit/".$assinatura->id);
+        }
+
+        $assinaturas = $this->assinaturaService->all();
 
         return view("assinatura.nova")->with(['assinaturas' => $assinaturas, 'user_id' => $user_id]);
     }
 
+    public function edit($id)
+    {
+        $assinatura = $this->userAssinaturaService->find($id);
+
+        return view("assinatura.nova")->with('assinatura',$assinatura);
+    }
+
     public function store(Request $request){
-        DB::beginTransaction();
-        try{
-            $this->userService->updateAssinaturaAvaliacao($request->get('user_id'), $request->all());
-            $urlPagSeguro = $this->assinaturaService->sendRequestPagSeguro($request->get('user_id'), $request->get('assinatura_id'));
-            DB::commit();
-        }catch (Exception $e){
-            DB::rollBack();
-        }
+        $params = $request->all();
+        $params['expiracao'] = date('Y-m-d h:i:s', strtotime("+30 days"));
+
+        $this->userAssinaturaService->create($params);
+        $urlPagSeguro = $this->assinaturaService->sendRequestPagSeguro($request->get('user_id'), $request->get('assinatura_id'));
+
+        return redirect()->away($urlPagSeguro);
+    }
+
+    public function update(Request $request)
+    {
+        $this->userAssinaturaService->update($request->get('user_id'), $request->all());
+        $urlPagSeguro = $this->assinaturaService->sendRequestPagSeguro($request->get('user_id'), $request->get('assinatura_id'));
 
         return redirect()->away($urlPagSeguro);
     }

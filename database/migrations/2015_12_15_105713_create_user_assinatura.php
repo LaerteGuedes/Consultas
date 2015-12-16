@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateUserAssinatura extends Migration
 {
@@ -12,7 +13,14 @@ class CreateUserAssinatura extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('user_assinaturas', function(Blueprint $table){
+            $table->increments('id');
+            $table->integer('user_id');
+            $table->integer('assinatura_id');
+            $table->enum('assinatura_status', ['PERIODO_TESTES', 'APROVADO', 'SUSPENSO']);
+            $table->timestamp('expiracao');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +30,6 @@ class CreateUserAssinatura extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('user_assinaturas');
     }
 }
