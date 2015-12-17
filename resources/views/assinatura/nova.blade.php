@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
-                        <li><a href="{{ route('dashboard')  }}">Início</a></li>
+                        <li><a href="{{route('dashboard')}}">Início</a></li>
                         <li class="active">Novo Local</li>
                     </ol>
                 </div>

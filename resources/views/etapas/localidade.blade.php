@@ -11,6 +11,10 @@
                 <div class="col-lg-12">
                     <!-- Painel padrão com cabeçalho -->
                     <div class="panel panel-default profissional-cadastro">
+
+                        <div class="panel-heading header-sallus">
+                            <h2><i class="fa fa-exclamation-circle  fa-2"></i> <span class="">Dados pessoais</span> <i class="fa fa-angle-right"></i> <span class="ativo">Local de atendimento</span> <i class="fa fa-angle-right inativo"></i> <span class="inativo">Horários de atendimento</span> <i class="fa fa-angle-right inativo"></i> <span class="inativo">Escolha seus planos de saúde</span></h2>
+                        </div>
                         <div class="panel-body">
                             <div>
                                 <div class="text-center">
@@ -21,9 +25,12 @@
                                 @include('localidade.form')
                             </div>
                         </div>
+
                     </div><!-- /Painel padrão com cabeçalho -->
+
                 </div><!-- /.col-lg-9 -->
                 <!-- /Conteúdo -->
+
             </div><!-- /.row -->
         </div> <!-- /container -->
     </section> <!-- /section -->

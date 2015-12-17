@@ -23,7 +23,7 @@ Route::get("/assinatura/expira", ['as' => 'expira.assinatura', 'uses' => "Assina
 Route::get('/resultado',['as'=>'resultado.busca','uses'=>'PesquisaController@index']);
 Route::get('/detalhes/profissional/{id}',['as'=>'profissional.detalhe','uses'=>'ProfissionalController@detalhe']);
 
-Route::group(['middleware'=>['auth','check.profissional.especialidade']] , function(){
+Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
 
     Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@index']);
 
@@ -44,6 +44,10 @@ Route::group(['middleware'=>['auth','check.profissional.especialidade']] , funct
     Route::post("/assinatura/store", ['as' => "store.assinatura", 'uses' => "AssinaturaController@store"]);
     Route::get("/assinatura/checkstatus", ['as' => "status.assinatura", 'uses' => "AssinaturaController@checkStatus"]);
 
+    #rota etapas
+    Route::get("/etapa/localidade", ['as' => 'etapa.localidade', 'uses' => 'EtapaController@localidade']);
+    Route::get("/etapa/grade", ['as' => 'etapa.grade', 'uses' => 'EtapaController@grade']);
+    Route::get('/etapa/assinatura', ['as' => 'etapa.assinatura', 'uses' => 'EtapaController@assinatura']);
 
     #rotas comentario
     Route::post('/store/comentario',['as'=>'store.comentario','uses'=>'ComentarioController@store']);
