@@ -3,7 +3,7 @@
     <h3>Escolha a empresa</h3>
     <form action="{{route('plano.salvar')}}" method="post">
 
-        @if (sizeof($vPlanos) > 0)
+        @if (isset($vPlanos))
             @foreach($vPlanos as $id => $plano)
                 <div class="checkbox-inline checkbox-categoria">
                     @if(isset($plano['checked']))
@@ -19,10 +19,8 @@
                 <input type="checkbox" value="{{$plano->id}}"> {{$plano->titulo}}
             </div>
         @endif
-
-
         <div id="planos">
-            @if (sizeof($vPlanos) > 0)
+            @if (isset($vPlanos))
                 @foreach($vPlanos as $id => $plano)
                     @if(isset($plano['filhos']))
                     <div class="planos-{{$id}}">

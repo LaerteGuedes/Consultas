@@ -99,7 +99,7 @@
                                 </div>
 
                             </div>
-                            <a href="{{route('etapa.assinatura')}}" class="btn btn-success btn-lg btn-block" >Salvar e avançar</a>
+                            <a href="{{route('etapa.plano')}}" class="btn btn-success btn-lg btn-block" >Salvar e avançar</a>
                         </div>
                     </div>
                     <!-- /Painel padrão -->

@@ -42,10 +42,7 @@ include_once 'header.php';
                             </div>
                             <div class="checkbox-inline checkbox-categoria">
                               <input type="checkbox" value="6"> Hapvida
-
                             </div>
-
-
                             <div id="planos">
                               <div class="planos-1">
                                 <h4>Planos de saúde da Unimed</h4>

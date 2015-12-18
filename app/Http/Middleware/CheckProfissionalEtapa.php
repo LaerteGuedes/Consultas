@@ -33,7 +33,8 @@ class CheckProfissionalEtapa
         $rotas = [
             'store.localidade',
             'update.localidade',
-            'store.assinatura'
+            'store.assinatura',
+            'store.grade'
         ];
 
         if(in_array($routeName,$rotas))
@@ -41,14 +42,20 @@ class CheckProfissionalEtapa
             return false;
         }
 
-        if (($routeName == 'etapa.grade' || $routeName == 'etapa.assinatura') && !$localidade){
+        if (($routeName == 'etapa.grade' || $routeName == 'etapa.plano' || $routeName == 'etapa.assinatura') && !$localidade){
             return 'etapa.localidade';
         }
 
         $grade = $user->grades()->count();
 
-        if (($routeName == 'etapa.assinatura') && !$grade){
+        if (($routeName == 'etapa.plano' || $routeName == 'etapa.assinatura') && !$grade){
             return 'etapa.grade';
+        }
+
+        $plano = $user->planos()->first();
+
+        if (($routeName == 'etapa.assinatura') && !$plano){
+            return 'etapa.plano';
         }
 
         $assinatura = $user->userAssinatura()->count();

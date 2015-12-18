@@ -47,6 +47,7 @@ Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
     #rota etapas
     Route::get("/etapa/localidade", ['as' => 'etapa.localidade', 'uses' => 'EtapaController@localidade']);
     Route::get("/etapa/grade", ['as' => 'etapa.grade', 'uses' => 'EtapaController@grade']);
+    Route::get("/etapa/plano", ['as' => 'etapa.plano', 'uses' => 'EtapaController@plano']);
     Route::get('/etapa/assinatura', ['as' => 'etapa.assinatura', 'uses' => 'EtapaController@assinatura']);
 
     #rotas comentario
