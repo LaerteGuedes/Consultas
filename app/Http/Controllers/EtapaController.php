@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Custom\Debug;
 use App\Services\AssinaturaService;
 use App\Services\CidadeService;
 use App\Services\GradeService;
@@ -67,9 +68,7 @@ class EtapaController extends Controller
     {
         $planosPai = $this->planoService->findParents();
         $planosPaiExistentes = $this->planoService->findParentsById(\Auth::user()->id);
-        $planosFilho = $this->planoService->findAllChildrenCheckbox();
         $planosFilhoExistentes = $this->planoService->paginateByUser(\Auth::user()->id);
-        $vPlanosPais = array();
 
         foreach ($planosPai as $key => $planoPai){
             $vPlanos[$planoPai->id] = $planoPai->toArray();

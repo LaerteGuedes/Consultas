@@ -125,6 +125,9 @@ a.list-group-item:hover {
     background-color: #00A6FF;
     color: #fff;
 }
+.bk-grey {
+    background-color: #eee;
+}
 .contract{
     padding: 3px !important;
     box-sizing: border-box;
@@ -138,6 +141,7 @@ a.list-group-item:hover {
     margin: 0px !important;
 }
 .padding60 {padding:60px 20px;}
+.padding30 {padding:30px 20px;}
 .top5 { margin-top:5px; }
 .top10 { margin-top:10px; }
 .top20 { margin-top:20px; }
@@ -152,8 +156,72 @@ a.list-group-item:hover {
 * HOME
 ---------------------------------------------------
 */
-
-
+.home {
+    font-size: 18px;
+    color: #777777;
+}
+.home h2 {
+    font-size: 30px;
+    color: #777777;
+    margin: 0px;
+}
+.home h2 .fa {
+    color: #000;
+    font-size: 50px;
+    bottom: -5px;
+    position: relative;
+    line-height: 0;
+    margin-right: 10px;
+}
+.home h2 img:first-child {
+    margin-left: 10px;
+}
+.home .col-lg-4 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.home .col-lg-4 .btn-lg {
+    border: solid 1px #00A6FF;
+    background-color: #fff;
+    color: #00A5FF;
+    transition: all 0.2s ease-in-out 0s;
+    -moz-transition: all 0.2s ease-in-out 0s;
+    -webkit-transition: all 0.2s ease-in-out 0s;
+    -o-transition: all 0.2s ease-in-out 0s;
+}
+.home .col-lg-4 .btn-lg:hover {
+    background-color: #00A5FF;
+    color: #fff;
+}
+.home .fa-stack {
+    float: none;
+}
+.home.video h2{
+    font-weight: bold;
+    color: #00A5FF;
+    font-size: 30px;
+}
+.home.video h3{
+    margin-top: 10px;
+    color: #000;
+    font-size: 22px;
+}
+.home.depoimentos h2 {
+    font-size: 30px;
+    color: #00A5FF;
+    margin-top: 40%;
+}
+.home.depoimentos h3 {
+    font-size: 22px;
+    color: #000;
+}
+.home.depoimentos i {
+    color: #777777;
+}
+.home.dashboard .btn-group > .btn {
+    font-size: 18px;
+    color: #777777
+}
 /*
 ---------------------------------------------------
 * VIEWS
@@ -169,11 +237,13 @@ a.list-group-item:hover {
     margin-bottom: -61px;
     margin-top: -93px;
 }
-
+.logo {
+    margin-top: 65px;
+}
 
 /* DASHBOARD */
 section.main.dashboard {
-    margin-top: 0px;
+    margin-top: 65px;
     background-image: url(/imagens/header/topo.jpg);
     background-color: #fff;
     background-position:  top center;
@@ -181,11 +251,10 @@ section.main.dashboard {
     min-height: 624px;
 }
 section.main.dashboard h1 {
-    margin-top: 415px;
     margin-bottom: 20px;
     font-size: 50px;
     font-weight: bold;
-    color: #fff;
+    color: #000;
 }
 section.main.dashboard .jumbotron {
     padding: 20px;
@@ -206,18 +275,18 @@ section.main.dashboard .jumbotron .fa {
 }
 .opacity {
     background-color:  rgba(0, 0, 0, 0.34);
-    padding: 20px;
+    padding: 10px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
 }
 .navbar-inverse .navbar-nav.white > li > a {
-    color: #fff;
-    text-shadow: 1px 1px 2px #000;
+    margin: 20px 0px;
 }
 .navbar-inverse .navbar-nav.white > li > a:hover {
     color: #FFD24D;
 }
+
 
 /* HOME - PROFESSIONAL */
 .bk-pro {
@@ -233,12 +302,11 @@ section.main.dashboard .jumbotron .fa {
 ---------------------------------------------------
 */
 .navbar-inverse {
-    background-color: transparent;
+    background-color: #fff;
     border: none;
 }
 .navbar-nav {
     float: right;
-    margin-top: 30px;
 }
 .navbar-nav li a {
     padding-top: 2px;
@@ -534,6 +602,38 @@ section.main.dashboard .jumbotron .fa {
     font-size: 40px;
     color: #1F1F1F;
 }
+.profissional-cadastro h3{
+    color: #000;
+}
+.profissional-cadastro .panel-body .lead{
+    line-height: 20px;
+    width: 70%;
+    margin: 0px auto;
+}
+.profissional-cadastro .header-sallus h2 {
+    font-size: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: #00A6FF;
+}
+.profissional-cadastro .header-sallus .fa-angle-right {
+    font-size: 30px;
+    margin: 0px 10px;
+    top: 4px;
+    position: relative;
+    line-height: 20px;
+}
+.profissional-cadastro .header-sallus .ativo {
+    color: #000;
+    font-weight: bold;
+}
+.profissional-cadastro .header-sallus .inativo {
+    color: #AEB6BA;
+}
+.profissional-cadastro .jumbotron {
+    background-color: transparent;
+    padding: 0px;
+}
 
 /*
 ---------------------------------------------------
@@ -622,7 +722,7 @@ section.main.dashboard .jumbotron .fa {
 ---------------------------------------------------
 */
 section.footer {
-    background-color: #fff;
+    background-color: #eee;
     padding: 30px 20px;
 }
 section.footer a {

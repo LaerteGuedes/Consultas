@@ -34,7 +34,9 @@ class CheckProfissionalEtapa
             'store.localidade',
             'update.localidade',
             'store.assinatura',
-            'store.grade'
+            'store.grade',
+            'plano.ajaxplano',
+            'plano.salvar'
         ];
 
         if(in_array($routeName,$rotas))
@@ -54,13 +56,13 @@ class CheckProfissionalEtapa
 
         $plano = $user->planos()->first();
 
-        if (($routeName == 'etapa.assinatura') && !$plano){
+        if (($routeName == 'etapa.assinatura') && (!$plano && !$user->nao_atende_planos)){
             return 'etapa.plano';
         }
 
         $assinatura = $user->userAssinatura()->count();
 
-        if (!($routeName == 'etapa.localidade' || $routeName == 'etapa.grade' || $routeName == 'etapa.assinatura') && !$assinatura){
+        if (!($routeName == 'etapa.localidade' || $routeName == 'etapa.grade' || $routeName == 'etapa.plano' || $routeName == 'etapa.assinatura') && !$assinatura){
             return 'etapa.assinatura';
         }
 

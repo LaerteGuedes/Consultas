@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Custom\Debug;
 use App\Services\MailService;
 use App\Services\PlanoService;
+use App\Services\UserEspecialidadeService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\RegisterUserRequest;
@@ -29,6 +30,7 @@ class HomeController extends Controller
     protected $cidadeService;
     protected $planoService;
     protected $mailService;
+    protected $userEspecialidadeService;
 
     public function __construct(UserService $userService ,
                                 MessageService $messageService,
@@ -36,7 +38,8 @@ class HomeController extends Controller
                                 EspecialidadeService $especialidadeService,
                                 CidadeService $cidadeService,
                                 PlanoService $planoService,
-                                MailService $mailService)
+                                MailService $mailService,
+                                UserEspecialidadeService $userEspecialidadeService)
 
     {
         $this->userService    = $userService;
@@ -46,6 +49,7 @@ class HomeController extends Controller
         $this->especialidadeService = $especialidadeService;
         $this->planoService = $planoService;
         $this->mailService = $mailService;
+        $this->userEspecialidadeService = $userEspecialidadeService;
     }
 
     public function index()
@@ -75,12 +79,18 @@ class HomeController extends Controller
 
     public function homeProfissional()
     {
-        return view('home.home-profissional');
+        $especialidades = $this->especialidadeService->all();
+        return view('home.home-profissional')->with('especialidades', $especialidades);
     }
 
     public function registerUser(RegisterUserRequest $request)
     {
         $user_id = $this->userService->register($request->all());
+        if ($request->has('especialidade_id')){
+            $params = $request->all();
+            $params['user_id'] = $user_id;
+            $this->userEspecialidadeService->create($params);
+        }
         if ($user_id){
             $planos = array($request->input('id_plano'));
             $this->planoService->insertUserPlanos(Auth::user()->id, $planos);

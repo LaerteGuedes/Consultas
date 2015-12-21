@@ -17,6 +17,7 @@
             </select>
             <br><br>
         </div>
+        Desejo utilizar a versão de testes (válido por 30 dias): <input type="checkbox" name="versao_teste">
         <input type="hidden" name="user_id" id="user_id" value="{{$user_id}}">
         <input type="hidden" name="assinatura_status" id="assinatura_status" value="PERIODO_TESTES">
     </div>

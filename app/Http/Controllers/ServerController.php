@@ -68,6 +68,12 @@ class ServerController extends Controller
 		]);
 	}
 
+    public function listarLocalidades(Request $request){
+        $localidades = $this->localidadeService->findBy('user_id', $request->get('id'));
+        return response()->json(['localidades' => $localidades]);
+    }
+
+
 	public function listarCidades(Request $request)
 	{
 		$uf = $request->get('uf');
@@ -170,6 +176,12 @@ class ServerController extends Controller
 			'data'    => $data
 		]);
 	}
+
+    public function usuarioDetalhe(Request $request){
+        $user = $this->userService->find($request->get('id'));
+        return response()->json($user);
+    }
+
 
 	public function editarUsuario(Request $request)
 	{

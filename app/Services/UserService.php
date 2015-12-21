@@ -198,4 +198,9 @@ class UserService extends Service
         return $this->repository->saveUserAssinatura($user_id, $params);
     }
 
+    public function userNaoAtendePlanos($user_id)
+    {
+        return $this->repository->userNaoAtendePlanos($user_id);
+    }
+
 } 

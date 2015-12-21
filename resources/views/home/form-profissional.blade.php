@@ -51,6 +51,18 @@
   <p class="help-block">* digite pelo menos 5 caracteres e no máximo 10 caracteres.</p>
 
 </div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-6">
+            <select name="especialidade_id" id="especialidade_id" class="form-control">
+                <option value="">Selecione a área de atuação</option>
+                @foreach ($especialidades as $especialidade)
+                    <option value="{{$especialidade->id}}">{{$especialidade->nome}}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
 
 <div class="form-group">
 

@@ -50,6 +50,11 @@ class AssinaturaController extends Controller
         $params['expiracao'] = date('Y-m-d h:i:s', strtotime("+30 days"));
 
         $this->userService->saveUserAssinatura($request->get('user_id'), $request->all());
+
+        if ($request->has('versao_teste')){
+            return redirect()->to('dashboard')->with('message', $this->messageService->getMessage('success'));
+        }
+
         $urlPagSeguro = $this->assinaturaService->sendRequestPagSeguro($request->get('user_id'), $request->get('assinatura_id'));
 
         return redirect()->away($urlPagSeguro);

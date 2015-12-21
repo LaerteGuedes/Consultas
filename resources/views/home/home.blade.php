@@ -9,6 +9,9 @@
             <div class="row">
 
                 <div class="col-lg-12">
+                  <div class="logo">
+                    <img src="/imagens/logo.png">
+                  </div>
 
 
                     <h1 class="text-center">Agende uma consulta...</h1>
@@ -17,7 +20,7 @@
 
                                     'route' => 'resultado.busca',
                                     'method'=> 'get',
-                                    'class' => 'jumbotron'
+                                    'class' => ''
 
                             ]) !!}
 
@@ -98,54 +101,124 @@
         </div>
     </section>
 
-    <section class="bk-white padding60">
+    <section class="bk-grey padding30 home">
+        <div class="container text-center">
+          <h2><i class="fa fa-mobile"></i> Baixe nosso aplicativo grátis! <a href="#"><img src="/imagens/store-google.jpg"></a> <a href="#"><img src="/imagens/store-apple.jpg"></a></h2>
+        </div>
+    </section>
+
+    <section class="bk-white padding60 home">
         <div class="container">
             <div class="row">
-                <h1 class="text-center">Bem-vindo à SALLUS</h1>
-                <h2 class="text-center">A plataforma virtual de agendamento de consultas</h2>
-                <p class="text-center lead">Para prossionais da saúde que desejam divulgar serviços e precisam de um canal de relacionamento com o paciente, a  SALLUS oferece uma plataforma virtual de busca e agendamento de consultas para a Região Metropolitana de Belém.</p>
+              <div class="col-lg-4">
+                <div class="text-center">
+                  <span class="fa-stack fa-lg fa-3x">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <h3>CADASTRO</h3>
+                </div>
+                <div>
+                  <p>Encontre o profissional que deseja e marque um agendamento instantaneamente. <strong>É grátis!</strong></p>
+                  <strong>Características</strong>
+                  <ul>
+                    <li>Encontrar uma lista de profissionais da saúde em um só lugar.</li>
+                    <li>Ver horários disponíveis do profissional que procura. Basta clicar e agendar instantaneamente!</li>
+                    <li>Receber avisos de suas consultas agendadas.</li>
+                  </ul>
+                </div>
+                <div class="text-center">
+                  <a href="#" class="btn btn-primary btn-lg top10">CADASTRAR</a>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="text-center">
+                  <span class="fa-stack fa-lg fa-3x">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-user-md fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <h3>PROFISSIONAIS</h3>
+                </div>
+                <div>
+                  <p><strong>Você é um profissional cinco estrelas?<br> Quer conquistar novos clientes?</strong><br><br>
+                  Faça seu cadastro na Sallus e ofereça um melhor conforto para seus clientes.</p>
+                  <strong>Características</strong>
+                  <ul>
+                    <li>Atrair novos clientes.</li>
+                    <li>Construir e fortalecer seu canal online.</li>
+                    <li>Oferecer um serviço Premium para seus clientes.</li>
+                  </ul>
+                </div>
+                <div class="text-center">
+                  <a href="#" class="btn btn-primary btn-lg top10">CADASTRAR</a>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="text-center">
+                  <span class="fa-stack fa-lg fa-3x">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-user-md fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <h3>ATENDIMENTO</h3>
+                </div>
+                <div>
+                  <p>Nossa equipe de atendimento está a sua disposição para esclarecer suas dúvidas.</p>
+                </div>
+                <div class="text-center">
+                  <a href="#" class="btn btn-primary btn-lg top10">FALE CONOSCO</a>
+                </div>
+              </div>
             </div>
         </div>
     </section>
 
-    <section class="bk-blue padding60">
+    <section class="bk-grey padding60 home video">
         <div class="container">
             <div class="row">
-                <div class="col-lg-offset-3 col-lg-5">
-                    <h2 class="">Vantagens para os profissionais</h2>
-                    <p class="">• Crie e organize sua agenda de atendimentos semanal.<br>
-                        • Acompenhe as consultas agendadas por seus pacientes.<br>
-                        • Tenha acesso a estatísticas sobre o seu perfil.<br>
-                        • Veja as avaliações dos profissionais feitas por usuários do Salus.
-                    </p>
+                <div class="col-lg-6">
+                    <h2 class="">O que é Sallus?</h2>
+                    <h3>A plataforma virtual de agendamento de consultas</h3>
+                    <p class="">Para profissionais da saúde que desejam divulgar serviços e precisam de um canal de relacionamento com o paciente, a  SALLUS oferece uma plataforma virtual de busca e agendamento de consultas para a Região Metropolitana de Belém.</p>
                 </div>
-                <div class="col-lg-4 text-center">
-                    <img src="/imagens/pro.png" class="img-responsive hidden-xs hidden-sm img-pro">
+                <div class="col-lg-6">
+                    <iframe width="645" height="363" src="https://www.youtube.com/embed/u3k_HLd_mec" frameborder="0" allowfullscreen></iframe>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <section class="bk-white padding60">
+    <section class="bk-white padding60 home depoimentos">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 text-center">
-                    <img src="/imagens/user.png" class="img-responsive hidden-xs hidden-sm img-user">
+                <div class="col-lg-3">
+                  <h2 class="">DEPOIMENTOS</h2>
                 </div>
-                <div class="col-lg-8">
-                    <h2 class="">Vantagens para os usuários</h2>
-                    <p class="">• Localize profissionais de saúde em sua região.<br>
-                        • Agende sua consulta de forma rápida e fácil.<br>
-                        • Receba avisos de suas consultas próximo das datas agendadas.<br>
-                        • Veja as avaliações dos profissionais feitas por usuários do Salus.
-                    </p>
+                <div class="col-lg-3">
+                  <div class="text-center">
+                    <img src="/imagens/avatar-1.jpg">
+                    <h3 class="">Dr. Carlos Silva</h3>
+                    <p><i class="fa fa-quote-left"></i> Cras maximus, eros congue ultrices facilisis, nunc ante egestas lorem, et ullamcorper nisl ex sit amet erat. <i class="fa fa-quote-right"></i></p>
+                  </div>
                 </div>
-
-
+                <div class="col-lg-3">
+                  <div class="text-center">
+                    <img src="/imagens/avatar-2.jpg">
+                    <h3 class="">Marina Costa</h3>
+                    <p><i class="fa fa-quote-left"></i> Morbi tellus mauris, sollicitudin id neque eget, pharetra varius neque. <i class="fa fa-quote-right"></i></p>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="text-center">
+                    <img src="/imagens/avatar-3.jpg">
+                    <h3 class="">Dra. Luana Brandão</h3>
+                    <p><i class="fa fa-quote-left"></i> Vivamus vitae accumsan nulla. Integer at elit elementum, pretium dolor quis, elementum tellus. <i class="fa fa-quote-right"></i></p>
+                  </div>
+                </div>
             </div>
         </div>
     </section>
+
+
 
 @endsection
 

@@ -142,6 +142,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get('/listar/cidades',['uses'=>'ServerController@listarCidades']);
     Route::get('/listar/especialidades',['uses'=>'ServerController@listarEspecialidades']);
     Route::get('/listar/ramos',['uses'=>'ServerController@listarRamos']);
+    Route::get("/listar/localidades", ['as' => "listar.localidades", 'uses' => "ServerController@listarLocalidades"]);
     Route::get('/pesquisar/profissional',['uses'=>'ServerController@pesquisarProfissional']);
     Route::get('/logar/usuario',['uses'=>'ServerController@logarUsuario']);
     Route::get('/registrar/novo/usuario',['uses'=>'ServerController@registrarNovoUsuario']);
@@ -154,6 +155,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::post("/confirmar/agendamento", ['uses' => 'ServerController@confirmar']);
     Route::get("/avisos", ['uses' => 'ServerController@avisos']);
     Route::get("/buscaavancada", ['uses' => 'ServerController@buscaAvancada']);
+    Route::get('/usuario/detalhe', ['uses' => 'ServerController@usuarioDetalhe']);
 });
 
 Route::group(['prefix'=>'ajax'],function(){

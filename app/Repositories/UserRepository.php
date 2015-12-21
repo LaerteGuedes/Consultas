@@ -109,7 +109,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
         return  \DB::table('users')
             ->join('user_especialidades','users.id','=','user_especialidades.user_id')
             ->join('especialidades','user_especialidades.especialidade_id','=','especialidades.id')
-            ->join('user_assinaturas', 'user_assinaturas.user_id', '=', 'users.id')
+            ->leftJoin('user_assinaturas', 'user_assinaturas.user_id', '=', 'users.id')
             ->leftJoin('localidades','users.id','=','localidades.user_id')
             ->leftJoin('bairros', 'localidades.bairro_id', '=', 'bairros.id')
             ->leftJoin('user_ramos','users.id','=','user_ramos.user_id')
@@ -366,6 +366,13 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
         return $data;
 
+    }
+
+    public function userNaoAtendePlanos($user_id)
+    {
+        $user = $this->model->find($user_id);
+        $user->nao_atende_planos = 1;
+        return $user->save();
     }
 
     public function updateAssinaturaAvaliacao($user_id, $params)

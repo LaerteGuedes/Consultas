@@ -81,13 +81,23 @@ class UserPlanoController extends Controller
     }
 
     public function salvar(){
+
         $planos = Request::input('planos');
+
+        if (Request::has('nao_atende_planos')){
+            if (Request::input('nao_atende_planos')){
+                $this->userService->userNaoAtendePlanos(Auth::user()->id);
+                return Redirect::to("/planos")->with("message", "Atualizado com sucesso!");
+            }
+        }
 
         $isSaved = $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
 
         if ($isSaved){
             return Redirect::to("/planos")->with("message", "Planos atualizados com sucesso!");
         }
+
+
         return Redirect::to('/planos')->with('errors', "Houve um problema com a inserção. Tente novamente mais tarde");
     }
 
