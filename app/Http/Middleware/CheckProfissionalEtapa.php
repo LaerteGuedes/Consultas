@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Custom\Debug;
+use App\Role;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,6 +23,11 @@ class CheckProfissionalEtapa
     public function routeEtapa($request)
     {
         $user = \Auth::user();
+
+        if ($user->role_id == Role::CLIENTE){
+            return false;
+        }
+
         $routeName = $request->route()->getName();
 
         if (!isset($user->id)){
