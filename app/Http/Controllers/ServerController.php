@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Custom\Debug;
 use App\Services\AvisoService;
+use App\Services\CalendarService;
+use App\Services\GradeService;
 use App\Services\LocalidadeService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -31,6 +34,8 @@ class ServerController extends Controller
 	protected $avaliacaoService;
 	protected $localidadeService;
 	protected $avisoService;
+	protected $gradeService;
+	protected $calendarService;
 
 	public function __construct(
 
@@ -42,7 +47,9 @@ class ServerController extends Controller
 		ComentarioService    $comentarioService,
 		AvaliacaoService     $avaliacaoService,
 		LocalidadeService	 $localidadeService,
-		AvisoService		 $avisoService
+		AvisoService		 $avisoService,
+		GradeService		 $gradeService,
+		CalendarService		 $calendarService
 	)
 	{
 
@@ -55,6 +62,8 @@ class ServerController extends Controller
 		$this->avaliacaoService     = $avaliacaoService;
 		$this->localidadeService    = $localidadeService;
 		$this->avisoService		    = $avisoService;
+		$this->gradeService			= $gradeService;
+		$this->calendarService		= $calendarService;
 	}
 
 	public function listarEstados()
@@ -72,6 +81,11 @@ class ServerController extends Controller
         $localidades = $this->localidadeService->findBy('user_id', $request->get('id'));
         return response()->json(['localidades' => $localidades]);
     }
+
+	public function localidadeDetalhe($id){
+		$localidade = $this->localidadeService->find($id);
+	    return response()->json(['localidade' => $localidade]);
+	}
 
 
 	public function listarCidades(Request $request)
@@ -339,12 +353,38 @@ class ServerController extends Controller
 		}else {
 			$semana_atual = $this->calendarService->getSemanaAtual();
 		}
-		return response()->json([
+
+        foreach ($semana_atual as $key => $dia) {
+            $semana_atual[$key] = ['dia' => $dia, 'diaF' => date('d/m',strtotime($dia))];
+        }
+
+		$grade = array();
+
+		foreach ($semana_atual as $dia_semana => $dia) {
+			$aux = array();
+			$aux['dia_semana'] = $dia_semana;
+			$aux['dia'] = $dia;
+
+			foreach($turnos as $sigla_turno => $turno){
+
+				$horarios = $this->gradeService->getHorariosAtualPorLocalidadeByUser($user->id, $localidade->id, $dia_semana, $dia['dia'], $sigla_turno);
+				$aux['turnos'][$turno]['horarios'] = $horarios;
+			}
+
+			$grade[] = $aux;
+		}
+
+        $primeiroDiaDaSemana = $semana_atual['seg'];
+
+
+        return response()->json([
 			'user' => $user,
 			'localidade' => $localidade,
 			'dias_semanais' => $dias_semanais,
 			'turnos' => $turnos,
-			'semana_atual' => $semana_atual
+			'semana_atual' => $semana_atual,
+			'grade' => $grade,
+            'primeiroDiaDaSemana' => $primeiroDiaDaSemana
 		]);
 	}
 

@@ -16,4 +16,6 @@ interface GradeRepositoryInterface {
 	public function getHorarioFuncionamentoPorLocalidadeByUser($user_id,$localidade_id);
 
 	public function getHorariosPorLocalidadeByUser($user_id,$localidade_id,$dia_semana,$turno);
+
+	public function getHorariosPorLocalidadeByUserAndHorario($user_id, $localidade_id, $dia_semana, $turno, $horario);
 } 

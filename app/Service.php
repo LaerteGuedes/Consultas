@@ -16,7 +16,7 @@ abstract class Service implements ServiceInterface
 
 	public function findBy($field,$value,$column = ['*'])
 	{
-		return $this->repository->where($field,'=',$value)->first($column);
+		return $this->repository->findBy($field, $value, $column);
 	}
 
 	public function all($columns=['*'])

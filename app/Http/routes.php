@@ -143,6 +143,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get('/listar/especialidades',['uses'=>'ServerController@listarEspecialidades']);
     Route::get('/listar/ramos',['uses'=>'ServerController@listarRamos']);
     Route::get("/listar/localidades", ['as' => "listar.localidades", 'uses' => "ServerController@listarLocalidades"]);
+    Route::get("/localidade/{id}", ['as' => "api.localidade", 'uses' => "ServerController@localidadeDetalhe"]);
     Route::get('/pesquisar/profissional',['uses'=>'ServerController@pesquisarProfissional']);
     Route::get('/logar/usuario',['uses'=>'ServerController@logarUsuario']);
     Route::get('/registrar/novo/usuario',['uses'=>'ServerController@registrarNovoUsuario']);
@@ -151,7 +152,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get('/avaliar/profissional',['uses'=>'ServerController@avaliarProfissional']);
     Route::get('/enviar/comentario',['uses'=>'ServerController@enviarComentario']);
     Route::post("/registrar/editar/usuario", ['uses' => 'ServerController@editarUsuario']);
-    Route::get("/agendar/horarios", ['uses' => 'ServerController@agendar']);
+    Route::get("/agendar/horarios/{user_id}/{localidade_id}", ['uses' => 'ServerController@agendar']);
     Route::post("/confirmar/agendamento", ['uses' => 'ServerController@confirmar']);
     Route::get("/avisos", ['uses' => 'ServerController@avisos']);
     Route::get("/buscaavancada", ['uses' => 'ServerController@buscaAvancada']);

@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
+use App\Contracts\ConsultaRepositoryInterface;
+use App\Custom\Debug;
 use App\Service;
 use App\Contracts\GradeRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class GradeService extends Service
 {
-
 
     protected $turnos = [
 
@@ -17,13 +18,55 @@ class GradeService extends Service
         'n' => 'noite'
     ];
 
-    public function __construct(GradeRepositoryInterface $gradeRepositoryInterface)
+    protected $consultaRepository;
+
+    public function __construct(GradeRepositoryInterface $gradeRepository, ConsultaRepositoryInterface $consultaRepository)
     {
-        $this->repository = $gradeRepositoryInterface;
+        $this->repository = $gradeRepository;
+        $this->consultaRepository = $consultaRepository;
     }
     public function getHorariosPorLocalidadeByUser($user_id,$localidade_id,$dia_semana,$turno)
     {
-        return  $this->repository->getHorariosPorLocalidadeByUser($user_id,$localidade_id,$dia_semana,$turno);
+        return $this->repository->getHorariosPorLocalidadeByUser($user_id,$localidade_id,$dia_semana,$turno);
+    }
+
+    public function getHorariosAtualPorLocalidadeByUser($user_id, $localidade_id, $dia_semana, $data, $turno){
+        $data_atual = date('Y-m-d');
+        $horario_atual = date('H:i:s');
+
+        if ($data >= $data_atual){
+            if ($data == $data_atual){
+                $horarios = $this->repository->getHorariosPorLocalidadeByUserAndHorario($user_id, $localidade_id, $dia_semana, $turno, $horario_atual);
+            }else{
+                $horarios = $this->repository->getHorariosPorLocalidadeByUser($user_id, $localidade_id, $dia_semana, $turno);
+            }
+
+            if ($horarios->count()){
+                foreach ($horarios as $key => $horario) {
+                    $is_agendado = $this->checkIfAgendado([
+                        'profissional_id' => $user_id,
+                        'localidade_id'   => $localidade_id,
+                        'data_agenda'     => $data,
+                        'horario_agenda'  => $horario->horario
+                    ]);
+                    if ($is_agendado){
+                        $horarios->pull($key);
+                    }
+                }
+
+                return $horarios->toArray();
+            }
+
+            return false;
+        }
+
+        return false;
+
+    }
+
+    public function checkIfAgendado($data)
+    {
+        return $this->consultaRepository->checkIfAgendado($data);
     }
 
     public function getHorarioFuncionamentoPorLocalidadeByUser($user_id,$localidade_id)

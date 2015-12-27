@@ -33,6 +33,17 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
             ->get();
     }
 
+    public function getHorariosPorLocalidadeByUserAndHorario($user_id, $localidade_id, $dia_semana, $turno, $horario)
+    {
+        return $this->model->where('user_id',$user_id)
+            ->where('localidade_id',$localidade_id)
+            ->where('dia_semana',$dia_semana)
+            ->where('turno',$turno)
+            ->where('horario', '>', $horario)
+            ->orderBy('horario','asc')
+            ->get();
+    }
+
     public function getHorarioFuncionamentoPorLocalidadeByUser($user_id,$localidade_id)
     {
         $dias_semanais = $this->model->getDiasSemanais();
