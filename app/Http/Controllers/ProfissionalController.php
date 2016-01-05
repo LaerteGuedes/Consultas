@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Custom\Debug;
 use App\Custom\Util;
+use App\Services\CidadeService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -29,6 +30,7 @@ class ProfissionalController extends Controller
     protected $localidadeService;
     protected $consultaService;
     protected $comentarioService;
+    protected $cidadeService;
 
     public function __construct(EstadoService $estadoService,
                                 UserService $userService,
@@ -37,7 +39,8 @@ class ProfissionalController extends Controller
                                 LocalidadeService $localidadeService,
                                 CalendarService $calendarService,
                                 ConsultaService $consultaService,
-                                ComentarioService $comentarioService)
+                                ComentarioService $comentarioService,
+                                CidadeService $cidadeService)
     {
         $this->estadoService        = $estadoService;
         $this->userService          = $userService;
@@ -47,6 +50,7 @@ class ProfissionalController extends Controller
         $this->calendarService      = $calendarService;
         $this->consultaService      = $consultaService;
         $this->comentarioService    = $comentarioService;
+        $this->cidadeService        = $cidadeService;
     }
 
 
@@ -78,6 +82,7 @@ class ProfissionalController extends Controller
         $localidade = $this->localidadeService->find($localidade_id);
         $diaDeHoje = date('Y-m-d');
         $horarioAtual = date('h:i:s');
+        $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelemList();
 
         $diasSemanais = $this->gradeService->getDiasSemanais();
 
@@ -98,13 +103,14 @@ class ProfissionalController extends Controller
             'semana_atual' => $semanaAtual,
             'turnos'       => $turnos,
             'dia_de_hoje'  => $diaDeHoje,
-            'horario_atual' => $horarioAtual
+            'horario_atual' => $horarioAtual,
+            'cidades' => $cidades
         ]);
     }
 
     public function confirmar(Request $request)
     {
-
+        Debug::dump($request->all());
         $usuario      = $this->userService->find($request->get('user_id'));
         $profissional = $this->userService->find($request->get('profissional_id'));
         $localidade   = $this->localidadeService->find($request->get('localidade_id'));

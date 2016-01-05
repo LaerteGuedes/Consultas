@@ -78,7 +78,7 @@ class ServerController extends Controller
 	}
 
     public function listarLocalidades(Request $request){
-        $localidades = $this->localidadeService->findBy('user_id', $request->get('id'));
+        $localidades = $this->localidadeService->getComplete($request->get('id'));
         return response()->json(['localidades' => $localidades]);
     }
 

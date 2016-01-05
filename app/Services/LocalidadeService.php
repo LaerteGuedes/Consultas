@@ -32,6 +32,11 @@ class LocalidadeService extends Service
         return $this->repository->listForComboByUser($id);
     }
 
+    public function getComplete($id)
+    {
+        return $this->repository->getComplete($id);
+    }
+
     public function create(array $data)
     {
         if(isset($data['preco']) && $data['preco'] !== '0,00')

@@ -2,6 +2,7 @@
 
 
 @inject('estadoService','App\Services\EstadoService')
+@inject('cidadeService','App\Services\CidadeService')
 @inject('especialidadeService','App\Services\EspecialidadeService')
 
 <div class="panel panel-default filtro">
@@ -29,13 +30,11 @@
         </div>
 
         <div class="form-group">
-
-            {!! Form::select('uf' , $estadoService->listCombo() , isset($_GET['uf']) ? $_GET['uf'] : null , ['class'=>'form-control','data-title'=>'Selecione o Estado','id'=>'uf'] ) !!}
+            {!!  Form::select('uf' , array('PA') , 'PA' , ['class'=>'form-control','id'=>'uf', 'disabled' => true] ) !!}
         </div>
 
         <div class="form-group">
-            <select name="cidade_id" id="cidade_id" class="form-control" data-title="Selecione a Cidade">
-            </select>
+            {!!  Form::select('cidade_id' , isset($cidades) ? $cidades : array(), isset($_GET['cidade_id']) ? $_GET['cidade_id'] : null , ['class'=>'form-control','id'=>'uf'] ) !!}
         </div>
 
         <div class="form-group">

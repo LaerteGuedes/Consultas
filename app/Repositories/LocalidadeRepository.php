@@ -11,6 +11,7 @@ namespace App\Repositories;
 use App\Contracts\LocalidadeRepositoryInterface;
 use App\Repository;
 use App\Localidade;
+use Illuminate\Support\Facades\DB;
 
 
 class LocalidadeRepository extends Repository implements LocalidadeRepositoryInterface
@@ -23,6 +24,19 @@ class LocalidadeRepository extends Repository implements LocalidadeRepositoryInt
     public function getTipos()
     {
         return $this->model->getTipos();
+    }
+
+    public function getComplete($id)
+    {
+        return DB::table('localidades')
+                    ->join('cidades', 'localidades.cidade_id', '=', 'cidades.id')
+                    ->join('bairros', 'localidades.bairro_id', '=', 'bairros.id')
+                    ->where('localidades.user_id', '=', $id)
+                    ->select('localidades.id as localidade_id',
+                        'bairros.id as bairro_id', 'cidades.id as cidade_id',
+                        'logradouro', 'bairros.nome as bairro_nome', 'cidades.nome as cidade_nome',
+                        'numero', 'preco', 'tipo')
+                    ->get();
     }
 
     public function paginateByUser($id)

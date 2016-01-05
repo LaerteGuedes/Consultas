@@ -27,11 +27,8 @@
 
                     <div class="opacity">
                         <div class="form-group">
-
                             <div class="row">
-
                                 <div class="col-lg-3 col-xs-12">
-
                                     {!!  Form::select('uf' , array('PA') , 'PA' , ['class'=>'form-control','id'=>'uf', 'disabled' => true] ) !!}
                                 </div>
                                 <div class="col-lg-3 col-xs-12">
@@ -41,23 +38,16 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="col-lg-3 col-xs-12">
                                     {!! Form::select('especialidade_id' , $especialidades , null , ['class'=>'form-control','data-title'=>'Tipo de Profissional','id'=>'especialidade_id'] ) !!}
                                 </div>
-
                                 <div class="col-lg-3 col-xs-12">
                                     <select name="ramo_id" id="ramo_id" class="form-control" data-title="Selecione a Especialidade"></select>
                                 </div>
-
                             </div>
-
                         </div>
-
                         <div class="form-group">
-
                             <div class="row">
-
                                 <div class="col-lg-9 col-xs-12">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-user-md"></i></div>
@@ -75,28 +65,17 @@
                                     {{--</select>--}}
                                     <input class="form-control" type="text" name="bairro_nome" placeholder="Bairro">
                                 </div>
-
-
-
                             </div>
-
                         </div>
-
                     </div>
-
                     <div class="form-group text-right ">
-
                         <button class="btn btn-primary btn-lg top10">
                             <i class="glyphicon glyphicon-search"></i>
                             PROCURAR
                         </button>
-
                     </div>
-
                     {!! Form::close() !!}
-
                 </div>
-
             </div>
         </div>
     </section>
