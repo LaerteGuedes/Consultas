@@ -35,8 +35,21 @@ class LocalidadeRepository extends Repository implements LocalidadeRepositoryInt
                     ->select('localidades.id as localidade_id',
                         'bairros.id as bairro_id', 'cidades.id as cidade_id',
                         'logradouro', 'bairros.nome as bairro_nome', 'cidades.nome as cidade_nome',
-                        'numero', 'preco', 'tipo')
+                        'numero', 'preco', 'tipo', 'cep')
                     ->get();
+    }
+
+    public function getCompleteFirst($id)
+    {
+        return DB::table('localidades')
+            ->join('cidades', 'localidades.cidade_id', '=', 'cidades.id')
+            ->join('bairros', 'localidades.bairro_id', '=', 'bairros.id')
+            ->where('localidades.user_id', '=', $id)
+            ->select('localidades.id as localidade_id',
+                'bairros.id as bairro_id', 'cidades.id as cidade_id',
+                'logradouro', 'bairros.nome as bairro_nome', 'cidades.nome as cidade_nome',
+                'numero', 'preco', 'tipo', 'cep', 'localidades.uf')
+            ->first();
     }
 
     public function paginateByUser($id)

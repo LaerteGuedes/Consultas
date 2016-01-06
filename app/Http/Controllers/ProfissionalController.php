@@ -110,7 +110,6 @@ class ProfissionalController extends Controller
 
     public function confirmar(Request $request)
     {
-        Debug::dump($request->all());
         $usuario      = $this->userService->find($request->get('user_id'));
         $profissional = $this->userService->find($request->get('profissional_id'));
         $localidade   = $this->localidadeService->find($request->get('localidade_id'));

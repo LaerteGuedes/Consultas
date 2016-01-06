@@ -37,6 +37,11 @@ class LocalidadeService extends Service
         return $this->repository->getComplete($id);
     }
 
+    public function getCompleteFirst($id)
+    {
+        return $this->repository->getCompleteFirst($id);
+    }
+
     public function create(array $data)
     {
         if(isset($data['preco']) && $data['preco'] !== '0,00')
