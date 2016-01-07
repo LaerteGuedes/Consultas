@@ -372,6 +372,18 @@ class ServerController extends Controller
         ]);
     }
 
+    public function consultas(Request $request)
+    {
+        $id = $request->get('id');
+        $futuras    = $this->consultaService->listarConsultasFuturasByUserWithProfissional($id);
+        $historicos = $this->consultaService->listarConsultasHistoricoByUserWithProfissional($id);
+
+        return response()->json([
+            'futuras'    => $futuras,
+            'historicos' => $historicos
+        ]);
+    }
+
     public function agendar($user_id, $localidade_id, Request $request)
     {
         $user =  $this->userService->find($user_id);

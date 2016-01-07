@@ -24,8 +24,6 @@ class ConsultaController extends Controller
 
     public function index(Request $request)
     {
-
-
     	if(\Auth::user()->role->name == 'Cliente')
     	{
     		$futuras    = $this->consultaService->listarConsultasFuturasByUser(\Auth::user()->id);

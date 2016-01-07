@@ -9,7 +9,7 @@ use App\Repository;
 use App\Consulta;
 use App\Agenda;
 use App\Aviso;
-
+use Illuminate\Support\Facades\DB;
 
 
 class ConsultaRepository extends Repository implements ConsultaRepositoryInterface
@@ -18,8 +18,8 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
     protected $avisoRepositoy;
 
     public function __construct(Consulta $consulta,
-                                 Agenda $agenda,
-                                 Aviso $aviso)
+                                Agenda $agenda,
+                                Aviso $aviso)
     {
         $this->model  = $consulta;
         $this->agenda = $agenda;
@@ -30,48 +30,48 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
     {
         $data = [];
 
-            foreach($consultas as $consulta)
+        foreach($consultas as $consulta)
+        {
+            $obj = new \stdClass();
+            $obj->id = $consulta->id;
+            $obj->user_id = $consulta->user_id;
+            $obj->profissional_id = $consulta->profissional_id;
+            $obj->localidade_id = $consulta->localidade_id;
+            $obj->data_agenda = $consulta->data_agenda;
+            $obj->horario_agenda = $consulta->horario_agenda;
+            $obj->pessoal = $consulta->pessoal;
+            $obj->outro = $consulta->outro;
+            $obj->nota = $consulta->nota;
+            $obj->status = $consulta->status;
+            $obj->paciente = $consulta->user->name . ' ' . $consulta->user->lastname;
+            $obj->profissional = $consulta->profissional->name . ' ' . $consulta->profissional->lastname;
+            $obj->profissao = $consulta->profissional->especialidade->especialidade->nome;
+            if($consulta->profissional->ramos()->count())
             {
-                $obj = new \stdClass();
-                $obj->id = $consulta->id;
-                $obj->user_id = $consulta->user_id;
-                $obj->profissional_id = $consulta->profissional_id;
-                $obj->localidade_id = $consulta->localidade_id;
-                $obj->data_agenda = $consulta->data_agenda;
-                $obj->horario_agenda = $consulta->horario_agenda;
-                $obj->pessoal = $consulta->pessoal;
-                $obj->outro = $consulta->outro;
-                $obj->nota = $consulta->nota;
-                $obj->status = $consulta->status;
-                $obj->paciente = $consulta->user->name . ' ' . $consulta->user->lastname;
-                $obj->profissional = $consulta->profissional->name . ' ' . $consulta->profissional->lastname;
-                $obj->profissao = $consulta->profissional->especialidade->especialidade->nome;
-                if($consulta->profissional->ramos()->count())
+                foreach($consulta->profissional->ramos as $ramo)
                 {
-                    foreach($consulta->profissional->ramos as $ramo)
-                    {
-                        $ramos[] =  $ramo->ramo->nome;
-                    }
-
-                    $obj->profissional_ramo = implode(', ',$ramos);
-                }else
-                {
-                    $obj->profissional_ramo = '';
+                    $ramos[] =  $ramo->ramo->nome;
                 }
-                $obj->logradouro =  $consulta->localidade->logradouro;
-                $obj->numero =  $consulta->localidade->numero;
-                $obj->complemento = $consulta->localidade->complemento;
-                $obj->bairro =  $consulta->localidade->bairro->nome;
-                $obj->cep = $consulta->localidade->cep;
-                $obj->cidade = $consulta->localidade->cidade->nome;
-                $obj->uf = $consulta->localidade->uf;
 
-                $data[$consulta->data_agenda][] = $obj;
-
-                unset($obj);
+                $obj->profissional_ramo = implode(', ',$ramos);
+            }else
+            {
+                $obj->profissional_ramo = '';
             }
+            $obj->logradouro =  $consulta->localidade->logradouro;
+            $obj->numero =  $consulta->localidade->numero;
+            $obj->complemento = $consulta->localidade->complemento;
+            $obj->bairro =  $consulta->localidade->bairro->nome;
+            $obj->cep = $consulta->localidade->cep;
+            $obj->cidade = $consulta->localidade->cidade->nome;
+            $obj->uf = $consulta->localidade->uf;
 
-            return $data;
+            $data[$consulta->data_agenda][] = $obj;
+
+            unset($obj);
+        }
+
+        return $data;
     }
 
     public function listarConsultasByProfissional($id,$data)
@@ -79,19 +79,19 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
         $res =  [];
 
         $consultas =  $this->model->where('profissional_id',$id)
-                            ->where(\DB::raw("month(data_agenda)"),$data['mes'])
-                            ->where(\DB::raw("year(data_agenda)"),$data['ano'])
-                            ->orderBy('data_agenda','asc')
-                            ->get();
+            ->where(\DB::raw("month(data_agenda)"),$data['mes'])
+            ->where(\DB::raw("year(data_agenda)"),$data['ano'])
+            ->orderBy('data_agenda','asc')
+            ->get();
 
         if($consultas->count())
         {
             $res = $this->formatDataConsulta($consultas);
-        }        
+        }
 
         //dd($res);  
 
-        return $res;        
+        return $res;
     }
 
     public function confirmarConsulta($data)
@@ -103,23 +103,23 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
         {
             $data['status'] = 'CONFIRMADA';
             $aviso = [
-                    'tipo' => 'SUCESSO',
-                    'nota' => 'consulta confirmada com sucesso',
-                    'consulta_id' => $data['consulta_id'],
-                    'profissional_id' => $consulta->profissional_id,
-                    'cliente_id' => $consulta->user_id
-                ];
+                'tipo' => 'SUCESSO',
+                'nota' => 'consulta confirmada com sucesso',
+                'consulta_id' => $data['consulta_id'],
+                'profissional_id' => $consulta->profissional_id,
+                'cliente_id' => $consulta->user_id
+            ];
 
         }elseif($data['resposta']=='nao')
         {
             $data['status'] = 'CANCELADA';
             $aviso = [
-                    'tipo' => 'ERROR',
-                    'nota' => 'consulta cancelada',
-                    'consulta_id' => $data['consulta_id'],
-                    'profissional_id' => $consulta->profissional_id,
-                    'cliente_id' => $consulta->user_id
-                ];
+                'tipo' => 'ERROR',
+                'nota' => 'consulta cancelada',
+                'consulta_id' => $data['consulta_id'],
+                'profissional_id' => $consulta->profissional_id,
+                'cliente_id' => $consulta->user_id
+            ];
         }
 
         $this->aviso->create($aviso);
@@ -131,18 +131,27 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
     {
 
         $data['status'] = 'REALIZADA';
-        
+
         return $this->update($data['consulta_id'],$data);
     }
 
     public function listarConsultasHistoricoByUser($id)
     {
-
         return $this->model->where('user_id',$id)
-                            ->where('status','<>','AGUARDANDO')
-                            ->orderBy('data_agenda','desc')
-                            ->get();
+            ->where('status','<>','AGUARDANDO')
+            ->orderBy('data_agenda','desc')
+            ->get();
+    }
 
+    public function listarConsultasHistoricoByUserWithProfissional($id)
+    {
+        return DB::table('consultas')
+            ->join('users', 'consultas.profissional_id', '=', 'users.id')
+            ->where('user_id', $id)
+            ->where('status', '<>', 'AGUARDANDO')
+            ->where('data_agenda', '>', date('Y-m-d'))
+            ->orderBy('data_agenda','desc')
+            ->get();
     }
 
     public function countAgendadas()
@@ -163,24 +172,31 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
     public function listarConsultasFuturasByUser($id)
     {
         return $this->model->where('user_id',$id)
-                            ->where('status','AGUARDANDO')
-                            ->where('data_agenda','>',date('Y-m-d'))
-                            ->orderBy('data_agenda','asc')
-                            ->get();
+            ->where('status','AGUARDANDO')
+            ->where('data_agenda','>',date('Y-m-d'))
+            ->orderBy('data_agenda','asc')
+            ->get();
     }
 
-       public function getTotalConsultasFuturasByUser($id)
-     {
+    public function listarConsultasFuturasByUserWithProfissional($id)
+    {
+        return DB::table('consultas')
+            ->join('users', 'consultas.profissional_id', '=', 'users.id')
+            ->where('user_id', $id)
+            ->where('status', 'AGUARDANDO')
+            ->where('data_agenda', '>', date('Y-m-d'))
+            ->orderBy('data_agenda','asc')
+            ->get();
+    }
 
+    public function getTotalConsultasFuturasByUser($id)
+    {
         return $this->model->where('profissional_id',$id)
-                            ->where('status','AGUARDANDO')
-                            ->where('data_agenda','>',date('Y-m-d'))
-                            ->orderBy('data_agenda','asc')
-                            ->count();
-
-                     
-
-     }
+            ->where('status','AGUARDANDO')
+            ->where('data_agenda','>',date('Y-m-d'))
+            ->orderBy('data_agenda','asc')
+            ->count();
+    }
 
     public function checkIfAgendado($data)
     {
@@ -215,10 +231,10 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
                         'cliente'     => $consulta->user->name . ' ' . $consulta->user->lastname,
                         'date'        => $agenda->data_agenda,
                         'local'       => sprintf("%s %s, %s, %s-%s",$agenda->localidade->logradouro,
-                                                                  $agenda->localidade->numero,
-                                                                  $agenda->localidade->bairro->nome,
-                                                                    $agenda->localidade->cidade->nome,
-                                                                    $agenda->localidade->uf),
+                            $agenda->localidade->numero,
+                            $agenda->localidade->bairro->nome,
+                            $agenda->localidade->cidade->nome,
+                            $agenda->localidade->uf),
                         'title'       => date("d/m/Y",strtotime($agenda->data_agenda)) . ' - ' . date("H:i",strtotime($agenda->horario_agenda))
 
                     ];

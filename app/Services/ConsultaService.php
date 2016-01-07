@@ -35,15 +35,36 @@ class ConsultaService extends Service
         return $this->repository->listAllForCalendarByUser($id);
     }
 
-    public function listarConsultasFuturasByUser($id)
+    public function listarConsultasFuturasByUserWithProfissional($id)
     {
-        return $this->repository->listarConsultasFuturasByUser($id);
+        return $this->repository->listarConsultasFuturasByUserWithProfissional($id);
 
+    }
+
+    public function listarConsultasFuturasByWithUser($id)
+    {
+        return $this->repository->listarConsultasFuturasByWithUser($id);
+    }
+
+    public function listarConsultasHistoricoByUserWithProfissional($id)
+    {
+        return $this->repository->listarConsultasHistoricoByUserWithProfissional($id);
     }
 
     public function listarConsultasHistoricoByUser($id)
     {
         return $this->repository->listarConsultasHistoricoByUser($id);
+    }
+
+    public function listarConsultasHistoricoByWithUser($id)
+    {
+        return DB::table('consultas')
+            ->join('users', 'consultas.profissional_id', '=', 'users.id')
+            ->where('user_id', $id)
+            ->where('status', '<>', 'AGUARDANDO')
+            ->where('data_agenda', '>', date('Y-m-d'))
+            ->orderBy('data_agenda','desc')
+            ->get();
     }
 
 
@@ -86,5 +107,7 @@ class ConsultaService extends Service
         return $this->repository->getTotalConsultasFuturasByUser($id);
      
      }
+
+
 
 } 

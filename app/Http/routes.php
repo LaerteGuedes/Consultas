@@ -156,6 +156,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::post("/confirmar/agendamento", ['uses' => 'ServerController@confirmar']);
     Route::post("/finalizar/agendamento", ['uses' => 'ServerController@finalizar']);
     Route::get("/avisos", ['uses' => 'ServerController@avisos']);
+    Route::get("/consultas", ['uses' => "ServerController@consultas"]);
     Route::get("/buscaavancada", ['uses' => 'ServerController@buscaAvancada']);
     Route::get('/usuario/detalhe', ['uses' => 'ServerController@usuarioDetalhe']);
 });
