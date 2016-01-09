@@ -135,8 +135,6 @@ Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
 
 });
 
-
-
 Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get('/listar/estados',['uses'=>'ServerController@listarEstados']);
     Route::get('/listar/cidades',['uses'=>'ServerController@listarCidades']);
@@ -157,6 +155,9 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::post("/finalizar/agendamento", ['uses' => 'ServerController@finalizar']);
     Route::get("/avisos", ['uses' => 'ServerController@avisos']);
     Route::get("/consultas", ['uses' => "ServerController@consultas"]);
+    Route::get("/consultas/datas", ['as' => "api.consultas.datas", 'uses' => "ServerController@consultasDatas"]);
+    Route::get("/consultas/historico", ['uses' => "ServerController@consultasByDataHistorico"]);
+    Route::get("/consultas/futuras", ['uses' => "ServerController@consultasByDataFuturas"]);
     Route::get("/buscaavancada", ['uses' => 'ServerController@buscaAvancada']);
     Route::get('/usuario/detalhe', ['uses' => 'ServerController@usuarioDetalhe']);
 });

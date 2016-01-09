@@ -189,6 +189,26 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
             ->get();
     }
 
+    public function listarConsultasDatasFuturas($id)
+    {
+        return $this->model->where('user_id',$id)->select('data_agenda')
+            ->where('status','AGUARDANDO')
+            ->where('data_agenda','>',date('Y-m-d'))
+            ->groupBy('data_agenda')
+            ->get();
+    }
+
+    public function listarConsultasDatasHistorico($id)
+    {
+        return $this->model->where('user_id',$id)->select('data_agenda')
+            ->where('status', '<>' ,'AGUARDANDO')
+            ->where('data_agenda','<',date('Y-m-d'))
+            ->groupBy('data_agenda')
+            ->get();
+    }
+
+
+
     public function getTotalConsultasFuturasByUser($id)
     {
         return $this->model->where('profissional_id',$id)
@@ -196,6 +216,34 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
             ->where('data_agenda','>',date('Y-m-d'))
             ->orderBy('data_agenda','asc')
             ->count();
+    }
+
+    public function listarConsultasHistoricoByUserAndDate($id, $data_agenda)
+    {
+        return DB::table('consultas')
+            ->select('users.id as profissional_id', 'users.cid', 'users.thumbnail', 'consultas.data_agenda',
+                'consultas.status', 'consultas.horario_agenda', 'users.name', 'users.lastname')
+            ->join('users', 'consultas.profissional_id', '=', 'users.id')
+            ->where('user_id', $id)
+            ->where('data_agenda', $data_agenda)
+            ->where('status', '<>', 'AGUARDANDO')
+            ->where('data_agenda', '>', date('Y-m-d'))
+            ->orderBy('data_agenda','desc')
+            ->get();
+    }
+
+    public function listarConsultasFuturasByUserAndDate($id, $data_agenda)
+    {
+        return DB::table('consultas')
+            ->select('users.id as profissional_id', 'users.cid', 'users.thumbnail', 'consultas.data_agenda',
+                'consultas.status', 'consultas.horario_agenda', 'users.name', 'users.lastname')
+            ->join('users', 'consultas.profissional_id', '=', 'users.id')
+            ->where('user_id', $id)
+            ->where('data_agenda', $data_agenda)
+            ->where('status', 'AGUARDANDO')
+            ->where('data_agenda', '>', date('Y-m-d'))
+            ->orderBy('data_agenda','asc')
+            ->get();
     }
 
     public function checkIfAgendado($data)

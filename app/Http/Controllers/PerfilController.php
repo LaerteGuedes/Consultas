@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Debug;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -45,7 +46,6 @@ class PerfilController extends Controller
 
     public function update($id, UpdatePerfilRequest $request)
     {
-
         if($this->userService->updatePerfil($id, $request))
         {
             return redirect()->route('dashboard')->with("message",$this->messageService->getMessage('success'));

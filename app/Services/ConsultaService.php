@@ -38,7 +38,26 @@ class ConsultaService extends Service
     public function listarConsultasFuturasByUserWithProfissional($id)
     {
         return $this->repository->listarConsultasFuturasByUserWithProfissional($id);
+    }
 
+    public function listarConsultasDatasFuturas($id)
+    {
+        return $this->repository->listarConsultasDatasFuturas($id);
+    }
+
+    public function listarConsultasDatasHistorico($id)
+    {
+        return $this->repository->listarConsultasDatasHistorico($id);
+    }
+
+    public function listarConsultasHistoricoByUserAndDate($id, $data_agenda)
+    {
+        return $this->repository->listarConsultasHistoricoByUserAndDate($id, $data_agenda);
+    }
+
+    public function listarConsultasFuturasByUserAndDate($id, $data_agenda)
+    {
+        return $this->repository->listarConsultasFuturasByUserAndDate($id, $data_agenda);
     }
 
     public function listarConsultasFuturasByWithUser($id)

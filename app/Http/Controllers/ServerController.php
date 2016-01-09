@@ -375,8 +375,46 @@ class ServerController extends Controller
     public function consultas(Request $request)
     {
         $id = $request->get('id');
+
         $futuras    = $this->consultaService->listarConsultasFuturasByUserWithProfissional($id);
         $historicos = $this->consultaService->listarConsultasHistoricoByUserWithProfissional($id);
+
+        return response()->json([
+            'futuras'    => $futuras,
+            'historicos' => $historicos
+        ]);
+    }
+
+    public function consultasByDataFuturas(Request $request)
+    {
+        $id = $request->get('id');
+        $date = $request->get('data_agenda');
+
+        $futuras = $this->consultaService->listarConsultasFuturasByUserAndDate($id, $date);
+
+        return response()->json([
+            'futuras' => $futuras
+        ]);
+    }
+
+    public function consultasByDataHistorico(Request $request)
+    {
+        $id = $request->get('id');
+        $date = $request->get('data_agenda');
+
+        $historico    = $this->consultaService->listarConsultasHistoricoByUserAndDate($id, $date);
+
+        return response()->json([
+            'historico'    => $historico
+        ]);
+    }
+
+    public function consultasDatas(Request $request)
+    {
+        $id = $request->get('id');
+
+        $futuras    = $this->consultaService->listarConsultasDatasFuturas($id);
+        $historicos = $this->consultaService->listarConsultasDatasHistorico($id);
 
         return response()->json([
             'futuras'    => $futuras,
