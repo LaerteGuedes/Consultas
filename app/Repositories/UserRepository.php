@@ -251,7 +251,8 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
                     'bairro'      => $local->bairro->nome,
                     'cep'         => $local->cep,
                     'cidade'      => $local->cidade->nome,
-                    'uf'          => $local->uf
+                    'uf'          => $local->uf,
+                    'preco'       => $local->preco
                 ];
             }
         }
@@ -270,7 +271,8 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
                     'bairro'      => $local->bairro->nome,
                     'cep'         => $local->cep,
                     'cidade'      => $local->cidade->nome,
-                    'uf'          => $local->uf
+                    'uf'          => $local->uf,
+                    'preco'       => $local->preco
                 ];
             }
         }

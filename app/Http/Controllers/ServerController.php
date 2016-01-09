@@ -427,7 +427,7 @@ class ServerController extends Controller
         $user =  $this->userService->find($user_id);
         $localidade = $this->localidadeService->find($localidade_id);
         $dias_semanais = $this->gradeService->getDiasSemanais();
-        $turnos        = $this->gradeService->getTurnos();
+        $turnos = $this->gradeService->getTurnos();
         if ($request->get('next')) {
             $semana_atual = $this->calendarService->getNextSemana($request->get('next'));
         }
