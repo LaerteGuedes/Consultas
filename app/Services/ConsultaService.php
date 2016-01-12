@@ -70,6 +70,11 @@ class ConsultaService extends Service
         return $this->repository->listarConsultasHistoricoByUserWithProfissional($id);
     }
 
+    public function listarConsultasFuturasByUser($id)
+    {
+        return $this->repository->listarConsultasFuturasByUser($id);
+    }
+
     public function listarConsultasHistoricoByUser($id)
     {
         return $this->repository->listarConsultasHistoricoByUser($id);

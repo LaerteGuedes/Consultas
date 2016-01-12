@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Debug;
 use App\Services\CidadeService;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,7 @@ use App\Services\UserService;
 use App\Services\EspecialidadeService;
 use App\Services\ConsultaService;
 use App\Services\AvaliacaoService;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -41,7 +43,6 @@ class DashboardController extends Controller
 
     public function index()
     {
-
     	$estados = array("PA" => "PA");
 		$cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelem();
     	$especialidades = $this->especialidadeService->listCombo();
@@ -49,14 +50,11 @@ class DashboardController extends Controller
     	$totalAvaliacao =  $this->avaliacaoService->getAvaliacaoProfissional( \Auth::user()->id );
 
         return view('dashboard.index')->with([
-
         		'estados' => $estados,
 				'cidades' => $cidades,
         		'especialidades' => $especialidades,
         		'total_consultas' => $totalConsultasFuturas,
         		'total_avaliacao'  => $totalAvaliacao
-
-
         	]);
     }
 }

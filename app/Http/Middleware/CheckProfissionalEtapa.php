@@ -22,7 +22,7 @@ class CheckProfissionalEtapa
 
     public function routeEtapa($request)
     {
-        $user = \Auth::user();
+        $user = Auth::user();
 
         if ($user->role_id == Role::CLIENTE){
             return false;

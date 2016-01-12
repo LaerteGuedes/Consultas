@@ -86,6 +86,8 @@ class HomeController extends Controller
     public function registerUser(RegisterUserRequest $request)
     {
         $user_id = $this->userService->register($request->all());
+
+
         if ($request->has('especialidade_id')){
             $params = $request->all();
             $params['user_id'] = $user_id;
@@ -95,6 +97,7 @@ class HomeController extends Controller
             $planos = array($request->input('id_plano'));
             $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
             $this->mailService->sendBoasVindas(Auth::user());
+
             return redirect()->route('dashboard');
         }
         return back()->withErrors([$this->messageService->getMessage('error')]);

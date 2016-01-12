@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Debug;
 use App\Http\Requests\UpdatePerfilRequest;
 use App\Role;
 use App\Services\AssinaturaService;

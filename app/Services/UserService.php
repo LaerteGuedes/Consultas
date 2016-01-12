@@ -6,6 +6,7 @@ use App\Assinatura;
 use App\Custom\Debug;
 use App\Service;
 use App\Contracts\UserRepositoryInterface;
+use Illuminate\Support\Facades\Session;
 
 class UserService extends Service
 {
@@ -112,6 +113,7 @@ class UserService extends Service
 
             ];
 
+            Session::flush();
             \Auth::attempt($credentials);
             return true;
 
