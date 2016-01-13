@@ -13,7 +13,7 @@ class Localidade extends Model
                             'complemento','cep','tipo','preco'
                             ];
 
-    protected $tipos = ['DOMICILIO'=>'Domiciliar ( Home Care )','CONSULTORIO'=>'Consultório'];
+    protected $tipos = ['DOMICILIO'=>'Domiciliar ( Home Care )','CONSULTORIO'=>'Endereço Fixo'];
 
     public function getTipos()
     {

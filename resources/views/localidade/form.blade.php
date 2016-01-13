@@ -144,7 +144,6 @@
 
         $(function(){
             $("#cep").on("change", function(){
-                console.log("teste 40");
                 var value = $(this).val();
                 var data = {cep: value, formato: 'jsonp'};
 
@@ -191,7 +190,7 @@
 
                 if(self.val()==='CONSULTORIO')
                 {
-                    preco.parent('div').hide();
+                   // preco.parent('div').hide();
                     logradouro.parent('div').show();
                     numero.parent('div').show();
                     complemento.parent('div').show();
@@ -199,7 +198,7 @@
 
                 }else
                 {
-                    preco.parent('div').show();
+                   // preco.parent('div').show();
                     logradouro.parent('div').hide();
                     numero.parent('div').hide();
                     complemento.parent('div').hide();
@@ -245,39 +244,39 @@
 
                 if(cidade != "")
                 {
-//                    $.get(url, function(response){
-//
-//                        $("#bairro").prop('disabled',false);
-//
-//                        $("#bairro").val('');
-//
-//                        $("#bairro_id").val('');
-//
-//                        $("#bairro").typeahead('destroy');
-//
-//                        $("#bairro").typeahead({
-//                            source : response.data,
-//                            autoSelect: true
-//                        });
-//
-//                        $("#bairro").change(function(){
-//
-//                            var that            = $(this);
-//                            var bairro_id   = $("#bairro_id");
-//                            var current         = that.typeahead('getActive');
-//
-//                            if( current.name === that.val() )
-//                            {
-//                                bairro_id.prop('disabled',false).val( current.id );
-//
-//                            }else{
-//
-//                                bairro_id.prop('disabled',true ).val('');
-//                            }
-//
-//                        });
-//
-//                    });
+                    $.get(url, function(response){
+
+                        $("#bairro").prop('disabled',false);
+
+                        $("#bairro").val('');
+
+                        $("#bairro_id").val('');
+
+                        $("#bairro").typeahead('destroy');
+
+                        $("#bairro").typeahead({
+                            source : response.data,
+                            autoSelect: true
+                        });
+
+                        $("#bairro").change(function(){
+
+                            var that            = $(this);
+                            var bairro_id   = $("#bairro_id");
+                            var current         = that.typeahead('getActive');
+
+                            if( current.name === that.val() )
+                            {
+                                bairro_id.prop('disabled',false).val( current.id );
+
+                            }else{
+
+                                bairro_id.prop('disabled',true ).val('');
+                            }
+
+                        });
+
+                    });
                 }
 
             });
