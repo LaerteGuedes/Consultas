@@ -24,7 +24,7 @@ class ServicoRequest extends Request
     public function rules()
     {
         return [
-           "nome" => "required|min:3|max:340"
+           "nome" => "required|min:3|max:340",
         ];
     }
 }

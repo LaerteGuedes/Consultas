@@ -59,7 +59,6 @@
                                                             'turno'         => $sigla_turno
                                                     ]);
                                             ?>
-
                                             <td>
                                                 <div class="lista-horarios">
                                                     @if($horarios->count() > 0)
@@ -73,7 +72,6 @@
                                                                 </li>
                                                             @endforeach
                                                         </ul>
-
                                                     @endif
                                                     @if($turno == 'manhã')
                                                         <?php $turnoStr = 'manha';?>
@@ -82,9 +80,7 @@
                                                     @endif
                                                     <button  type="button" class="btn btn-primary btn-xs add-horario-<?=$turnoStr;?>" data-localidade_id="{{ $localidade['id']}}" data-dia_semana="{{ $sigla_dia }}" data-turno="{{ $sigla_turno }}"> criar horário</button>
                                                 </div>
-
                                             </td>
-
                                         @endforeach
                                     </tr>
                                 @endforeach
@@ -107,7 +103,6 @@
                     @endif
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -462,6 +457,15 @@
                                     dia_semana:dia_semana,
                                     turno:turno
                                 }
+
+                                var horarioInicio = parseInt(data['hora_inicio']);
+                                var horarioFinal = parseInt(data['hora_final']);
+
+                                if (horarioInicio > horarioFinal){
+                                    alert("O horário de início de atendimento deve ser menor que o horário de fim!");
+                                    return false;
+                                }
+
                                 var url = "{{ url('/store/grade')  }}";
                                 $.post(url,data,function(response){
                                     if (response.message){

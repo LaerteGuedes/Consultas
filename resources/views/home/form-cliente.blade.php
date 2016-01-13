@@ -34,21 +34,23 @@
 
 <div class="form-group">
 
-    {!! Form::text('phone',old('phone'),['class'=>'form-control','placeholder'=>'Telefone','data-mask'=>'phone']) !!}
-
-</div>
-
-<div class="form-group">
-
     {!! Form::password('password', ['class'=>'form-control','placeholder'=>'Senha','maxlength'=>10]) !!}
-
     <p class="help-block">* digite pelo menos 5 caracteres e no máximo 10 caracteres.</p>
 
+
 </div>
+
 
 <div class="form-group">
 
     {!! Form::password('password_confirmation',['class'=>'form-control','placeholder'=>'Confirmar Senha','maxlength'=>10]) !!}
+
+</div>
+
+
+<div class="form-group">
+
+    {!! Form::text('phone',old('phone'),['class'=>'form-control','placeholder'=>'Telefone','data-mask'=>'phone']) !!}
 
 </div>
 

@@ -9,6 +9,7 @@
 namespace App\Repositories;
 
 use App\Contracts\LocalidadeRepositoryInterface;
+use App\Custom\Debug;
 use App\Repository;
 use App\Localidade;
 use Illuminate\Support\Facades\DB;
@@ -66,10 +67,14 @@ class LocalidadeRepository extends Repository implements LocalidadeRepositoryInt
         {
             foreach($locais as $local)
             {
+                if ($local->tipo == 'DOMICILIO'){
+                    $localTexto = sprintf("%s, %s, %s - %s" , $this->model->getTipos()[$local->tipo] ,$local->bairro->nome,$local->cidade->nome,$local->uf);
+                }else{
+                    $localTexto = sprintf("%s - %s %s, %s, %s - %s" , $this->model->getTipos()[$local->tipo] ,$local->logradouro,$local->numero,$local->bairro->nome,$local->cidade->nome,$local->uf);
+                }
                 $data[] = [
-
                     'id' => $local->id,
-                    'local' => sprintf("%s - %s %s, %s, %s - %s" , $this->model->getTipos()[$local->tipo] ,$local->logradouro,$local->numero,$local->bairro->nome,$local->cidade->nome,$local->uf)
+                    'local' => $localTexto
                 ];
             }
         }

@@ -55,10 +55,11 @@ class UserPlanoController extends Controller
 
         if (sizeof($planosPaiExistentes)){
             foreach ($vPlanos as $id => $plano){
-                $vPlanos[$id]['filhos'] = $this->planoService->findChildren($id)->toArray();
+                if ($vPlanos[$id]['checked'] == 'checked'){
+                    $vPlanos[$id]['filhos'] = $this->planoService->findChildren($id)->toArray();
+                }
             }
         }
-
 
         foreach ($vPlanos as $key => $plano){
             if (isset($plano['filhos'])){
