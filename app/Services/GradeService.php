@@ -30,6 +30,16 @@ class GradeService extends Service
         return $this->repository->getHorariosPorLocalidadeByUser($user_id,$localidade_id,$dia_semana,$turno);
     }
 
+    public function getHorariosByLocalidadeAndUserMinMax($user_id, $localidade_id, $dia_semana,$turno)
+    {
+        return $this->repository->getHorariosByLocalidadeAndUserMinMax($user_id,$localidade_id,$dia_semana,$turno);
+    }
+
+    public function getHorariosByLocalidadeAndUser($user_id, $localidade_id)
+    {
+        return $this->repository->getHorariosByLocalidadeAndUser($user_id, $localidade_id);
+    }
+
     public function getHorariosAtualPorLocalidadeByUser($user_id, $localidade_id, $dia_semana, $data, $turno){
         $data_atual = date('Y-m-d');
         $horario_atual = date('H:i:s');

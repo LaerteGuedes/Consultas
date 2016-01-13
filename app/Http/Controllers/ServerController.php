@@ -422,6 +422,32 @@ class ServerController extends Controller
         ]);
     }
 
+    public function detalhesProfissional($user_id, $localidade_id, Request $request)
+    {
+        $dias_semanais = $this->gradeService->getDiasSemanais();
+        $turnos = $this->gradeService->getTurnos();
+
+        $grade = array();
+
+
+        foreach ($dias_semanais as $sigla_dia => $dia_semana) {
+            foreach ($turnos as $sigla_turno => $turno) {
+                $horariosTurno = $this->gradeService->getHorariosPorLocalidadeByUser($user_id, $localidade_id, $sigla_dia, $sigla_turno)->toArray();
+                foreach ($horariosTurno as $key => $horario) {
+                    if ($key == 0) {
+                        $grade['dias'][$sigla_dia]['turnos'][$sigla_turno]['menor_valor'] = $horario['horario'];
+                    }elseif($key == (count($horariosTurno)-1)){
+                        $grade['dias'][$sigla_dia]['turnos'][$sigla_turno]['maior_valor'] = $horario['horario'];
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'grade' => $grade
+        ]);
+    }
+
     public function agendar($user_id, $localidade_id, Request $request)
     {
         $user =  $this->userService->find($user_id);
@@ -443,6 +469,7 @@ class ServerController extends Controller
 
         $grade = array();
 
+
         foreach ($semana_atual as $dia_semana => $dia) {
             $aux = array();
             $aux['dia_semana'] = $dia_semana;
@@ -458,7 +485,6 @@ class ServerController extends Controller
         }
 
         $primeiroDiaDaSemana = $semana_atual['seg'];
-
 
         return response()->json([
             'user' => $user,

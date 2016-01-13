@@ -6,6 +6,7 @@ use App\Contracts\GradeRepositoryInterface;
 use App\Repository;
 use App\Grade;
 use App\User;
+use Illuminate\Support\Facades\DB;
 use Mockery\CountValidator\Exception;
 use Symfony\Component\Debug\Debug;
 
@@ -29,6 +30,28 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
             ->where('localidade_id',$localidade_id)
             ->where('dia_semana',$dia_semana)
             ->where('turno',$turno)
+            ->orderBy('horario','asc')
+            ->get();
+    }
+
+    public function getHorariosByLocalidadeAndUser($user_id, $localidade_id)
+    {
+        return $this->model->where('user_id',$user_id)
+            ->where('localidade_id',$localidade_id)
+            ->orderBy('turno', 'asc')
+            ->orderBy('horario','asc')
+            ->get();
+    }
+
+    public function getHorariosByLocalidadeAndUserMinMax($user_id, $localidade_id, $dia_semana, $turno)
+    {
+        return $this->model->where('user_id',$user_id)
+            ->where('localidade_id',$localidade_id)
+            ->where('dia_semana',$dia_semana)
+            ->where('turno',$turno)
+            ->where('horario', DB::raw("(select min('horario') from grades)"))
+            ->orWhere('horario', DB::raw("(select max('horario') from grades)"))
+            ->orderBy('turno', 'asc')
             ->orderBy('horario','asc')
             ->get();
     }
