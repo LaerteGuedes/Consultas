@@ -17,12 +17,16 @@ class BairroService extends Service
     public function __construct(BairroRepositoryInterface $bairroRepositoryInterface)
     {
         $this->repository = $bairroRepositoryInterface;
-
     }
 
     public function listBairroByCidade($id)
     {
         return $this->repository->listBairroByCidade($id);
+    }
+
+    public function listBairroByCidadeOnlyUnique($id)
+    {
+        return $this->repository->listBairroByCidadeOnlyUnique($id);
     }
 
 } 

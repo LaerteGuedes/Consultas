@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Custom\Debug;
 use App\Services\AvisoService;
+use App\Services\BairroService;
 use App\Services\CalendarService;
 use App\Services\ConsultaService;
 use App\Services\GradeService;
@@ -29,6 +30,7 @@ class ServerController extends Controller
     protected $userService;
     protected $estadoService;
     protected $cidadeService;
+    protected $bairroService;
     protected $especialidadeService;
     protected $ramoService;
     protected $comentarioService;
@@ -43,6 +45,7 @@ class ServerController extends Controller
         UserService          $userService,
         EstadoService        $estadoService,
         CidadeService        $cidadeService,
+        BairroService        $bairroService,
         EspecialidadeService $especialidadeService,
         RamoService          $ramoService,
         ComentarioService    $comentarioService,
@@ -67,6 +70,7 @@ class ServerController extends Controller
         $this->gradeService			= $gradeService;
         $this->calendarService		= $calendarService;
         $this->consultaService      = $consultaService;
+        $this->bairroService        = $bairroService;
     }
 
     public function listarEstados()
@@ -117,6 +121,19 @@ class ServerController extends Controller
             'data'    => $data
         ]);
 
+    }
+
+    public function listarBairros(Request $request)
+    {
+       $cidade_id = $request->get('cidade_id');
+
+       if ($cidade_id){
+           $data = $this->bairroService->listBairroByCidadeOnlyUnique($cidade_id);
+       }
+
+        return response()->json([
+           'data' => $data
+        ]);
     }
 
     public function listarEspecialidades()

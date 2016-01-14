@@ -24,4 +24,9 @@ class BairroRepository extends Repository implements BairroRepositoryInterface
     {
         return $this->model->where('cidade_id',$id)->orderBy('nome','asc')->get(['id','nome']);
     }
+
+    public function listBairroByCidadeOnlyUnique($id)
+    {
+        return $this->model->where('cidade_id',$id)->where('nome', 'not like', '%,%')->orderBy('nome','asc')->get(['id','nome']);
+    }
 } 

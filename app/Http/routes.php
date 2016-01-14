@@ -138,6 +138,7 @@ Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
 Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get('/listar/estados',['uses'=>'ServerController@listarEstados']);
     Route::get('/listar/cidades',['uses'=>'ServerController@listarCidades']);
+    Route::get("/listar/bairros", ['as' => "api.lista.bairros", 'uses' => "ServerController@listarBairros"]);
     Route::get('/listar/especialidades',['uses'=>'ServerController@listarEspecialidades']);
     Route::get('/listar/ramos',['uses'=>'ServerController@listarRamos']);
     Route::get("/listar/localidades", ['as' => "listar.localidades", 'uses' => "ServerController@listarLocalidades"]);
