@@ -163,6 +163,7 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
             ->paginate($perpage);
     }
 
+
     public function logarUsuarioApi($data)
     {
         $user =  $this->model->where('email',$data['email'])

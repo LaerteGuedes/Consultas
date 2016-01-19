@@ -144,6 +144,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get("/listar/localidades", ['as' => "listar.localidades", 'uses' => "ServerController@listarLocalidades"]);
     Route::get("/localidade/{id}", ['as' => "api.localidade", 'uses' => "ServerController@localidadeDetalhe"]);
     Route::get('/pesquisar/profissional',['uses'=>'ServerController@pesquisarProfissional']);
+    //Route::get("/pesquisaravancada/profissional", ['as' => "api.pesquisa.avancada", 'uses' => "ServerController@pesquisaAvancadaProfissional"]);
     Route::get('/logar/usuario',['uses'=>'ServerController@logarUsuario']);
     Route::get('/registrar/novo/usuario',['uses'=>'ServerController@registrarNovoUsuario']);
     Route::get('/consultar/total/comentarios/',['uses'=>'ServerController@getTotalComentarioProfissional']);
@@ -160,6 +161,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get("/consultas/datas", ['as' => "api.consultas.datas", 'uses' => "ServerController@consultasDatas"]);
     Route::get("/consultas/historico", ['uses' => "ServerController@consultasByDataHistorico"]);
     Route::get("/consultas/futuras", ['uses' => "ServerController@consultasByDataFuturas"]);
+    Route::get("/consultas/confirmar", ['as' => "api.confimar.consultas", 'uses' => "ServerController@confirmarConsultas"]);
     Route::get("/buscaavancada", ['uses' => 'ServerController@buscaAvancada']);
     Route::get('/usuario/detalhe', ['uses' => 'ServerController@usuarioDetalhe']);
 });

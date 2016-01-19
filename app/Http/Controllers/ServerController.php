@@ -89,7 +89,15 @@ class ServerController extends Controller
         return response()->json(['localidades' => $localidades]);
     }
 
+    public function confirmarConsulta(Request $request)
+    {
+        $response = $this->consultaService->confirmarConsulta($request->all());
+
+        return response()->json(['success'=> $response ]);
+    }
+
     public function localidadeDetalhe($id){
+
         $localidade = $this->localidadeService->getCompleteFirst($id);
 
         if ($localidade){
@@ -174,6 +182,7 @@ class ServerController extends Controller
             'data'    => $data->toArray()
         ]);
     }
+
 
     public function logarUsuario(Request $request)
     {
