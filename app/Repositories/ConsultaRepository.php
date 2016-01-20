@@ -220,8 +220,9 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
 
     public function listarConsultasHistoricoByUserAndDate($id, $data_agenda)
     {
+
         return DB::table('consultas')
-            ->select('users.id as profissional_id', 'users.cid', 'users.thumbnail', 'consultas.data_agenda',
+            ->select('users.id as profissional_id', 'users.cid', 'consultas.id', 'users.thumbnail', 'consultas.data_agenda',
                 'consultas.status', 'consultas.horario_agenda', 'users.name', 'users.lastname')
             ->join('users', 'consultas.profissional_id', '=', 'users.id')
             ->where('user_id', $id)
@@ -235,7 +236,7 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
     public function listarConsultasFuturasByUserAndDate($id, $data_agenda)
     {
         return DB::table('consultas')
-            ->select('users.id as profissional_id', 'users.cid', 'users.thumbnail', 'consultas.data_agenda',
+            ->select('users.id as profissional_id', 'users.cid', 'consultas.id', 'users.thumbnail', 'consultas.data_agenda',
                 'consultas.status', 'consultas.horario_agenda', 'users.name', 'users.lastname')
             ->join('users', 'consultas.profissional_id', '=', 'users.id')
             ->where('user_id', $id)

@@ -411,6 +411,24 @@ class ServerController extends Controller
         ]);
     }
 
+    public function consultaDetalhe($id){
+        $consulta = $this->consultaService->find($id);
+        $localidade = $this->localidadeService->getCompleteFirst($consulta->localidade_id);
+    
+        if ($consulta->id){
+            $success = true;
+            $data = ['consulta' => $consulta, 'localidade' => $localidade];
+        }else{
+            $success = false;
+            $data = '';
+        }
+
+        return response()->json([
+            'success' => $success,
+            'data' => $data
+        ]);
+    }
+
     public function consultasByDataFuturas(Request $request)
     {
         $id = $request->get('id');
