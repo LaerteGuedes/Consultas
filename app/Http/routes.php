@@ -157,14 +157,23 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::post("/confirmar/agendamento", ['uses' => 'ServerController@confirmar']);
     Route::post("/finalizar/agendamento", ['uses' => 'ServerController@finalizar']);
     Route::get("/avisos", ['uses' => 'ServerController@avisos']);
+
+    Route::post("/localidade/store", ['as' => "localidade.store", 'uses' => "ServerController@storeLocalidade"]);
+
+    Route::post("/grade/store", ['as' => "localidade.store", 'uses' => "ServerController@storeGrade"]);
+
+
     Route::get("/consultas", ['uses' => "ServerController@consultas"]);
     Route::get("/consultas/datas", ['as' => "api.consultas.datas", 'uses' => "ServerController@consultasDatas"]);
     Route::get("/consultas/historico", ['uses' => "ServerController@consultasByDataHistorico"]);
     Route::get("/consultas/futuras", ['uses' => "ServerController@consultasByDataFuturas"]);
     Route::get("/consultas/confirmar", ['as' => "api.confimar.consultas", 'uses' => "ServerController@confirmarConsulta"]);
     Route::get("/consulta/detalhe/{id}", ['as' => "api.confirmar.consultaDetalhe", 'uses' => "ServerController@consultaDetalhe"]);
+
     Route::get("/buscaavancada", ['uses' => 'ServerController@buscaAvancada']);
     Route::get('/usuario/detalhe', ['uses' => 'ServerController@usuarioDetalhe']);
+
+    Route::post('/register/user',['as'=>'register.user','uses'=>'ServerController@registerUser']);
 });
 
 Route::group(['prefix'=>'ajax'],function(){

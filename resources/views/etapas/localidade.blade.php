@@ -3,12 +3,13 @@
 @section('title','Novo Local')
 
 @section('content')
-
     <section class="main adm">
         <div class="container">
             <div class="row">
                 <!-- Conteúdo -->
+
                 <div class="col-lg-12">
+                    @include('alerts')
                     <!-- Painel padrão com cabeçalho -->
                     <div class="panel panel-default profissional-cadastro">
 
@@ -25,15 +26,11 @@
                                 @include('localidade.form')
                             </div>
                         </div>
-
                     </div><!-- /Painel padrão com cabeçalho -->
-
                 </div><!-- /.col-lg-9 -->
                 <!-- /Conteúdo -->
-
             </div><!-- /.row -->
         </div> <!-- /container -->
     </section> <!-- /section -->
-
 @endsection
 

@@ -58,7 +58,7 @@ class GradeController extends Controller
             $message = 'O horário '.$response['horario'].' está incompatível com outros horários que você possui.';
             return \Response::json(['message'=> $message]);
         }
-    	return \Response::json(['data'=> $response ]);
+    	return \Response::json(['data'=> $response]);
     }
 
     public function deleteHorario($id)

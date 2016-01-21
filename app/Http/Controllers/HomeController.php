@@ -85,15 +85,16 @@ class HomeController extends Controller
 
     public function registerUser(RegisterUserRequest $request)
     {
-        $user_id = $this->userService->register($request->all());
 
+        $this->userService->register($request->all());
+        $user = $this->userService->findBy('email', $request->get('email'));
 
         if ($request->has('especialidade_id')){
             $params = $request->all();
-            $params['user_id'] = $user_id;
+            $params['user_id'] = (isset($user->id)) ? $user->id : '';
             $this->userEspecialidadeService->create($params);
         }
-        if ($user_id){
+        if (isset($user->id)){
             $planos = array($request->input('id_plano'));
             $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
             $this->mailService->sendBoasVindas(Auth::user());

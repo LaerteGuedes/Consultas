@@ -466,6 +466,68 @@ class ServerController extends Controller
         ]);
     }
 
+    public function registerUser(Request $request)
+    {
+
+        $this->userService->register($request->all());
+        $user = $this->userService->findBy('email', $request->get('email'));
+
+        if ($request->has('especialidade_id')){
+            $params = $request->all();
+            $params['user_id'] = (isset($user->id)) ? $user->id : '';
+            $this->userEspecialidadeService->create($params);
+        }
+        if (isset($user->id)){
+            $planos = array($request->input('id_plano'));
+            $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
+            $this->mailService->sendBoasVindas(Auth::user());
+
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
+    }
+
+    public function storeLocalidade(Request $request)
+    {
+        $data = array_add( $request->all() , 'user_id' , $request->get("user_id") );
+
+        if(!$request->get('bairro_id'))
+        {
+            $bairro    = $this->bairroService->create([
+                'cidade_id' => $request->get('cidade_id'),
+                'nome'      => $request->get('bairro')
+            ]);
+
+            if($bairro)
+            {
+                $data = array_add( $data , 'bairro_id' , $bairro->id );
+            }
+        }
+
+        if($this->localidadeService->create($data))
+        {
+            if($data['tipo']=='DOMICILIO')
+            {
+                return response()->json(['message' => $this->messageService->getMessage('success')]);
+            }else
+            {
+                response()->json(['message' => $this->messageService->getMessage('success')]);
+            }
+        }
+
+        return response()->json(['message' => $this->messageService->getMessage('error')]);
+    }
+
+    public function storeGrade(Request $request)
+    {
+        $response = $this->gradeService->save($request->get('id'),$request->all());
+        if (is_array($response)){
+            $message = 'O horário '.$response['horario'].' está incompatível com outros horários que você possui.';
+            return \Response::json(['message'=> $message]);
+        }
+        return \Response::json(['data'=> $response]);
+    }
+
     public function detalhesProfissional($user_id, $localidade_id, Request $request)
     {
         $dias_semanais = $this->gradeService->getDiasSemanais();
