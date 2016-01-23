@@ -9,6 +9,10 @@ use App\Services\CalendarService;
 use App\Services\ConsultaService;
 use App\Services\GradeService;
 use App\Services\LocalidadeService;
+use App\Services\MailService;
+use App\Services\MessageService;
+use App\Services\PlanoService;
+use App\Services\UserEspecialidadeService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -22,6 +26,8 @@ use App\Services\EspecialidadeService;
 use App\Services\RamoService;
 use App\Services\ComentarioService;
 use App\Services\AvaliacaoService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 
 class ServerController extends Controller
@@ -40,6 +46,10 @@ class ServerController extends Controller
     protected $gradeService;
     protected $calendarService;
     protected $consultaService;
+    protected $userEspecialidadeService;
+    protected $planoService;
+    protected $mailService;
+    protected $messageService;
 
     public function __construct(
         UserService          $userService,
@@ -54,7 +64,11 @@ class ServerController extends Controller
         AvisoService		 $avisoService,
         GradeService		 $gradeService,
         CalendarService		 $calendarService,
-        ConsultaService      $consultaService
+        ConsultaService      $consultaService,
+        UserEspecialidadeService $userEspecialidadeService,
+        PlanoService         $planoService,
+        MailService          $mailService,
+        MessageService       $messageService
     )
     {
 
@@ -71,6 +85,10 @@ class ServerController extends Controller
         $this->calendarService		= $calendarService;
         $this->consultaService      = $consultaService;
         $this->bairroService        = $bairroService;
+        $this->userEspecialidadeService = $userEspecialidadeService;
+        $this->planoService         = $planoService;
+        $this->mailService          = $mailService;
+        $this->messageService       = $messageService;
     }
 
     public function listarEstados()
@@ -468,6 +486,10 @@ class ServerController extends Controller
 
     public function registerUser(Request $request)
     {
+        $user_exist = $this->userService->findBy('email', $request->get('email'));
+        if (isset($user_exist)){
+            return response()->json(['success' => false, 'message' => 'O email já foi cadastrado!']);
+        }
 
         $this->userService->register($request->all());
         $user = $this->userService->findBy('email', $request->get('email'));
@@ -479,16 +501,19 @@ class ServerController extends Controller
         }
         if (isset($user->id)){
             $planos = array($request->input('id_plano'));
-            $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
-            $this->mailService->sendBoasVindas(Auth::user());
+            $this->planoService->insertUserPlanos($user->id, $planos);
+            $this->mailService->sendBoasVindas($user);
 
             return response()->json(['success' => true]);
         }
-        return response()->json(['success' => false]);
+        return response()->json(['success' => false, 'message' => 'Houve um problema com o cadastro!']);
     }
 
     public function storeLocalidade(Request $request)
     {
+        if (!$request->has('user_id')){
+            return response()->json(['success' => false, 'message' => 'Você precisa informar o usuário']);
+        }
         $data = array_add( $request->all() , 'user_id' , $request->get("user_id") );
 
         if(!$request->get('bairro_id'))
@@ -506,16 +531,10 @@ class ServerController extends Controller
 
         if($this->localidadeService->create($data))
         {
-            if($data['tipo']=='DOMICILIO')
-            {
-                return response()->json(['message' => $this->messageService->getMessage('success')]);
-            }else
-            {
-                response()->json(['message' => $this->messageService->getMessage('success')]);
-            }
+            return response()->json(['success' => true, 'message' => $this->messageService->getMessage('success')]);
         }
 
-        return response()->json(['message' => $this->messageService->getMessage('error')]);
+        return response()->json(['success' => false, 'message' => $this->messageService->getMessage('error')]);
     }
 
     public function storeGrade(Request $request)

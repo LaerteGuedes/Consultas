@@ -173,7 +173,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get("/buscaavancada", ['uses' => 'ServerController@buscaAvancada']);
     Route::get('/usuario/detalhe', ['uses' => 'ServerController@usuarioDetalhe']);
 
-    Route::post('/register/user',['as'=>'register.user','uses'=>'ServerController@registerUser']);
+    Route::post('/register/user',['as'=>'apiregister.user','uses'=>'ServerController@registerUser']);
 });
 
 Route::group(['prefix'=>'ajax'],function(){
