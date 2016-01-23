@@ -361,8 +361,24 @@ class ServerController extends Controller
 
     public function avisos(Request $request)
     {
-        $avisos = $this->avisoService->listarAvisosByCliente($request->get('user_id'));
+        $avisos = $this->avisoService->listarAvisosDetalhesByUser($request->get('user_id'));
         $this->avisoService->atualizaViewByCliente($request->get('user_id'));
+
+        foreach ($avisos as $key => $aviso) {
+            $date = explode('-',$aviso->data_agenda);
+            $year = $date[0];
+            $month = $date[1];
+            $day = $date[2];
+
+            $createdAtdate = explode(' ', $aviso->created_at);
+            $createdAtDateFormat = explode('-',$createdAtdate[0]);
+            $yearCreated = $createdAtDateFormat[0];
+            $monthCreated = $createdAtDateFormat[1];
+            $dayCreated = $createdAtDateFormat[2];
+
+            $avisos[$key]->data_created_format = $dayCreated.'/'.$monthCreated.'/'.$yearCreated;
+        }
+
 
         return response()->json([
             'avisos' => $avisos
