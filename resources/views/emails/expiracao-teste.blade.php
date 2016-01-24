@@ -1,8 +1,6 @@
-<h1>Bem-vindo!</h1>
-<p>Olá <strong>{{$user->name}}</strong>, seja bem-vindo(a) a Sallus!<br></p>
-<p>Seu e-mail de acesso é: <strong>{{$user->email}}
-    </strong><br>Estamos prontos para atendê-lo.</p>
-<p>Colocamos nossos analistas de suporte à disposição para ajudá-lo a esclarecer qualquer dúvida de uso. </p>
+<p>Olá <strong>{{$user->name}}</strong>, sua assinatura de testes expirou!<br></p>
+<p>Continue utilizando nossos serviços, clique no link abaixo e atualize sua assinatura! </p>
+<p><a href="http://sallus.net/auth/login">http://sallus.net/auth/login</a></p>
 <p>Fique à vontade para entrar em contato via e-mail: <br>
     E-mail: suporte@sallus.net</p>
 <p>Abraço da Equipe Sallus</p>

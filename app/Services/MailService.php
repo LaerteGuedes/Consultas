@@ -43,5 +43,14 @@ class MailService
             $m->to('laerteguedes8@gmail.com', 'Laerte')->subject('Notificacao!');
         });
     }
+
+    public function sendNotificacaoExpiracaoTeste($user)
+    {
+        Mail::send('emails.expiracao-teste', ['user' => $user], function ($m) use ($user) {
+            $m->from('noreply@sallus.net', 'Sallus - Secretaria Virtual');
+
+            $m->to($user->email, $user->name)->subject('Expiração de período de testes');
+        });
+    }
     
 }

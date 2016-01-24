@@ -28,4 +28,9 @@ class UserAssinaturaService extends Service
         }
     }
 
+    public function expiraAssinaturasPeriodoTestes()
+    {
+       return $this->repository->expiraAssinaturasPeriodoTestes();
+    }
+
 }

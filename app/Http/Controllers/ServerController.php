@@ -32,7 +32,6 @@ use Illuminate\Support\Facades\Mail;
 
 class ServerController extends Controller
 {
-
     protected $userService;
     protected $estadoService;
     protected $cidadeService;
@@ -647,7 +646,6 @@ class ServerController extends Controller
             'users' => $users
         ]);
     }
-
 
     public function profissionalEtapa(Request $request)
     {

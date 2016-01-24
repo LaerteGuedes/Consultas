@@ -19,9 +19,10 @@ Route::post("/assinatura/notificacao", ['as' => "assinatura.notificacao", 'uses'
 #rota profissional
 
 Route::get("/assinatura/expira", ['as' => 'expira.assinatura', 'uses' => "AssinaturaController@expiraAssinaturas"]);
-
 Route::get('/resultado',['as'=>'resultado.busca','uses'=>'PesquisaController@index']);
 Route::get('/detalhes/profissional/{id}',['as'=>'profissional.detalhe','uses'=>'ProfissionalController@detalhe']);
+
+Route::get("/cron/expiraassinaturas", ['as' => "cron.expira", 'uses' => "CronController@expiraPeriodoTeste"]);
 
 Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
 
