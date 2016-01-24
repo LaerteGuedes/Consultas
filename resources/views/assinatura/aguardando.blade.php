@@ -13,19 +13,13 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    @include('alerts')
                             <!-- Painel padrão -->
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <h3>Assinatura de pacote: </h3>
+                            <h3>{{$message}}</h3>
                         </div>
                     </div>
                     <!-- /Painel padrão -->
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    @include('assinatura.form')
                 </div>
             </div>
         </div>

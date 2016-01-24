@@ -17,7 +17,7 @@
                             <!-- Painel padrão -->
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <h3>Assinatura de pacote: </h3>
+                            <h3>{{$message}}</h3>
                         </div>
                     </div>
                     <!-- /Painel padrão -->

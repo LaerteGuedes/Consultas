@@ -47,6 +47,10 @@ Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
     Route::get("/etapa/grade", ['as' => 'etapa.grade', 'uses' => 'EtapaController@grade']);
     Route::get("/etapa/plano", ['as' => 'etapa.plano', 'uses' => 'EtapaController@plano']);
     Route::get('/etapa/assinatura', ['as' => 'etapa.assinatura', 'uses' => 'EtapaController@assinatura']);
+    Route::get('/etapa/assinaturatestesuspensa', ['as' => 'etapa.assinaturatestesuspensa', 'uses' => 'EtapaController@assinaturaTesteSuspensa']);
+    Route::get('/etapa/assinaturasuspensa', ['as' => 'etapa.assinaturasuspensa', 'uses' => 'EtapaController@assinaturaSuspensa']);
+    Route::get('/etapa/assinaturaaguardando', ['as' => 'etapa.assinaturaaguardando', 'uses' => 'EtapaController@assinaturaAguardando']);
+
 
     #rotas comentario
     Route::post('/store/comentario',['as'=>'store.comentario','uses'=>'ComentarioController@store']);
@@ -172,6 +176,8 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get('/usuario/detalhe', ['uses' => 'ServerController@usuarioDetalhe']);
 
     Route::post('/register/user',['as'=>'apiregister.user','uses'=>'ServerController@registerUser']);
+    
+    Route::get("/profissional/etapa", ['as' => "apiprofissional.etapa", 'uses' => "ServerController@profissionalEtapa"]);
 });
 
 Route::group(['prefix'=>'ajax'],function(){

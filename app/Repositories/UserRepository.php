@@ -30,6 +30,24 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
     }
 
+    public function getCompleteProfissional($id)
+    {
+        return DB::table('users as u')
+                    ->leftJoin('user_assinaturas as ua', 'u.id', '=', 'ua.user_id')
+                    ->leftJoin('localidades as l', 'u.id', '=', 'l.user_id')
+                    ->leftJoin('user_especialidades as ue', 'u.id', '=', 'ue.user_id')
+                    ->leftJoin('assinaturas as a', 'a.id', '=', 'ua.assinatura_id')
+                    ->leftJoin('especialidades as e', 'e.id', '=', 'ue.especialidade_id')
+                    ->leftJoin('grades as g', 'g.user_id', '=', 'u.id')
+                    ->leftJoin('user_planos as up', 'up.user_id', '=', 'u.id')
+                    ->select('u.id', 'u.name', 'u.email', 'l.logradouro', 'l.id as localidade_id',
+                        'a.id as assinatura_id', 'a.titulo as assinatura_titulo', 'ua.assinatura_status',
+                        'g.id as grade_id', 'u.nao_atende_planos', 'up.plano_id')
+                    ->where('u.id', '=', $id)
+                    ->groupBy('u.id')
+                    ->first();
+    }
+
     public function usuarioBusca($nome = null, $cidade = null)
     {
         if (!$nome && !$cidade){
@@ -408,6 +426,12 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
     public function saveUserAssinatura($user_id, $params)
     {
+        if ($params['usou_periodo_testes']){
+            $user = $this->find($user_id);
+            $user->usou_periodo_testes = $params['usou_periodo_testes'];
+            $user->save();
+        }
+
         $user = $this->model->find($user_id);
         $userAssinatura = $user->userAssinatura()->first();
         if (isset($userAssinatura->id)){

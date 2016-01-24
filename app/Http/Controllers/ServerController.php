@@ -648,4 +648,17 @@ class ServerController extends Controller
         ]);
     }
 
+
+    public function profissionalEtapa(Request $request)
+    {
+        $etapa = $this->userService->getProfissionalEtapa($request->get('user_id'));
+
+        if ($etapa === true){
+            return response()->json(['success' => true, 'etapa' => 'next']);
+        }elseif($etapa){
+            return response()->json(['success' => true, 'etapa' => $etapa]);
+        }
+        return response()->json(['success' => false]);
+    }
+
 }

@@ -7,6 +7,7 @@ use App\Services\CidadeService;
 use App\Services\GradeService;
 use App\Services\LocalidadeService;
 use App\Services\PlanoService;
+use Illuminate\Support\Facades\Auth;
 
 class EtapaController extends Controller
 {
@@ -114,8 +115,36 @@ class EtapaController extends Controller
     public function assinatura()
     {
         $user_id = \Auth::user()->id;
+        $usou_periodo_testes = Auth::user()->usos_periodo_testes;
         $assinaturas = $this->assinaturaService->all();
 
-        return view("assinatura.nova")->with(['assinaturas' => $assinaturas, 'user_id' => $user_id]);
+        return view("assinatura.nova")->with(['assinaturas' => $assinaturas, 'user_id' => $user_id, 'usou_periodo_testes' => $usou_periodo_testes]);
+    }
+
+    public function assinaturaTesteSuspensa()
+    {
+        $user_id = \Auth::user()->id;
+        $assinaturas = $this->assinaturaService->all();
+        $message = 'Sua versão de testes expirou! Realize sua assinatura escolhendo um dos planos abaixo: ';
+        $usou_periodo_testes = Auth::user()->usou_periodo_testes;
+
+        return view("assinatura.suspensa")->with(['assinaturas' => $assinaturas, 'user_id' => $user_id, 'usou_periodo_testes' => $usou_periodo_testes, 'message' => $message]);
+    }
+
+    public function assinaturaSuspensa()
+    {
+        $user_id = \Auth::user()->id;
+        $assinaturas = $this->assinaturaService->all();
+        $message = 'Sua assinatura foi suspensa! Renove sua assinatura escolhendo um dos planos abaixo: ';
+        $usou_periodo_testes = Auth::user()->usou_periodo_testes;
+
+        return view("assinatura.suspensa")->with(['assinaturas' => $assinaturas, 'user_id' => $user_id, 'message' => $message, 'usou_periodo_testes' => $usou_periodo_testes]);
+    }
+
+    public function assinaturaAguardando()
+    {
+        $message = 'Ainda não identificamos o seu pagamento! Finalize para pode continuar utilizando nossos serviços!';
+
+        return view("assinatura.aguardando")->with(['message' => $message]);
     }
 }

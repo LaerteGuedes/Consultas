@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Contracts\RepositoryInterface;
+use App\Custom\Debug;
 
 abstract class Repository implements RepositoryInterface
 {

@@ -12,7 +12,6 @@ class CheckProfissionalEtapa
     public function handle($request, Closure $next)
     {
         $route = $this->routeEtapa($request);
-
         if($route){
             return redirect()->route($route);
         }else{
@@ -66,10 +65,24 @@ class CheckProfissionalEtapa
             return 'etapa.plano';
         }
 
-        $assinatura = $user->userAssinatura()->count();
+        $assinatura = $user->userAssinatura()->first();
 
-        if (!($routeName == 'etapa.localidade' || $routeName == 'etapa.grade' || $routeName == 'etapa.plano' || $routeName == 'etapa.assinatura') && !$assinatura){
+        if (!($routeName == 'etapa.localidade' || $routeName == 'etapa.grade' || $routeName == 'etapa.plano' || $routeName == 'etapa.assinatura') && !(isset($assinatura->id))){
             return 'etapa.assinatura';
+        }else{
+            if (isset($assinatura->id)){
+                if (!($routeName == 'etapa.localidade' || $routeName == 'etapa.grade' || $routeName == 'etapa.plano' || $routeName == 'etapa.assinaturaaguardando') && $assinatura->assinatura_status == 'AGUARDANDO'){
+                    return 'etapa.assinaturaaguardando';
+                }
+
+                if (!($routeName == 'etapa.localidade' || $routeName == 'etapa.grade' || $routeName == 'etapa.plano' || $routeName == 'etapa.assinatura' || $routeName == 'etapa.assinaturatestesuspensa') && ($assinatura->assinatura_status == 'PERIODO_TESTES_SUSPENSO') && ($user->usou_periodo_testes == 1)){
+                    return 'etapa.assinaturatestesuspensa';
+                }
+
+                if (!($routeName == 'etapa.localidade' || $routeName == 'etapa.grade' || $routeName == 'etapa.plano' || $routeName == 'etapa.assinatura' || $routeName == 'etapa.assinaturasuspensa') && ($assinatura->assinatura_status == 'SUSPENSO')){
+                    return 'etapa.assinaturasuspensa';
+                }
+            }
         }
 
         return false;

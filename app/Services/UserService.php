@@ -205,6 +205,44 @@ class UserService extends Service
         return $this->repository->listarDadosProfissionalApi($id);
     }
 
+    public function getProfissionalEtapa($id)
+    {
+        $profissional = $this->repository->getCompleteProfissional($id);
+
+        if (isset($profissional->id)){
+            if (!$profissional->localidade_id){
+                return 'localidade';
+            }
+
+            if (!$profissional->grade_id){
+                return 'grade';
+            }
+
+            if (!$profissional->plano_id && $profissional->nao_atende_planos == 0){
+                return 'plano';
+            }
+
+            if (!$profissional->assinatura_id && !$profissional->assinatura_status){
+                return 'assinatura';
+            }
+
+            if ($profissional->assinatura_id && $profissional->assinatura_status == 'AGUARDANDO'){
+                return 'assinatura_aguardando';
+            }
+
+            if ($profissional->assinatura_id && $profissional->assinatura_status == 'SUSPENSO'){
+                return 'assinatura_suspensa';
+            }
+
+            if ($profissional->assinatura_id && $profissional->assinatura_status == 'PERIODO_TESTES_SUSPENSO'){
+                return 'assinatura_testes_suspensa';
+            }
+            return true;
+        }
+
+        return false;
+    }
+
     public function saveUserAssinatura($user_id, $params)
     {
         return $this->repository->saveUserAssinatura($user_id, $params);
