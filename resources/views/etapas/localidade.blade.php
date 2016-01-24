@@ -7,7 +7,6 @@
         <div class="container">
             <div class="row">
                 <!-- Conteúdo -->
-
                 <div class="col-lg-12">
                     @include('alerts')
                     <!-- Painel padrão com cabeçalho -->

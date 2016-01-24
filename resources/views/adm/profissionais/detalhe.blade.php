@@ -21,9 +21,17 @@
                         </div>
                         <div class="panel-body">
                             <div>
-                                <p class="lead blue"><i class="fa fa-exclamation-circle blue"> </i> <strong>Em período de avaliação até o dia 25/11/2015</strong></p>
-                                <p class="lead green"><i class="fa fa-exclamation-circle green"> </i> <strong>Assinatura: Plano Anual</strong></p>
-                                <p class="lead red"><i class="fa fa-exclamation-circle red"> </i> <strong>Aguardando escolha de um plano de assinatura</strong></p>
+                                @if (isset($assinatura->id))
+                                    @if($assinatura->assinatura_status == 'PERIODO_TESTES')
+                                        <p class="lead blue"><i class="fa fa-exclamation-circle blue"> </i> <strong>Em período de avaliação até o dia {{$assinatura->data_format}}</strong></p>
+                                    @elseif($assinatura->assinatura_status == 'APROVADO')
+                                        <p class="lead green"><i class="fa fa-exclamation-circle green"> </i> <strong>Assinatura: Plano Anual</strong></p>
+                                    @elseif($assinatura->assinatura_status == 'SUSPENSO')
+                                        <p class="lead red"><i class="fa fa-exclamation-circle red"> </i> <strong>Aguardando escolha de um plano de assinatura</strong></p>
+                                    @endif
+                                @else
+                                    <p class="lead red"><i class="fa fa-exclamation-circle red"> </i> <strong>Aguardando a escolha de um plano de assinatura</strong></p>
+                                @endif
                                 <form method="POST" action="{{route('adm.profissionalupdate')}}" accept-charset="UTF-8" id="vue" class="">
                                     <input name="_token" type="hidden" value="kmwqLZmVK8Us7ngbtRRXQVnuVdLq10UxL8y5v3HR">
                                     <div class="form-group">
@@ -53,12 +61,12 @@
                                         </div>
                                     </div>
                                     {{--<div class="form-group">--}}
-                                        {{--<div class="input-group form-inline">--}}
-                                            {{--<div class="input-group-addon"><i class="fa fa-asterisk"></i></div>--}}
-                                            {{--<input class="form-control" placeholder="Senha" maxlength="10" name="password" type="password" value="value="{{$profissional->password}}">--}}
-                                            {{--<input class="form-control" placeholder="Confirmar Senha" maxlength="10" name="password_confirmation" type="password" value="{{$profissional->password}}">--}}
-                                        {{--</div>--}}
-                                        {{--<p class="help-block">* digite pelo menos 5 caracteres e no máximo 10 caracteres.</p>--}}
+                                    {{--<div class="input-group form-inline">--}}
+                                    {{--<div class="input-group-addon"><i class="fa fa-asterisk"></i></div>--}}
+                                    {{--<input class="form-control" placeholder="Senha" maxlength="10" name="password" type="password" value="value="{{$profissional->password}}">--}}
+                                    {{--<input class="form-control" placeholder="Confirmar Senha" maxlength="10" name="password_confirmation" type="password" value="{{$profissional->password}}">--}}
+                                    {{--</div>--}}
+                                    {{--<p class="help-block">* digite pelo menos 5 caracteres e no máximo 10 caracteres.</p>--}}
                                     {{--</div>--}}
                                     <div class="form-group">
                                         <div class="input-group">

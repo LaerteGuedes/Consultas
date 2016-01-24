@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Repository;
 use App\Contracts\AvisoRepositoryInterface;
 use App\Aviso;
+use Illuminate\Support\Facades\DB;
 
 
 class AvisoRepository extends Repository implements AvisoRepositoryInterface
@@ -28,6 +29,19 @@ class AvisoRepository extends Repository implements AvisoRepositoryInterface
 							->orderBy('id','desc')
 							->limit(30)
 							->get();
+	}
+
+	public function listarAvisosDetalhesByUser($id)
+	{
+		return DB::table('avisos')
+            ->join('consultas', 'avisos.consulta_id', '=', 'consultas.id')
+            ->join('users', 'consultas.profissional_id', '=', 'users.id')
+            ->join('user_especialidades', 'users.id', '=', 'user_especialidades.user_id')
+            ->join('especialidades', 'user_especialidades.especialidade_id', '=', 'especialidades.id')
+            ->where('avisos.cliente_id', $id)
+            ->select('avisos.id', 'avisos.created_at', 'consultas.data_agenda', 'avisos.nota', 'avisos.tipo', 'users.name', 'especialidades.nome as especialidade')
+            ->limit(30)
+            ->get();
 	}
 
 	public function getTotalAvisosPendentesByCliente($id)

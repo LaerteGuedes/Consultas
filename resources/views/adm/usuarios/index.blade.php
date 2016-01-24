@@ -20,12 +20,12 @@
                         <div class="form-group">
                             <label>Filtrar por:</label>
                             <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome do usuário">
-                            <select class="form-control" name="cidade">
-                                <option value="">Cidade</option>
-                                @foreach($cidades as $cidade)
-                                    <option value="{{$cidade->id}}">{{$cidade->nome}}</option>
-                                @endforeach
-                            </select>
+                            {{--<select class="form-control" name="cidade">--}}
+                                {{--<option value="">Cidade</option>--}}
+                                {{--@foreach($cidades as $cidade)--}}
+                                    {{--<option value="{{$cidade->id}}">{{$cidade->nome}}</option>--}}
+                                {{--@endforeach--}}
+                            {{--</select>--}}
                         </div>
                         <button class="btn btn-success">Buscar</button>
                     </form>
@@ -38,14 +38,18 @@
                         </div>
 
                         <ul class="list-group default">
-                            @foreach($usuarios as $usuario)
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-lg-8"><a href="{{route('adm.usuariodetalhe',['id' => $usuario->id])}}">{{$usuario->name}}</a></div>
-                                        <div class="col-lg-4 text-right">{{$usuario->email}}</div>
-                                    </div>
-                                </li>
-                            @endforeach
+                            @if(sizeof($usuarios))
+                                @foreach($usuarios as $usuario)
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-lg-8"><a href="{{route('adm.usuariodetalhe',['id' => $usuario->id])}}">{{$usuario->name}}</a></div>
+                                            <div class="col-lg-4 text-right">{{$usuario->email}}</div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            @else
+                                <p style="text-align:center;">Não há usuários!</p>
+                            @endif
                         </ul>
                         {!! $usuarios->render() !!}
 

@@ -85,7 +85,6 @@ class HomeController extends Controller
 
     public function registerUser(RegisterUserRequest $request)
     {
-
         $this->userService->register($request->all());
         $user = $this->userService->findBy('email', $request->get('email'));
 

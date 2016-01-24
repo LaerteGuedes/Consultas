@@ -42,6 +42,11 @@ class UserService extends Service
         return $this->repository->totalProfissional();
     }
 
+    public function assinaturasMensais()
+    {
+        return $this->repository->assinaturasMensais();
+    }
+
     public function usuarioBusca($nome = null, $cidade = null)
     {
         return $this->repository->usuarioBusca($nome, $cidade);
@@ -50,6 +55,11 @@ class UserService extends Service
     public function totalProfissionalAtivo()
     {
         return $this->repository->totalProfissionalAtivo();
+    }
+
+    public function totalProfissionalAssinaturaByStatus($status)
+    {
+        return $this->repository->totalProfissionalAssinaturaByStatus($status);
     }
 
     public function totalProfissionalInativo()

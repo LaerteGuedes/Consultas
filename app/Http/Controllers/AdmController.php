@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Date;
 use App\Custom\Debug;
 use App\Http\Requests\UpdatePerfilRequest;
 use App\Role;
 use App\Services\AssinaturaService;
 use App\Services\AvaliacaoService;
+use App\Services\BairroService;
 use App\Services\CidadeService;
 use App\Services\ConsultaService;
 use App\Services\EspecialidadeService;
@@ -31,6 +33,7 @@ class AdmController extends Controller
     protected $avaliacaoService;
     protected $ramoService;
     protected $assinaturaService;
+    protected $bairroService;
 
     public function __construct(UserService $userService,
                                 PlanoService $planoService,
@@ -41,7 +44,8 @@ class AdmController extends Controller
                                 ConsultaService $consultaService,
                                 AvaliacaoService $avaliacaoService,
                                 RamoService $ramoService,
-                                AssinaturaService $assinaturaService)
+                                AssinaturaService $assinaturaService,
+                                BairroService $bairroService)
     {
         $this->userService = $userService;
         $this->planoService = $planoService;
@@ -53,6 +57,7 @@ class AdmController extends Controller
         $this->avaliacaoService = $avaliacaoService;
         $this->ramoService = $ramoService;
         $this->assinaturaService = $assinaturaService;
+        $this->bairroService = $bairroService;
     }
 
     public function login(){
@@ -78,8 +83,10 @@ class AdmController extends Controller
         $totalCanceladas = $this->consultaService->countCanceladas();
         $totalAvaliacoes = $this->avaliacaoService->total();
         $totalProfissionais = $this->userService->totalProfissional();
-        $totalProfissionaisAtivos = $this->userService->totalProfissionalAtivo();
+        $totalProfissionaisAtivos = $this->userService->totalProfissionalAssinaturaByStatus('APROVADO');
+        $totalProfissionaisTeste = $this->userService->totalProfissionalAssinaturaByStatus('PERIODO_TESTES');
         $totalProfissionaisInativos = $this->userService->totalProfissionalInativo();
+        $valorAssinaturas = $this->userService->assinaturasMensais();
 
         return view("adm.dashboard")->with(['totalUsuarios' => $totalUsuarios,
             'totalAgendadas' => $totalAgendadas,
@@ -88,7 +95,9 @@ class AdmController extends Controller
             'totalAvaliacoes' => $totalAvaliacoes,
             'totalProfissionais' => $totalProfissionais,
             'totalProfissionaisAtivos' => $totalProfissionaisAtivos,
-            'totalProfissionaisInativos' => $totalProfissionaisInativos]);
+            'totalProfissionaisTeste' => $totalProfissionaisTeste,
+            'totalProfissionaisInativos' => $totalProfissionaisInativos,
+            'valorAssinaturas' => $valorAssinaturas]);
     }
 
     public function usuarios(Request $request){
@@ -98,9 +107,9 @@ class AdmController extends Controller
             $usuarios = $this->userService->usuariosClientes();
         }
 
-        $cidades = $this->cidadeService->listCidadesByUf('PA');
+        //$cidades = $this->cidadeService->listCidadesByUf('PA');
 
-        return view('adm.usuarios.index')->with(array('usuarios' => $usuarios, 'cidades' => $cidades));
+        return view('adm.usuarios.index')->with(array('usuarios' => $usuarios));
     }
 
     public function usuariodetalhe($id){
@@ -216,10 +225,9 @@ class AdmController extends Controller
             $params[$field] = $param;
         }
         unset($params['id']);
-
         $idPlano = $this->planoService->update($request->get('id'), $params);
 
-        return redirect()->route('adm.planos')->with('message', $this->messageService->getMessage('success'));
+        return redirect()->route('adm.operadoras')->with('message', $this->messageService->getMessage('success'));
     }
 
     public function profissionais(Request $request){
@@ -234,8 +242,10 @@ class AdmController extends Controller
 
     public function profissionalDetalhe($id){
         $profissional = $this->userService->find($id);
+        $assinatura = $profissional->userAssinatura()->first();
+        $assinatura->data_format = Date::toViewAndHour($assinatura->expiracao);
 
-        return view("adm.profissionais.detalhe")->with('profissional', $profissional);
+        return view("adm.profissionais.detalhe")->with(['profissional' => $profissional, 'assinatura' => $assinatura]);
     }
 
     public function profissionalUpdate(Request $request){
@@ -294,7 +304,7 @@ class AdmController extends Controller
 
     public function excluirRamo($id){
         try{
-        //    $this->ramoService->destroy($id);
+            $this->ramoService->destroy($id);
             return response()->json(['message' => 'Exclusão realizada com sucesso!']);
         }catch (Exception $ex){
             return response()->json(['message' => 'Houve um problema com a exclusão, tente novamente mais tarde!']);
@@ -307,28 +317,8 @@ class AdmController extends Controller
         return redirect()->route("adm.especialidades")->with("message", $this->messageService->getMessage('success'));
     }
 
-    public function estados(){
-        $estados = $this->estadoService->all();
-        return view("adm.estados.index")->with('estados', $estados);
-    }
-
-    public function novoestado(){
-        return view("adm.estados.novo");
-    }
-
-    public function salvaestado(Request $request){
-        $this->estadoService->create($request);
-
-        return redirect()->route("adm.estados")->with("message", $this->messageService->getMessage('success'));
-    }
-
-    public function editestado($id){
-        $estado = $this->estadoService->find($id);
-
-        return view("adm.estados.edit")->with('estado', $estado);
-    }
-
-    public function updateestado(Request $request){
+    public function updateRamo(Request $request)
+    {
         $params = array();
         $id = $request->get('id');
 
@@ -337,15 +327,48 @@ class AdmController extends Controller
         }
 
         unset($params['id']);
-        $this->estadoService->update($id, $params);
+        $this->ramoService->update($id, $params);
 
-        return redirect()->route("adm.estados")->with("message", $this->messageService->getMessage('success'));
+        return redirect()->route('adm.especialidades')->with("message", $this->messageService->getMessage('success'));
     }
 
-    public function excluirestado($id){
-        $this->estadoService->destroy($id);
+    public function bairros(Request $request){
 
-        return redirect()->route("adm.estados")->with("message", $this->messageService->getMessage('success'));
+        $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelem();
+
+        if ($request->has('cidade_id')){
+            $bairros = $this->bairroService->listBairroByCidadeOnlyUnique($request->get('cidade_id'));
+        }else{
+            $bairros = $this->bairroService->all();
+        }
+
+        return view("adm.bairros.index")->with(['bairros' => $bairros, 'cidades' => $cidades]);
+    }
+
+    public function salvabairro(Request $request){
+        $this->bairroService->create($request->all());
+
+        return redirect()->route("adm.bairros")->with("message", $this->messageService->getMessage('success'));
+    }
+
+    public function updatebairro(Request $request){
+        $params = array();
+        $id = $request->get('id');
+
+        foreach ($request->all() as $field => $value) {
+            $params[$field] = $value;
+        }
+
+        unset($params['id']);
+        $this->bairroService->update($id, $params);
+
+        return redirect()->route("adm.bairros")->with("message", $this->messageService->getMessage('success'));
+    }
+
+    public function excluirbairro($id){
+        $this->bairroService->destroy($id);
+
+        return redirect()->route("adm.bairros")->with("message", $this->messageService->getMessage('success'));
     }
 
     public function cidades(){

@@ -387,6 +387,7 @@ class ServerController extends Controller
             $year = $date[0];
             $month = $date[1];
             $day = $date[2];
+            $avisos[$key]->data_format = $day.'/'.$month.'/'.$year;
 
             $createdAtdate = explode(' ', $aviso->created_at);
             $createdAtDateFormat = explode('-',$createdAtdate[0]);

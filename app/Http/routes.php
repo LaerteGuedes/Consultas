@@ -26,9 +26,7 @@ Route::get('/detalhes/profissional/{id}',['as'=>'profissional.detalhe','uses'=>'
 Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
 
     Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@index']);
-
     #rota pesquisa profissional
-
     #rota profissional
 
     Route::get('/agendar/profissional/{user_id}/local/{localidade_id}',['as'=>'profissional.agendar','uses'=>'ProfissionalController@agendar']);
@@ -218,14 +216,13 @@ Route::group(['prefix'=>'adm', 'middleware' => 'admauth'], function(){
 
     Route::get("novoramo/{especialidade_id}", ['as' => "adm.novoramo", 'uses' => "AdmController@novoRamo"]);
     Route::post("salvaramo", ['as' => "adm.salvaramo", 'uses' => "AdmController@salvaRamo"]);
+    Route::post("updateramo", ['as' => "adm.updateramo", 'uses' => "AdmController@updateRamo"]);
     Route::get("excluirramo/{id}", ['as' => "adm.excluirramo", 'uses' => "AdmController@excluirRamo"]);
     
-    Route::get("estados", ['as' => "adm.estados", 'uses' => "AdmController@estados"]);
-    Route::get("novoestado", ['as' => "adm.novoestado", 'uses' => "AdmController@novoestado"]);
-    Route::post("salvaestado", ['as' => "adm.salvaestado", 'uses' => "AdmController@salvaestado"]);
-    Route::get("editestado", ['as' => "adm.editestado", 'uses' => "AdmController@editestado"]);
-    Route::post("updatestado", ['as' => "adm.updateestado", 'uses' => "AdmController@updateestado"]);
-    Route::get("excluirestado", ['as' => "adm.excluirestado", 'uses' => "AdmController@excluirestado"]);
+    Route::get("bairros", ['as' => "adm.bairros", 'uses' => "AdmController@bairros"]);
+    Route::post("salvabairro", ['as' => "adm.salvabairro", 'uses' => "AdmController@salvabairro"]);
+    Route::post("updatebairro", ['as' => "adm.updatebairro", 'uses' => "AdmController@updatebairro"]);
+    Route::get("excluirbairro/{id}", ['as' => "adm.excluirbairro", 'uses' => "AdmController@excluirbairro"]);
 
     Route::get("assinaturas", ['as' => "adm.assinaturas", 'uses' => "AdmController@assinaturas"]);
     Route::get("novaassinatura", ['as' => "adm.novaassinatura", 'uses' => "AdmController@novaAssinatura"]);

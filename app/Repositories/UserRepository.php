@@ -33,17 +33,18 @@ class UserRepository extends Repository implements UserRepositoryInterface
     public function usuarioBusca($nome = null, $cidade = null)
     {
         if (!$nome && !$cidade){
-            $query = $this->model;
+            $query = $this->model->where('role_id', Role::CLIENTE);
         }
         if ($nome && !$cidade){
-            $query = $this->model->where('name', $nome);
+            $query = $this->model->where('name', $nome)->where('role_id', Role::CLIENTE);
         }
         if ($cidade && !$nome){
-            $query = $this->model->join('localidades', 'users.id', '=', 'localidades.user_id')->join('cidades', 'localidades.cidade_id', '=', 'cidades.id')->where('cidades.id', $cidade);
+            $query = $this->model->join('localidades', 'users.id', '=', 'localidades.user_id')->join('cidades', 'localidades.cidade_id', '=', 'cidades.id')->where('cidades.id', $cidade)->where('role_id', Role::CLIENTE);
         }
         if ($cidade && $nome){
-            $query = $this->model->join('localidades', 'users.id', '=', 'localidades.user_id')->join('cidades', 'localidades.cidade_id', '=', 'cidades.id')->where('cidades.id', $cidade);
+            $query = $this->model->join('localidades', 'users.id', '=', 'localidades.user_id')->join('cidades', 'localidades.cidade_id', '=', 'cidades.id')->where('cidades.id', $cidade)->where('role_id', Role::CLIENTE);
         }
+
         return $query->paginate(10);
     }
 
@@ -60,6 +61,25 @@ class UserRepository extends Repository implements UserRepositoryInterface
     public function totalProfissionalAtivo()
     {
         return $this->model->where('role_id', Role::PROFISSIONAL)->where('active', 1)->count();
+    }
+
+    public function totalProfissionalAssinaturaByStatus($status)
+    {
+        return DB::table('users')
+                ->join('user_assinaturas', 'users.id', '=', 'user_assinaturas.user_id')
+                ->where('user_assinaturas.assinatura_status', '=', $status)->count();
+
+        $this->model->where('role_id', Role::PROFISSIONAL)->where('active', 1)->count();
+    }
+
+    public function assinaturasMensais()
+    {
+        return DB::table('users')
+            ->join('user_assinaturas', 'users.id', '=', 'user_assinaturas.user_id')
+            ->join('assinaturas', 'user_assinaturas.assinatura_id', '=', 'assinaturas.id')
+            ->where('user_assinaturas.assinatura_status', '=', 'PERIODO_TESTES')
+            ->select(DB::raw('count(assinaturas.id) as contagem'), DB::raw('SUM(assinaturas.valor) as soma'))
+            ->first();
     }
 
     public function totalProfissionalInativo()
@@ -152,7 +172,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
                 $query->orWhere('user_assinaturas.assinatura_status', '=', 'APROVADO');
             })
             ->groupBy('users.id')
-            ->select(\DB::raw('users.id,users.name,users.lastname,users.thumbnail ,users.cid ,user_especialidades.especialidade_id,especialidades.nome as tipo,
+            ->select(\DB::raw('users.id,users.name, user_assinaturas.assinatura_status, users.lastname,users.thumbnail ,users.cid ,user_especialidades.especialidade_id,especialidades.nome as tipo,
 localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ramos.nome as ramo,
     (select count(*)  from comentarios where comentarios.comentado = users.id)
     

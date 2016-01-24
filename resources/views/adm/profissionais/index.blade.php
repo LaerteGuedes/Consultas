@@ -12,7 +12,7 @@
 
                 <!-- Sidebar -->
                 <div class="col-lg-3">
-                  @include('partials.admmenu')
+                    @include('partials.admmenu')
                 </div><!-- /.col-lg-3 -->
                 <!-- /Sidebar -->
 
@@ -24,7 +24,7 @@
                             <label>Filtrar por:</label>
                             <input type="text" class="form-control" id="nome" name="name" placeholder="Nome do profissional"/>
                             {{--<select class="form-control">--}}
-                                {{--<option value="">Estado</option>--}}
+                            {{--<option value="">Estado</option>--}}
                             {{--</select>--}}
                             <select class="form-control" id="cidade_id" name="cidade_id">
                                 <option value="">Cidade</option>
@@ -42,7 +42,7 @@
                                 <option value="">Especialidade</option>
                             </select>
                             {{--<select class="form-control">--}}
-                                {{--<option value="">Assinatura</option>--}}
+                            {{--<option value="">Assinatura</option>--}}
                             {{--</select>--}}
                             <button class="btn btn-success">Buscar</button>
                         </div>
@@ -66,39 +66,32 @@
                         <!-- Lista padrão -->
                         <ul class="list-group">
                             @foreach($profissionais as $profissional)
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-lg-8">
-                                        <a href="{{route('adm.profissionaldetalhe', array('id' => $profissional->id))}}">
-                                        @if(!$profissional->thumbnail)
-                                            <img src="{{ asset('img/no-profile.png') }}" class="avatar">
-                                        @else
-                                            <img src="{{ $profissional->thumbnail }}" class="avatar">
-                                        @endif
-                                        </a>
-                                        <h4 class="list-group-item-heading"><a href="{{route('adm.profissionaldetalhe', array('id' => $profissional->id))}}">{{$profissional->name}}</a></h4>
-                                        <p class="list-group-item-text">{{$profissional->cid}}<br>{{$profissional->ramo}}</p>
-                                    </div><!-- /.col-lg-8 -->
-                                    <div class="col-lg-4 text-right">
-                                        <span class="blue">Avaliação</span>
-                                        <p class="list-group-item-text">
-                                            <i class="fa fa-comment"></i> {{ $userService->find($profissional->id)->comentarios()->count()   }} comentários<br>
-
-                                            <?php
-                                            $votos = $avaliacaoService->getAvaliacaoProfissional($profissional->id);
-                                            ?>
-
-                                            <i class="fa fa-star{{  $votos >= 1 ? '':'-o' }}"></i>
-                                            <i class="fa fa-star{{  $votos >= 2 ? '':'-o' }}"></i>
-                                            <i class="fa fa-star{{  $votos >= 3 ? '':'-o' }}"></i>
-                                            <i class="fa fa-star{{  $votos >= 4 ? '':'-o' }}"></i>
-                                            <i class="fa fa-star{{  $votos >= 5 ? '':'-o' }}"></i>
-
-                                            ({{ $votos  }})
-                                        </p>
-                                    </div><!-- /.col-lg-4 -->
-                                </div>
-                            </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <a href="{{route('adm.profissionaldetalhe', array('id' => $profissional->id))}}">
+                                                @if(!$profissional->thumbnail)
+                                                    <img src="{{ asset('img/no-profile.png') }}" class="avatar">
+                                                @else
+                                                    <img src="{{ $profissional->thumbnail }}" class="avatar">
+                                                @endif
+                                            </a>
+                                            <h4 class="list-group-item-heading"><a href="{{route('adm.profissionaldetalhe', array('id' => $profissional->id))}}">{{$profissional->name}}</a></h4>
+                                            <p class="list-group-item-text">{{$profissional->cid}}<br>{{$profissional->ramo}}</p>
+                                        </div><!-- /.col-lg-8 -->
+                                        <div class="col-lg-4 text-right">
+                                            @if ($profissional->assinatura_status == 'PERIODO_TESTES')
+                                                <span class="blue">Avaliação</span>
+                                            @endif
+                                            @if ($profissional->assinatura_status == 'APROVADO')
+                                                <span class="green">Plano Atual</span>
+                                            @endif
+                                            @if ($profissional->assinatura_status == 'SUSPENSO')
+                                                <span class="red">Inativo</span>
+                                            @endif
+                                        </div><!-- /.col-lg-4 -->
+                                    </div>
+                                </li>
                             @endforeach
                         </ul><!-- /Lista padrão -->
 
@@ -107,7 +100,7 @@
 
                     <!-- Paginação -->
                     {!! $profissionais->render() !!}
-                    <!-- /Paginação -->
+                            <!-- /Paginação -->
 
 
                 </div><!-- /.col-lg-9 -->
@@ -119,40 +112,40 @@
 @endsection
 
 @section('script')
-<script>
-    $(function(){
-        $('#especialidade_id').on('change', function()
-        {
-
-            var self = $(this);
-            var especialidade = self.val();
-            var url = "{{ url('ajax/listar-ramos')  }}/" + especialidade;
-
-            if(especialidade != "")
+    <script>
+        $(function(){
+            $('#especialidade_id').on('change', function()
             {
-                $.get(url, function(response){
+
+                var self = $(this);
+                var especialidade = self.val();
+                var url = "{{ url('ajax/listar-ramos')  }}/" + especialidade;
+
+                if(especialidade != "")
+                {
+                    $.get(url, function(response){
+
+                        var options = '';
+
+                        $.each(response.data , function(v,k){
+
+                            options += '<option value="'+ k.id +'">'+ k.nome +'</option>';
+                        });
+
+                        $("#ramo_id").empty().html(options);
+                        $("#ramo_id").selectpicker('refresh');
+
+                    });
+                }else{
 
                     var options = '';
-
-                    $.each(response.data , function(v,k){
-
-                        options += '<option value="'+ k.id +'">'+ k.nome +'</option>';
-                    });
-
                     $("#ramo_id").empty().html(options);
                     $("#ramo_id").selectpicker('refresh');
 
-                });
-            }else{
+                }
 
-                var options = '';
-                $("#ramo_id").empty().html(options);
-                $("#ramo_id").selectpicker('refresh');
-
-            }
-
+            });
         });
-    });
-</script>
+    </script>
 
 @endsection
