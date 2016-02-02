@@ -19,7 +19,6 @@ class AvisoController extends Controller
 
    public function index()
    {
-
    		if(\Auth::user()->role->name =='Cliente')
    		{
    			$avisos = $this->avisoService->listarAvisosByCliente(\Auth::user()->id );

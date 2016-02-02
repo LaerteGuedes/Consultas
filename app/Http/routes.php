@@ -159,8 +159,10 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get("/detalhes/profissional/{user_id}/{localidade_id}", ['as' => "api.detalhes.profissional", 'uses' => "ServerController@detalhesProfissional"]);
     Route::post("/confirmar/agendamento", ['uses' => 'ServerController@confirmar']);
     Route::post("/finalizar/agendamento", ['uses' => 'ServerController@finalizar']);
+    
     Route::get("/avisos", ['uses' => 'ServerController@avisos']);
-
+    Route::get("/avisos/profissional", ['as' => "api.avisos.profissional", 'uses' => "ServerController@avisosProfissional"]);    
+    
     Route::post("/localidade/store", ['as' => "localidade.store", 'uses' => "ServerController@storeLocalidade"]);
 
     Route::post("/grade/store", ['as' => "localidade.store", 'uses' => "ServerController@storeGrade"]);

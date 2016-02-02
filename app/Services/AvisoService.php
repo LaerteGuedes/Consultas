@@ -29,6 +29,11 @@ class AvisoService extends Service
 		return $this->repository->listarAvisosDetalhesByUser($id);
 	}
 
+	public function listarAvisosDetalhesByProfissional($id)
+	{
+		return $this->repository->listarAvisosDetalhesByProfissional($id);
+	}
+
 	public function getTotalAvisosPendentesByCliente($id)
 	{
 		return $this->repository->getTotalAvisosPendentesByCliente($id);

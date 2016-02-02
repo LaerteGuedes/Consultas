@@ -403,6 +403,33 @@ class ServerController extends Controller
         ]);
     }
 
+    public function avisosProfissional(Request $request)
+    {
+        $avisos = $this->avisoService->listarAvisosDetalhesByProfissional($request->get('profissional_id'));
+        $this->avisoService->atualizaViewByProfissional($request->get('profissional_id'));
+
+        foreach ($avisos as $key => $aviso) {
+            $date = explode('-',$aviso->data_agenda);
+            $year = $date[0];
+            $month = $date[1];
+            $day = $date[2];
+            $avisos[$key]->data_format = $day.'/'.$month.'/'.$year;
+
+            $createdAtdate = explode(' ', $aviso->created_at);
+            $createdAtDateFormat = explode('-',$createdAtdate[0]);
+            $yearCreated = $createdAtDateFormat[0];
+            $monthCreated = $createdAtDateFormat[1];
+            $dayCreated = $createdAtDateFormat[2];
+
+            $avisos[$key]->data_created_format = $dayCreated.'/'.$monthCreated.'/'.$yearCreated;
+        }
+
+
+        return response()->json([
+            'avisos' => $avisos
+        ]);
+    }
+
     public function confirmar(Request $request)
     {
         $usuario      = $this->userService->find($request->get('user_id'));

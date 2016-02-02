@@ -426,7 +426,7 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
     public function saveUserAssinatura($user_id, $params)
     {
-        if ($params['usou_periodo_testes']){
+        if (isset($params['usou_periodo_testes'])){
             $user = $this->find($user_id);
             $user->usou_periodo_testes = $params['usou_periodo_testes'];
             $user->save();

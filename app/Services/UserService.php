@@ -234,7 +234,7 @@ class UserService extends Service
                 return 'assinatura_suspensa';
             }
 
-            if ($profissional->assinatura_id && $profissional->assinatura_status == 'PERIODO_TESTES_SUSPENSO'){
+            if ($profissional->assinatura_status == 'PERIODO_TESTES_SUSPENSO'){
                 return 'assinatura_testes_suspensa';
             }
             return true;

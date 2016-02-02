@@ -33,9 +33,15 @@ class AssinaturaService extends Service
     {
         $user = $this->userRepository->find($user_id);
 
-        if ($status == 'PENDING'){
+        if ($status == 'ACTIVE'){
             $userAssinatura = $user->userAssinatura()->first();
-            $userAssinatura->assinatura_status = Assinatura::PAGO;
+            $userAssinatura->assinatura_status = 'APROVADO';
+            $userAssinatura->save();
+            return true;
+        }
+        if ($status == 'CANCELLED' || $status == 'EXPIRED'){
+            $userAssinatura = $user->userAssinatura()->first();
+            $userAssinatura->assinatura_status = 'SUSPENSO';
             $userAssinatura->save();
             return true;
         }

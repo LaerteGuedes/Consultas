@@ -44,6 +44,17 @@ class AvisoRepository extends Repository implements AvisoRepositoryInterface
             ->get();
 	}
 
+	public function listarAvisosDetalhesByProfissional($id)
+	{
+		return DB::table('avisos')
+			->join('consultas', 'avisos.consulta_id', '=', 'consultas.id')
+			->join('users', 'consultas.user_id', '=', 'users.id')
+			->where('avisos.profissional_id', $id)
+			->select('avisos.id', 'avisos.created_at', 'consultas.data_agenda', 'avisos.nota', 'avisos.tipo', 'users.name', 'users.lastname')
+			->limit(30)
+			->get();
+	}
+
 	public function getTotalAvisosPendentesByCliente($id)
 	{
 		return $this->model->where('cliente_id', $id)
