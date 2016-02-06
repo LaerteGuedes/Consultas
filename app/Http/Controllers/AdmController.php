@@ -72,6 +72,8 @@ class AdmController extends Controller
 
         if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])){
             return redirect()->route("adm.dashboard")->with('message', $this->messageService->getMessage('success'));
+        }else{
+            return redirect()->route("adm.login")->with('message', 'Login incorreto! Tente novamente');
         }
     }
 

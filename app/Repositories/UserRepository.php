@@ -95,7 +95,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
         return DB::table('users')
             ->join('user_assinaturas', 'users.id', '=', 'user_assinaturas.user_id')
             ->join('assinaturas', 'user_assinaturas.assinatura_id', '=', 'assinaturas.id')
-            ->where('user_assinaturas.assinatura_status', '=', 'PERIODO_TESTES')
+            ->where('user_assinaturas.assinatura_status', '=', 'APROVADO')
             ->select(DB::raw('count(assinaturas.id) as contagem'), DB::raw('SUM(assinaturas.valor) as soma'))
             ->first();
     }

@@ -31,9 +31,9 @@
                                     <li class="list-group-item">
                                         Atendimentos realizados <span class="destaque">{{$totalRealizadas}}</span>
                                     </li>
-                                    <li class="list-group-item">
-                                        Atendimentos canc. pelo usuário <span class="destaque">{{$totalCanceladas}}</span>
-                                    </li>
+                                    {{--<li class="list-group-item">--}}
+                                        {{--Atendimentos canc. pelo usuário <span class="destaque">{{$totalCanceladas}}</span>--}}
+                                    {{--</li>--}}
                                     <li class="list-group-item">
                                         Total de avaliações <span class="destaque">{{$totalAvaliacoes}}</span>
                                     </li>
@@ -51,9 +51,9 @@
                                     <li class="list-group-item">
                                         Total de profissionais <span class="destaque">{{$totalProfissionais}}</span>
                                     </li>
-                                    <li class="list-group-item">
-                                        Atendimentos canc. pelo profissional <span class="destaque">100</span>
-                                    </li>
+                                    {{--<li class="list-group-item">--}}
+                                        {{--Atendimentos canc. pelo profissional <span class="destaque">100</span>--}}
+                                    {{--</li>--}}
                                     <li class="list-group-item">
                                         Profissionais em período de avaliação <span class="destaque">{{$totalProfissionaisTeste}}</span>
                                     </li>

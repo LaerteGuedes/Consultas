@@ -24,10 +24,7 @@ class RamoRequest extends Request
     public function rules()
     {
         return [
-            'nome' => 'required|min:3|max:255',
-            'email' => 'required|unique|email',
-            'senha' => 'required|same:senha_confirmacao',
-            'senha_confirmacao' => 'required'
+            'nome' => 'required|min:3|max:255'
         ];
     }
 }

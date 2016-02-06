@@ -88,6 +88,8 @@ class HomeController extends Controller
         $this->userService->register($request->all());
         $user = $this->userService->findBy('email', $request->get('email'));
 
+       // Debug::dump($request->all());
+
         if ($request->has('especialidade_id')){
             $params = $request->all();
             $params['user_id'] = (isset($user->id)) ? $user->id : '';
@@ -95,8 +97,8 @@ class HomeController extends Controller
         }
         if (isset($user->id)){
             $planos = array($request->input('id_plano'));
-            $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
-            $this->mailService->sendBoasVindas(Auth::user());
+//            $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
+//            $this->mailService->sendBoasVindas(Auth::user());
 
             return redirect()->route('dashboard');
         }
