@@ -30,7 +30,7 @@
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon"><strong title="Valor">Valor ($) </strong></div>
-                                            <input class="form-control" placeholder="R$ 59,90" name="valor" type="text">
+                                            <input class="form-control" name="valor" data-mask="decimal" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group">

@@ -50,13 +50,15 @@
                                                     <div class="col-lg-4 text-right">
                                                         <button class="btn btn-primary btn-xs blue-btn btn-plano-modal" id="button-{{$operadora->id}}">Adicionar novo plano</button>
                                                         <button title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs btn-editar-operadora" id="button-editar-{{$operadora->id}}" data-original-title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
-                                                        <a data-confirm="true"  data-placement="top" data-toggle="tooltip" href="{{route('adm.excluiroperadora', ["id" => $operadora->id])}}" class="btn btn-danger btn-xs" data-original-title="Apagar"><i class="glyphicon glyphicon-trash"></i></a>
+                                                        @if($operadora->pode_excluir)
+                                                            <a data-confirm="true"  data-placement="top" data-toggle="tooltip" href="{{route('adm.excluiroperadora', ["id" => $operadora->id])}}" class="btn btn-danger btn-xs" data-original-title="Apagar"><i class="glyphicon glyphicon-trash"></i></a>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
                                             <div style="height: 0px;" aria-expanded="false" id="collapseEspecialidade{{$operadora->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseHEspecialidadeHeading">
                                                 <div>
-                                                    <?php $planos = $planoService->findChildren($operadora->id); ?>
+                                                    <?php $planos = $planoService->findChildrenAdm($operadora->id); ?>
                                                     <ul class="list-group default">
                                                         @if(sizeof($planos))
                                                             @foreach($planos as $plano)
@@ -65,7 +67,9 @@
                                                                         <div class="col-lg-8"><p>{{$plano->titulo}}</p></div>
                                                                         <div class="col-lg-4 text-right">
                                                                             <button data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs btn-editar-plano" id="button-editar-{{$plano->id}}" data-original-title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
-                                                                            <a href="javascript:void(0)" class="exclui-plano plano-{{$plano->id}}"><i class="fa fa-times red"></i></a></div>
+                                                                            @if($plano->pode_excluir)
+                                                                                <a href="javascript:void(0)" class="exclui-plano plano-{{$plano->id}}"><i class="fa fa-times red"></i></a></div>
+                                                                            @endif
                                                                     </div>
                                                                 </li>
                                                                 <div id="modal-editar-plano-{{$plano->id}}" class="modal fade plano-editar-modal" role="dialog">

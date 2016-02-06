@@ -38,6 +38,26 @@ class PlanoRepository extends Repository
         return $this->model->where('id_pai', '=', 0)->get();
     }
 
+    public function findParentsAdm()
+    {
+        return DB::table('planos as p')
+            ->leftJoin('planos as pc', 'p.id', '=', 'pc.id_pai')
+            ->leftJoin('user_planos as up', 'pc.id', '=', 'up.plano_id')
+            ->where('p.id_pai', '=', 0)
+            ->select("p.id", 'p.titulo', DB::raw('(CASE WHEN up.plano_id IS NULL THEN 1 ELSE 0 END) AS pode_excluir'))
+            ->groupBy('p.id')
+            ->get();
+    }
+
+    public function findChildrenAdm($id)
+    {
+        return DB::table('planos as p')
+            ->leftJoin('user_planos as up', 'p.id', '=', 'up.plano_id')
+            ->where('id_pai', '=', $id)
+            ->select("p.id", 'p.titulo', DB::raw('(CASE WHEN up.plano_id IS NULL THEN 1 ELSE 0 END) AS pode_excluir'))
+            ->get();
+    }
+
     public function findParentsById($id)
     {
         return DB::table('planos')

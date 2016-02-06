@@ -41,6 +41,7 @@ abstract class Service implements ServiceInterface
 
 	public function destroy($id)
 	{
+		Debug::dump($this->repository->find($id));
 		return $this->repository->find($id)->delete();
 	}
 }

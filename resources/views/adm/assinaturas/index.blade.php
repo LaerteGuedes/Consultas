@@ -66,7 +66,9 @@
                                                                 <div class="col-lg-6"><a href="{{route("adm.editassinatura", ['id' => $assinatura->id])}}">{{$assinatura->titulo}}</a></div>
                                                                 <div class="col-lg-3 text-right">R$ {{$assinatura->valor}}</div>
                                                                 <div class="col-lg-2 text-right">{{$assinatura->numero_parcelas}}</div>
-                                                                <div class="col-lg-1 text-right"><a href="{{route('adm.excluirassinatura', ['id' => $assinatura->id])}}"><i class="fa fa-times red"></i></a></div>
+                                                                @if($assinatura->pode_excluir)
+                                                                    <div class="col-lg-1 text-right"><a href="{{route('adm.excluirassinatura', ['id' => $assinatura->id])}}"><i class="fa fa-times red"></i></a></div>
+                                                                @endif
                                                             </div>
                                                         </li>
                                                     @endforeach

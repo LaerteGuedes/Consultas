@@ -48,4 +48,9 @@ class AssinaturaService extends Service
 
         return false;
     }
+
+    public function assinaturasAdm()
+    {
+        return $this->repository->assinaturasAdm();
+    }
 }

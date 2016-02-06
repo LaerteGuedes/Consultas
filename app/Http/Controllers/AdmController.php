@@ -160,7 +160,7 @@ class AdmController extends Controller
     }
 
     public function operadoras(){
-        $operadoras = $this->planoService->findParents();
+        $operadoras = $this->planoService->findParentsAdm();
 
         return view("adm.planos.operadoras")->with("operadoras", $operadoras);
     }
@@ -416,7 +416,7 @@ class AdmController extends Controller
     }
 
     public function assinaturas(){
-        $assinaturas = $this->assinaturaService->all();
+        $assinaturas = $this->assinaturaService->assinaturasAdm();
 
         return view("adm.assinaturas.index")->with('assinaturas', $assinaturas);
     }
