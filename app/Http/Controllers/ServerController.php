@@ -26,6 +26,7 @@ use App\Services\EspecialidadeService;
 use App\Services\RamoService;
 use App\Services\ComentarioService;
 use App\Services\AvaliacaoService;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -590,13 +591,29 @@ class ServerController extends Controller
         return \Response::json(['data'=> $response]);
     }
 
+    public function gradeDiasSemana(Request $request)
+    {
+        $response = $this->gradeService->getAllHorariosTurno($request->get('user_id'), $request->all());
+
+        if (sizeof($response)){
+            return \Response::json(['data' => $response]);
+        }
+    }
+
+    public function deleteHorarioGrade($id)
+    {
+        if( $this->gradeService->destroy($id) )
+        {
+            return \Response::json(['message' => 'Horário excluído com sucesso!']);
+        }
+    }
+
     public function detalhesProfissional($user_id, $localidade_id, Request $request)
     {
         $dias_semanais = $this->gradeService->getDiasSemanais();
         $turnos = $this->gradeService->getTurnos();
 
         $grade = array();
-
 
         foreach ($dias_semanais as $sigla_dia => $dia_semana) {
             foreach ($turnos as $sigla_turno => $turno) {

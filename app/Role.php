@@ -12,7 +12,7 @@ class Role extends Model
     CONST PROFISSIONAL = 3;
     CONST COLABORADOR = 4;
 
-    use SoftDeletes;
+  //  use SoftDeletes;
 
     protected $fillable= ['name','description'];
 

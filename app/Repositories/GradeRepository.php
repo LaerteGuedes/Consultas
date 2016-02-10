@@ -3,12 +3,12 @@
 namespace App\Repositories;
 
 use App\Contracts\GradeRepositoryInterface;
+use App\Custom\Debug;
 use App\Repository;
 use App\Grade;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Mockery\CountValidator\Exception;
-use Symfony\Component\Debug\Debug;
 
 class GradeRepository extends Repository implements GradeRepositoryInterface
 {
@@ -119,20 +119,18 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
 
     public function getHorariosByUser($id , $data)
     {
-
-
         return $this->model->where('user_id',$id)
             ->where('localidade_id',$data['localidade_id'])
             ->where('dia_semana',$data['dia_semana'])
             ->where('turno',$data['turno'])
-            ->orderBY('horario','asc')
+            ->orderBy('horario','asc')
             ->get();
     }
 
     public function isHorariosIncompativeis($user_id, $horario, $dia_semana, $localidades)
     {
         if ($this->model->where('user_id', $user_id)->where('horario', $horario)
-                        ->where('dia_semana', $dia_semana)->whereIn('localidade_id', $localidades)->count()){
+            ->where('dia_semana', $dia_semana)->whereIn('localidade_id', $localidades)->count()){
             return true;
         }else{
             return false;
@@ -143,6 +141,9 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
     {
         if(isset($data['dias']))
         {
+            if (!is_array($data['dias'])){
+                $data['dias'] = json_decode($data['dias']);
+            }
             foreach($data['dias'] as $dia_semana)
             {
                 $this->createGrade( $id, $data , $dia_semana);
@@ -210,4 +211,4 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
 
     }
 
-} 
+}

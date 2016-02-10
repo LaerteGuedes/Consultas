@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserEspecialidade extends Model
 {
-    use SoftDeletes;
+  //  use SoftDeletes;
 
     protected $fillable = ['user_id','especialidade_id'];
 

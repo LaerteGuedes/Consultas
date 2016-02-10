@@ -165,8 +165,9 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     
     Route::post("/localidade/store", ['as' => "localidade.store", 'uses' => "ServerController@storeLocalidade"]);
 
-    Route::post("/grade/store", ['as' => "localidade.store", 'uses' => "ServerController@storeGrade"]);
-
+    Route::post("/grade/store", ['as' => "apigrade.store", 'uses' => "ServerController@storeGrade"]);
+    Route::get("/grade/diassemana", ['as' => "apigrade.diassemana", 'uses' => "ServerController@gradeDiasSemana"]);
+    Route::get("/grade/delete/{id}", ['as' => "api.grade.delete", 'uses' => "ServerController@deleteHorarioGrade"]);
 
     Route::get("/consultas", ['uses' => "ServerController@consultas"]);
     Route::get("/consultas/datas", ['as' => "api.consultas.datas", 'uses' => "ServerController@consultasDatas"]);

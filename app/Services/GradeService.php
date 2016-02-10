@@ -84,6 +84,27 @@ class GradeService extends Service
         return  $this->repository->getHorarioFuncionamentoPorLocalidadeByUser($user_id,$localidade_id);
     }
 
+    public function getAllHorariosTurno($user_id, $data)
+    {
+        $turnos = ['m' => 'Manhã', 't' => 'Tarde', 'n' => 'Noite'];
+        $diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+        $data = ['localidade_id' => $data['localidade_id'], 'turno' => 'm'];
+
+        $aux = 0;
+        foreach ($turnos as $sigla => $turno){
+            foreach ($diasSemana as $dia) {
+                $data['turno'] = $sigla;
+                $data['dia_semana'] = $dia;
+                $grade[$aux]['turno_sigla'] = $sigla;
+                $grade[$aux]['turno_nome'] = $turno;
+                $grade[$aux]['dias'][$dia] = $this->repository->getHorariosByUser($user_id, $data);
+            }
+            $aux++;
+        }
+
+        return $grade;
+    }
+
     public function getTurnos()
     {
         return $this->turnos;

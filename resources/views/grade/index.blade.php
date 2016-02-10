@@ -467,11 +467,12 @@
                                 }
 
                                 var url = "{{ url('/store/grade')  }}";
+                                console.log(data);
                                 $.post(url,data,function(response){
                                     if (response.message){
                                         alert(response.message);
                                     }else{
-                                        location.reload();
+//                                        location.reload();
                                     }
                                 });
                             }
