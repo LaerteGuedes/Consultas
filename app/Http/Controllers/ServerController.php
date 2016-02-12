@@ -591,6 +591,17 @@ class ServerController extends Controller
         return \Response::json(['data'=> $response]);
     }
 
+    public function cancelarDia(Request $request)
+    {
+        try{
+            $this->gradeService->cancelarDia($request->get('user_id'), $request->get('localidade_id'), $request->get('dia_semana'));
+        }catch (Exception $ex){
+            return \Response::json(['success' => false]);
+        }
+
+        return \Response::json(['success' => true]);
+    }
+
     public function gradeDiasSemana(Request $request)
     {
         $response = $this->gradeService->getAllHorariosTurno($request->get('user_id'), $request->all());
@@ -693,14 +704,12 @@ class ServerController extends Controller
 
     public function profissionalEtapa(Request $request)
     {
-        $etapa = $this->userService->getProfissionalEtapa($request->get('user_id'));
-
-        if ($etapa === true){
-            return response()->json(['success' => true, 'etapa' => 'next']);
-        }elseif($etapa){
-            return response()->json(['success' => true, 'etapa' => $etapa]);
+        $etapa = $this->userService->checkEtapa($request->get('user_id'));
+        if (!$etapa){
+            return response()->json(['canPass' => true]);
+        }else{
+            return response()->json(['canPass' => false, 'etapa' => $etapa]);
         }
-        return response()->json(['success' => false]);
     }
 
 }

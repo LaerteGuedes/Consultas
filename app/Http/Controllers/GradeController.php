@@ -69,6 +69,11 @@ class GradeController extends Controller
     	}
     }
 
+	public function etapaAtual(Request $request)
+	{
+		
+	}
+
 	public function cancelarDia($localidade_id, $dia_semana)
 	{
 		$this->gradeService->cancelarDia(Auth::user()->id, $localidade_id, $dia_semana);

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Assinatura;
 use App\Custom\Debug;
+use App\Role;
 use App\Service;
 use App\Contracts\UserRepositoryInterface;
 use Illuminate\Support\Facades\Session;
@@ -251,6 +252,53 @@ class UserService extends Service
     public function userNaoAtendePlanos($user_id)
     {
         return $this->repository->userNaoAtendePlanos($user_id);
+    }
+
+    public function checkEtapa($user_id)
+    {
+        $user = $this->repository->find($user_id);
+
+        if ($user->role_id != Role::PROFISSIONAL){
+            return false;
+        }
+
+        $localidadeCount = $user->localidades()->count();
+
+        if (!$localidadeCount){
+            return 'localidade';
+        }
+
+        $gradeCount = $user->grades()->count();
+
+        if (!$gradeCount){
+            return 'grade';
+        }
+
+        $plano = $user->planos()->first();
+
+        if (!isset($plano->id)){
+            return 'grade';
+        }
+
+        $assinatura = $user->userAssinatura()->first();
+
+        if (!isset($assinatura->id)){
+            return 'assinatura';
+        }
+
+        if ($assinatura->assinatura_status == 'AGUARDANDO'){
+            return 'assinaturaaguardando';
+        }
+
+        if ($assinatura->assinatura_status == 'SUSPENSO'){
+            return 'assinaturasuspensa';
+        }
+
+        if ($assinatura->assinatura_status == 'PERIODO_TESTES_SUSPENSO'){
+            return 'assinaturatestessuspensa';
+        }
+
+        return false;
     }
 
 } 
