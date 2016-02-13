@@ -171,6 +171,10 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get("/grade/cancelardia", ['as' => 'api.grade.cancelardia', 'uses' => 'ServerController@cancelarDia']);
     
     Route::get("/etapa/check", ['as' => "api.etapa.check", 'uses' => "ServerController@etapaAtual"]);
+    
+    Route::get("/operadoras", ['as' => "api.operadoras", 'uses' => "ServerController@operadoras"]);
+    Route::get("/planos", ['as' => "api.planos", 'uses' => "ServerController@planos"]);
+    Route::post("/planos/salvar", ['as' => "api.planos.salvar", 'uses' => "ServerController@salvarPlanos"]);
 
     Route::get("/consultas", ['uses' => "ServerController@consultas"]);
     Route::get("/consultas/datas", ['as' => "api.consultas.datas", 'uses' => "ServerController@consultasDatas"]);

@@ -82,7 +82,6 @@ class UserPlanoController extends Controller
     }
 
     public function salvar(){
-
         $planos = Request::input('planos');
 
         if (Request::has('nao_atende_planos')){

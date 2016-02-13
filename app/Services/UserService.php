@@ -277,7 +277,7 @@ class UserService extends Service
         $plano = $user->planos()->first();
 
         if (!isset($plano->id)){
-            return 'grade';
+            return 'plano';
         }
 
         $assinatura = $user->userAssinatura()->first();

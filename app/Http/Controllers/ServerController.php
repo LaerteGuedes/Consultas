@@ -712,4 +712,42 @@ class ServerController extends Controller
         }
     }
 
+    public function operadoras(Request $request)
+    {
+        $operadoras = $this->planoService->findParents();
+        $planos = array();
+        foreach ($operadoras as $operadora) {
+            $planos[$operadora->id] = $this->planoService->findChildren($operadora->id);
+        }
+        return response()->json(['operadoras' => $operadoras, 'planos' => $planos]);
+    }
+
+    public function planos(Request $request)
+    {
+        $planoPai = $this->planoService->find($request->get('id'));
+        $planos = $this->planoService->findChildren($request->get('id'));
+
+        return response()->json(['planos' => $planos]);
+    }
+
+    public function salvarPlanos(Request $request)
+    {
+        $planos = json_decode($request->get('planos'));
+        $planos = array_filter($planos);
+
+        if ($request->has('nao_atende_planos')){
+            if ($request->get('nao_atende_planos')){
+                $this->userService->userNaoAtendePlanos($request->get('user_id'));
+                return response()->json(['success' => true, 'message' => 'salvo com sucesso!']);
+            }
+        }
+
+        $isSaved = $this->planoService->insertUserPlanos($request->get('user_id'), $planos);
+
+        if ($isSaved){
+            return response()->json(['success' => true, 'message' => 'salvo com sucesso!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Houve um problema com o cadastro!']);    }
+
 }
