@@ -287,15 +287,15 @@ class UserService extends Service
         }
 
         if ($assinatura->assinatura_status == 'AGUARDANDO'){
-            return 'assinaturaaguardando';
+            return 'assinatura';
         }
 
         if ($assinatura->assinatura_status == 'SUSPENSO'){
-            return 'assinaturasuspensa';
+            return 'assinatura';
         }
 
         if ($assinatura->assinatura_status == 'PERIODO_TESTES_SUSPENSO'){
-            return 'assinaturatestessuspensa';
+            return 'assinatura';
         }
 
         return false;

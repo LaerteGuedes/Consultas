@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Custom\Debug;
+use App\Services\AssinaturaService;
 use App\Services\AvisoService;
 use App\Services\BairroService;
 use App\Services\CalendarService;
@@ -50,6 +51,7 @@ class ServerController extends Controller
     protected $planoService;
     protected $mailService;
     protected $messageService;
+    protected $assinaturaService;
 
     public function __construct(
         UserService          $userService,
@@ -68,7 +70,8 @@ class ServerController extends Controller
         UserEspecialidadeService $userEspecialidadeService,
         PlanoService         $planoService,
         MailService          $mailService,
-        MessageService       $messageService
+        MessageService       $messageService,
+        AssinaturaService    $assinaturaService
     )
     {
 
@@ -89,6 +92,7 @@ class ServerController extends Controller
         $this->planoService         = $planoService;
         $this->mailService          = $mailService;
         $this->messageService       = $messageService;
+        $this->assinaturaService    = $assinaturaService;
     }
 
     public function listarEstados()
@@ -748,6 +752,46 @@ class ServerController extends Controller
             return response()->json(['success' => true, 'message' => 'salvo com sucesso!']);
         }
 
-        return response()->json(['success' => false, 'message' => 'Houve um problema com o cadastro!']);    }
+        return response()->json(['success' => false, 'message' => 'Houve um problema com o cadastro!']);
+    }
+
+
+    public function assinatura(Request $request)
+    {
+        $user = $this->userService->find($request->get('user_id'));
+        $userAssinatura = $user->userAssinatura()->first();
+
+        if (isset($userAssinatura->id)){
+            return response()->json(['hasAssinatura' => true, 'assinatura' => $userAssinatura]);
+        }
+        return response()->json(['hasAssinatura' => false]);
+    }
+
+    public function assinaturaStore(Request $request){
+        $params = $request->all();
+
+        if ($request->has('versao_teste')){
+            $params = $request->all();
+            $params['assinatura_status'] = 'PERIODO_TESTES';
+            $params['assinatura_id'] = 5;
+            $params['usou_periodo_testes'] = 1;
+            $params['expiracao'] = date('Y-m-d h:i:s', strtotime("+30 days"));
+        }
+
+        $this->userService->saveUserAssinatura($request->get('user_id'), $params);
+
+        if ($request->has('versao_teste')){
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
+
+    public function assinaturaLista(Request $request)
+    {
+        $assinaturas = $this->assinaturaService->all();
+
+        return response()->json(['assinaturas' => $assinaturas]);
+    }
 
 }

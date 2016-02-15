@@ -169,7 +169,11 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get("/grade/diassemana", ['as' => "apigrade.diassemana", 'uses' => "ServerController@gradeDiasSemana"]);
     Route::get("/grade/delete/{id}", ['as' => "api.grade.delete", 'uses' => "ServerController@deleteHorarioGrade"]);
     Route::get("/grade/cancelardia", ['as' => 'api.grade.cancelardia', 'uses' => 'ServerController@cancelarDia']);
-    
+
+    Route::get("/assinatura", ['as' => 'api.assinatura.index', 'uses' => 'ServerController@assinatura']);
+    Route::post("/assinatura/store", ['as' => "api.assinatura.store", 'uses' => "ServerController@assinaturaStore"]);
+    Route::get("/assinatura/lista", ['as' => "api.assinatura.lista", 'uses' => "ServerController@assinaturaLista"]);
+
     Route::get("/etapa/check", ['as' => "api.etapa.check", 'uses' => "ServerController@etapaAtual"]);
     
     Route::get("/operadoras", ['as' => "api.operadoras", 'uses' => "ServerController@operadoras"]);

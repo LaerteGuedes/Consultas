@@ -115,7 +115,7 @@ class EtapaController extends Controller
     public function assinatura()
     {
         $user_id = \Auth::user()->id;
-        $usou_periodo_testes = Auth::user()->usos_periodo_testes;
+        $usou_periodo_testes = Auth::user()->usou_periodo_testes;
         $assinaturas = $this->assinaturaService->all();
 
         return view("assinatura.nova")->with(['assinaturas' => $assinaturas, 'user_id' => $user_id, 'usou_periodo_testes' => $usou_periodo_testes]);

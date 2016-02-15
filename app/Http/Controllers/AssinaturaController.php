@@ -48,7 +48,6 @@ class AssinaturaController extends Controller
     public function store(Request $request){
         $params = $request->all();
 
-
         if ($request->has('versao_teste')){
             $params = $request->all();
             $params['assinatura_status'] = 'PERIODO_TESTES';
