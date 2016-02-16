@@ -230,6 +230,11 @@ class ServerController extends Controller
     public function registrarNovoUsuario(Request $request)
     {
         $data = $this->userService->registrarNovoUsuarioApi( $request->all() );
+        if ($request->has('especialidade_id')){
+            $params = $request->all();
+            $params['user_id'] = $data->id;
+            $this->userEspecialidadeService->create($params);
+        }
 
         if($data)
         {
