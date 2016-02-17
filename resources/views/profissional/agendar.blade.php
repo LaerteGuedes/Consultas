@@ -77,6 +77,24 @@
 
                             <!-- DATAS E HOÁRIOS -->
                             <div id="datas-horarios">
+                                <div class="row">
+                                    <form action="#">
+                                        <div class="col-lg-7">
+                                            <div class="form-group">
+                                                <div class="col-lg-6">
+                                                    <label for="data_semana">Dia desejado para a consulta: </label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" name="data_semana" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <button class="btn btn-defautl" type="submit">Pesquisar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <br><br>
                                 <div class="header-nav row">
                                     <div class="col-lg-6 text-left">
                                         <a  href="{{ url( route('profissional.agendar',['user_id'=>$user->id,'localidade_id'=> $localidade->id]) .'?previous=' . $semana_atual['seg'] ) }}"><i class="fa fa-chevron-left"></i> Semana anterior</a>

@@ -77,11 +77,9 @@ class LocalidadeController extends Controller
             }
         }
 
-
-
         return redirect()->route('novo.localidade')->withErros([$this->messageService->getMessage('error')]);
-
     }
+
     public function edit($id , EstadoService $estadoService , CidadeService $cidadeService, BairroService $bairroService)
     {
         $localidade = $this->localidadeService->find($id);
@@ -98,9 +96,8 @@ class LocalidadeController extends Controller
             'localidade' => $localidade,
 
         ]);
-
-
     }
+
     public function update($id  , LocalidadeRequest $request , BairroService $bairroService )
     {
 

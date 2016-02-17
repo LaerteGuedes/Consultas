@@ -92,6 +92,8 @@ class ProfissionalController extends Controller
         }
         elseif($request->get('previous')){
             $semanaAtual = $this->calendarService->getPreviousSemana($request->get('previous'));
+        }elseif($request->get('data_semana')){
+            $semanaAtual = $this->calendarService->getCustomSemana($request->get('data_semana'));
         }else {
             $semanaAtual = $this->calendarService->getSemanaAtual();
         }
