@@ -287,6 +287,7 @@ class ServerController extends Controller
         ]);
     }
 
+
     public function getTotalComentarioProfissional(Request $request)
     {
         $data = $this->comentarioService->getTotalComentarioProfissional( $request->get('id') );
@@ -664,6 +665,8 @@ class ServerController extends Controller
         }
         elseif($request->get('previous')){
             $semana_atual = $this->calendarService->getPreviousSemana($request->get('previous'));
+        }elseif($request->get('data_semana')){
+            $semana_atual = $this->calendarService->getCustomSemana($request->get('data_semana'));
         }else {
             $semana_atual = $this->calendarService->getSemanaAtual();
         }

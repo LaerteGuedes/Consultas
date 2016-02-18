@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Debug;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -48,6 +49,7 @@ class ComentarioController extends Controller
      */
     public function store(Request $request)
     {
+        Debug::dump($request->all());
         $request->merge(['user_id'=> \Auth::user()->id ]);
         $this->comentarioService->create($request->all());
         return redirect(  url( route('profissional.detalhe' , $request->get('comentado')) .'#avaliacoes' ) );
