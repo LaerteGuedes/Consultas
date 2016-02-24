@@ -102,7 +102,7 @@
                   <li><a href="{{ route('servicos') }}"> <i class="glyphicon glyphicon-tasks"> Meus Serviços</i> </a></li>
 
                   @endif
-
+                  <li><a href="{{ url('/perfil/cancelar') }}"> <i class="glyphicon glyphicon-log-out"></i> Cancelar conta</a></li>
                   <li><a href="{{ url('/auth/logout') }}"> <i class="glyphicon glyphicon-log-out"></i> Sair</a></li>
                   
                 </ul>

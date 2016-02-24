@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use App\Services\EspecialidadeService;
 use App\Services\MessageService;
+use Illuminate\Support\Facades\Auth;
 
 class PerfilController extends Controller
 {
@@ -52,6 +53,21 @@ class PerfilController extends Controller
         }
 
         return redirect()->route('edit.perfil')->withErrors([$this->messageService->getMessage('error')]);
+    }
+
+    public function cancelarConta()
+    {
+        return view("perfil.cancelar");
+    }
+
+    public function excluirConta()
+    {
+        $user = Auth::user();
+
+        $this->userService->destroy($user->id);
+
+        Auth::logout();
+        return redirect("/");
     }
 
 }

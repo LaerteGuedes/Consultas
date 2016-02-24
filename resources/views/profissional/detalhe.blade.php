@@ -354,27 +354,18 @@
 
                                                     @foreach($comentarios as $comentario)
 
-                                                        <?php
-
-                                                        $star_votos = $avaliacaoService->getAvaliacaoUsuarioParaProfissional(
-                                                                $comentario->user->id,
-                                                                $user->id
-
-                                                        )
-                                                        ?>
-
                                                         <li class="list-group-item avaliacao">
                                                             {{ $comentario->descricao }}
                                                             <span>
 
-                                                <i class="fa fa-star{{  $star_votos >= 1 ? '':'-o' }}"></i>
-                                                <i class="fa fa-star{{  $star_votos >= 2 ? '':'-o' }}"></i>
-                                                <i class="fa fa-star{{  $star_votos >= 3 ? '':'-o' }}"></i>
-                                                <i class="fa fa-star{{  $star_votos >= 4 ? '':'-o' }}"></i>
-                                                <i class="fa fa-star{{  $star_votos >= 5 ? '':'-o' }}"></i>
+                                                <i class="fa fa-star{{  $comentario->star_votos >= 1 ? '':'-o' }}"></i>
+                                                <i class="fa fa-star{{  $comentario->star_votos >= 2 ? '':'-o' }}"></i>
+                                                <i class="fa fa-star{{  $comentario->star_votos >= 3 ? '':'-o' }}"></i>
+                                                <i class="fa fa-star{{  $comentario->star_votos >= 4 ? '':'-o' }}"></i>
+                                                <i class="fa fa-star{{  $comentario->star_votos >= 5 ? '':'-o' }}"></i>
 
 
-                                                <strong>{{ $comentario->user->name . ' ' . $comentario->user->lastname }}</strong>
+                                                <strong>{{ $comentario->comentador }}</strong>
                                             </span>
                                                         </li>
                                                         @endforeach
@@ -401,7 +392,7 @@
                                                 </ul>
                                             @else
 
-                                                <h3><i class="fa fa-hospital-o fa-2"></i> Nenhum comentário no momento.</h3>
+                                                <h3><i class="fa fa-hospital-o fa-2"></i> Deixe seu comentário.</h3>
 
                                             @endif
                                         </div>

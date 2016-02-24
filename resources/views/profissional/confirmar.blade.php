@@ -45,13 +45,20 @@
                             <!-- DATAS E HOÁRIOS -->
                             <div class="row dados-confirmar">
                                 <div class="col-lg-6 ">
-                                    <p><i class="fa fa-hospital-o fa-2x"></i> Dia {{  date('d/m//Y' , strtotime($dia_agenda) )}}</p>
+                                    <p><i class="fa fa-hospital-o fa-2x"></i> Dia {{  date('d/m/Y' , strtotime($dia_agenda) )}}</p>
                                     <p><i class="fa fa-hospital-o fa-2x"></i> às {{  date('H:i' , strtotime($horario_agenda) )}}</p>
-                                    <p><i class="fa fa-hospital-o fa-2x"></i> {{ $localidade->logradouro }} , {{ $localidade->numero }}</p>
+                                    @if($localidade->tipo == "CONSULTORIO")
+                                        <p><i class="fa fa-hospital-o fa-2x"></i> {{ $localidade->logradouro }} , {{ $localidade->numero }}</p>
+                                    @endif
+
                                     <div class="profile-adrress">
                                         {!! $localidade->complemento <> null ? $localidade->complemento .'<br>' : '' !!}
 
-                                        {{ $localidade->bairro->nome }} • {{ $localidade->bairro->cep }}•{{ $localidade->cidade->nome }}/{{ $localidade->uf }}
+                                        @if($localidade->tipo == "DOMICILIO")
+                                           <strong>Bairros atendidos:</strong> {{ $localidade->bairro->nome }} • {{ $localidade->cidade->nome }}/{{ $localidade->uf }}
+                                        @else
+                                            {{ $localidade->bairro->nome }} • {{ $localidade->bairro->cep }}•{{ $localidade->cidade->nome }}/{{ $localidade->uf }}
+                                        @endif
                                     </div>
                                     <div class="profile-phone">
                                         <i class="fa fa-phone"></i>

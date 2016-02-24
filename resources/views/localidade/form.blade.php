@@ -85,25 +85,16 @@
             {!! Form::label('bairro','*Bairro:') !!}
 
             {!! Form::text('bairro' , isset($localidade->id) ? $localidade->bairro->nome : null , [
-
                 'class'        => 'form-control',
-                'autocomplete' => 'off'
-
-
+                'autocomplete' => 'on'
              ]) !!}
 
             {!! Form::hidden('bairro_id',isset($localidade->id) ? $localidade->bairro_id : null,[
-
                     'id'   =>   'bairro_id',
                     isset($localidade->id) ? null : 'disabled'
-
-
             ]) !!}
         </div>
     </div>
-
-
-
 </div>
 
 <div class="form-group">
@@ -136,8 +127,12 @@
 
         $("#tipo").on("change", function(){
             if ($("#tipo").val() == 'DOMICILIO'){
-                $("#bairro").prev('label').html('*Bairros atendidos');
+                $("#bairro").parent().removeClass("col-xs-3");
+                $("#bairro").parent().addClass("col-xs-5");
+                $("#bairro").prev('label').html('*Bairros atendidos (escreva os bairros separados por virgula)');
             }else{
+                $("#bairro").parent().removeClass("col-xs-5");
+                $("#bairro").parent().addClass("col-xs-3");
                 $("#bairro").prev('label').html('*Bairro');
             }
         });
@@ -247,7 +242,6 @@
                     $.get(url, function(response){
 
                         $("#bairro").prop('disabled',false);
-
                         $("#bairro").val('');
 
                         $("#bairro_id").val('');

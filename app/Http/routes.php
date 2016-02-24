@@ -62,6 +62,8 @@ Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
     #rotas para perfil
     Route::get('/edit/perfil',['as'=>'edit.perfil','uses'=>'PerfilController@edit']);
     Route::put('/update/perfil/{id}',['as'=>'update.perfil','uses'=>'PerfilController@update']);
+    Route::get("/perfil/cancelar", ['as' => "perfil.cancelar", 'uses' => "PerfilController@cancelarConta"]);
+    Route::get("/perfil/excluir", ['as' => "perfil.excluir", 'uses' => "PerfilController@excluirConta"]);
 
     #rotas para curriculo
     Route::get('/experiencias',['as'=>'curriculos','uses'=>'CurriculoController@index']);
@@ -161,6 +163,8 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::post("/confirmar/agendamento", ['uses' => 'ServerController@confirmar']);
     Route::post("/finalizar/agendamento", ['uses' => 'ServerController@finalizar']);
     
+    Route::get("/perfil/excluir", ['as' => "api.perfil.excluir", 'uses' => "ServerController@excluirConta"]);
+    
     Route::get("/avisos", ['uses' => 'ServerController@avisos']);
     Route::get("/avisos/profissional", ['as' => "api.avisos.profissional", 'uses' => "ServerController@avisosProfissional"]);    
     
@@ -170,6 +174,8 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get("/grade/diassemana", ['as' => "apigrade.diassemana", 'uses' => "ServerController@gradeDiasSemana"]);
     Route::get("/grade/delete/{id}", ['as' => "api.grade.delete", 'uses' => "ServerController@deleteHorarioGrade"]);
     Route::get("/grade/cancelardia", ['as' => 'api.grade.cancelardia', 'uses' => 'ServerController@cancelarDia']);
+    
+    Route::get("/comentarios/usuario", ['as' => "api.comentarios.usuarios", 'uses' => "ServerController@comentariosPorUsuario"]);
 
     Route::get("/assinatura", ['as' => 'api.assinatura.index', 'uses' => 'ServerController@assinatura']);
     Route::post("/assinatura/store", ['as' => "api.assinatura.store", 'uses' => "ServerController@assinaturaStore"]);
@@ -183,6 +189,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
 
     Route::get("/consultas", ['uses' => "ServerController@consultas"]);
     Route::get("/consultas/datas", ['as' => "api.consultas.datas", 'uses' => "ServerController@consultasDatas"]);
+    Route::get("/consultasprofissional/datas", ['as' => "api.consultasprofissional.datas", 'uses' => "ServerController@consultasProfissionalDatas"]);
     Route::get("/consultas/historico", ['uses' => "ServerController@consultasByDataHistorico"]);
     Route::get("/consultas/futuras", ['uses' => "ServerController@consultasByDataFuturas"]);
     Route::get("/consultas/confirmar", ['as' => "api.confimar.consultas", 'uses' => "ServerController@confirmarConsulta"]);
@@ -192,6 +199,9 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     Route::get('/usuario/detalhe', ['uses' => 'ServerController@usuarioDetalhe']);
 
     Route::post('/register/user',['as'=>'apiregister.user','uses'=>'ServerController@registerUser']);
+    Route::get("/user/listar", ['as' => "api.user.listar", 'uses' => "ServerController@getUser"]);
+
+    Route::get("/planos/usuario", ['as' => "api.planos.usuario", 'uses' => "ServerController@planosUsuario"]);
     
     Route::get("/profissional/etapa", ['as' => "apiprofissional.etapa", 'uses' => "ServerController@profissionalEtapa"]);
 });

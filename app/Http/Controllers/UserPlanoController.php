@@ -78,6 +78,7 @@ class UserPlanoController extends Controller
             }
         }
 
+
         return view("plano.novo")->with('planos', $planosPai)->with('vPlanos', $vPlanos);
     }
 

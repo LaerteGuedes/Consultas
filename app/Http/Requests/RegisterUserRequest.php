@@ -48,6 +48,8 @@ class RegisterUserRequest extends Request
 
             'name.required'     => 'O nome é obrigatório',
             'lastname.required' => 'O sobrenome é obrigatório',
+            'email.required' => "O email é obrigatória",
+            'password.required' => 'A senha é obrigatória',
 
             'name.min'     => 'O nome deve conter no minimo 2 caracteres',
             'lastname.min' => 'O sobrenome deve conter no minimo 2 caracteres',

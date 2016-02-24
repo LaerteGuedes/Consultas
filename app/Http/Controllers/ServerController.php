@@ -230,14 +230,14 @@ class ServerController extends Controller
     public function registrarNovoUsuario(Request $request)
     {
         $data = $this->userService->registrarNovoUsuarioApi( $request->all() );
-        if ($request->has('especialidade_id')){
-            $params = $request->all();
-            $params['user_id'] = $data->id;
-            $this->userEspecialidadeService->create($params);
-        }
 
         if($data)
         {
+            if ($request->has('especialidade_id')){
+                $params = $request->all();
+                $params['user_id'] = $data->id;
+                $this->userEspecialidadeService->create($params);
+            }
             $success = true;
         }else
         {
@@ -310,9 +310,24 @@ class ServerController extends Controller
 
     }
 
+    public function excluirConta(Request $request)
+    {
+        try{
+            $this->userService->destroy($request->get("id"));
+            $response = ['success' => true];
+
+        }catch (Exception $ex){
+            $response = ['success' => false];
+        }
+
+        return response()->json([
+           'success' => true
+        ]);
+    }
+
     public function listarDadosProfissional(Request $request)
     {
-        $data = $this->userService->listarDadosProfissionalApi( $request->get('id') );
+        $data = $this->userService->listarDadosProfissionalApi($request->get('id'));
         if($data)
         {
             $success = true;
@@ -329,6 +344,17 @@ class ServerController extends Controller
             'data'    => $data
         ]);
 
+    }
+
+    public function comentariosPorUsuario(Request $request)
+    {
+        $comentarios = $this->userService->comentariosPorUsuario($request->get("id"), $request->get("profissional"));
+
+        return response()->json([
+
+            'success' => true,
+            'data'    => $comentarios
+        ]);
     }
 
     public function listarComentariosProfissional(Request $request)
@@ -538,6 +564,35 @@ class ServerController extends Controller
         ]);
     }
 
+    public function consultasProfissionalDatas(Request $request)
+    {
+        if($request->get('next_mes'))
+        {
+            $mes = $request->get('next_mes');
+        }elseif($request->get('previous_mes'))
+        {
+            $mes = $request->get('previous_mes');
+        }else
+        {
+            $mes = $this->calendarService->getMesAtual();
+        }
+
+        $next_mes = $this->calendarService->getNextMes($mes);
+        $previous_mes = $this->calendarService->getPreviousMes($mes);
+
+        $consultas = $this->consultaService->listarConsultasByProfissional($request->get('id') ,[
+            'mes' => date('m', strtotime($mes)),
+            'ano' => date('Y', strtotime($mes))
+        ]);
+
+        return response()->json([
+            'mes'=>$mes,
+            'next_mes'=> $next_mes,
+            'previous_mes' => $previous_mes,
+            'consultas' => $consultas
+        ]);
+    }
+
     public function registerUser(Request $request)
     {
         $user_exist = $this->userService->findBy('email', $request->get('email'));
@@ -561,6 +616,38 @@ class ServerController extends Controller
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false, 'message' => 'Houve um problema com o cadastro!']);
+    }
+
+    public function getUser(Request $request)
+    {
+        $user = $this->userService->find($request->get('id'));
+
+        if (isset($user->id)){
+            return response()->json(['success' => true, 'user' => $user]);
+        }else{
+            return response()->json(['success' => false]);
+        }
+    }
+
+    public function planosUsuario(Request $request)
+    {
+//        $planos = $this->planoService->findParents()->toArray();
+//
+//        foreach ($planos as $key => $plano) {
+//            $planos[$key]['filhos'] = $this->planoService->findChildren($plano['id']);
+//        }
+//
+//        $planosPaiExistentes = $this->planoService->findParentsById(2);
+//        $planosFilhoExistentes = $this->planoService->paginateByUser(2)->toArray();
+//
+//        foreach ($planosPaiExistentes as $planoPai) {
+//
+//        }
+//
+//
+//        Debug::dump($planosPaiExistentes, false);
+//        Debug::dump($planosFilhoExistentes);
+
     }
 
     public function storeLocalidade(Request $request)

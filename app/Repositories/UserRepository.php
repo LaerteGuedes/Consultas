@@ -137,8 +137,8 @@ class UserRepository extends Repository implements UserRepositoryInterface
     }
 
     public function comentariosPorUsuario($user_id, $comentado){
-
-        return $this->model->find($user_id)->comentadores()->where('comentado', '=', $comentado)->get();
+        $data = ['user_id' => $user_id, 'comentado' => $comentado];
+        return \DB::select("select c.id, c.descricao, CONCAT(u.name,' ', u.lastname) AS comentador, a.nota as star_votos  from comentarios c, avaliacaos a, users u WHERE c.user_id = a.avaliador AND c.comentado = a.user_id AND u.id = c.user_id AND c.user_id = ".$user_id."  AND c.comentado = ".$comentado."  GROUP BY c.id");
     }
 
     public function pesquisar($data = array() , $perpage = 50)
@@ -387,6 +387,7 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
                 'views'         => $user->views,
                 'thumbnail'     => $user->thumbnail,
                 'especialidade' => $user->especialidade->especialidade->nome,
+                'nao_atende_planos' => $user->nao_atende_planos,
                 'ramo'          => $ramos,
                 'total_comentarios' => $total_comentarios,
                 'total_avaliacoes' => $total_avaliacoes
