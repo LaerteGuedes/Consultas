@@ -203,6 +203,8 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
 
     Route::get("/planos/usuario", ['as' => "api.planos.usuario", 'uses' => "ServerController@planosUsuario"]);
     
+    Route::get("/ramos", ['as' => "api.planos.ramos", 'uses' => "ServerController@ramos"]);
+    
     Route::get("/profissional/etapa", ['as' => "apiprofissional.etapa", 'uses' => "ServerController@profissionalEtapa"]);
 });
 

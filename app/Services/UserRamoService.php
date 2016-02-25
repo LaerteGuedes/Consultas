@@ -22,4 +22,9 @@ class UserRamoService extends  Service
     {
         return $this->repository->paginateByUser($id);
     }
+
+    public function byUser($id)
+    {
+        return $this->repository->byUser($id);
+    }
 } 

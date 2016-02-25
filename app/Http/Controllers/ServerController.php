@@ -14,6 +14,7 @@ use App\Services\MailService;
 use App\Services\MessageService;
 use App\Services\PlanoService;
 use App\Services\UserEspecialidadeService;
+use App\Services\UserRamoService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -52,6 +53,7 @@ class ServerController extends Controller
     protected $mailService;
     protected $messageService;
     protected $assinaturaService;
+    protected $userRamoService;
 
     public function __construct(
         UserService          $userService,
@@ -71,7 +73,8 @@ class ServerController extends Controller
         PlanoService         $planoService,
         MailService          $mailService,
         MessageService       $messageService,
-        AssinaturaService    $assinaturaService
+        AssinaturaService    $assinaturaService,
+        UserRamoService      $userRamoService
     )
     {
 
@@ -93,6 +96,7 @@ class ServerController extends Controller
         $this->mailService          = $mailService;
         $this->messageService       = $messageService;
         $this->assinaturaService    = $assinaturaService;
+        $this->userRamoService      = $userRamoService;
     }
 
     public function listarEstados()
@@ -648,6 +652,12 @@ class ServerController extends Controller
 //        Debug::dump($planosPaiExistentes, false);
 //        Debug::dump($planosFilhoExistentes);
 
+    }
+
+    public function ramos(Request $request)
+    {
+        $ramos = $this->userRamoService->byUser($request->get('id'));
+        return response()->json(['ramos' => $ramos]);
     }
 
     public function storeLocalidade(Request $request)
