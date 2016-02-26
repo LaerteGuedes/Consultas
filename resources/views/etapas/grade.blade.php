@@ -1,4 +1,4 @@
-@extends('site')
+    @extends('site')
 @section('title','Grade de Horários')
 @section('content')
     <section class="main">
@@ -56,7 +56,7 @@
                                                                             @foreach($horarios as $horario)
                                                                                 <li>
                                                                                     {{ date("H:i",strtotime($horario->horario)) }}
-                                                                                    <a href="{{ route('delete.horario.grade' , $horario->id ) }}" class="disable-button">
+                                                                                    <a href="{{ route('delete.horario.grade.ajax' , $horario->id ) }}" class="disable-button">
                                                                                         <i class="glyphicon glyphicon-remove"></i>
                                                                                     </a>
                                                                                 </li>
@@ -81,7 +81,7 @@
                                                     <td>CANCELAR CONSULTAS</td>
                                                     @foreach($dias_semanais as $sigla_dia => $dia)
                                                         <td style="text-align: center;">
-                                                            <a href="grade/cancelardia/{{$localidade['id']}}/{{$sigla_dia}}" id="botao-{{$sigla_dia}}-{{$localidade['id']}}" class="btn btn-xs btn-danger cancelar-dia">Cancelar</a>
+                                                            <a href="/grade/cancelardia/{{$localidade['id']}}/{{$sigla_dia}}" id="botao-{{$sigla_dia}}-{{$localidade['id']}}" class="btn btn-xs btn-danger cancelar-dia">Cancelar</a>
                                                         </td>
                                                     @endforeach
                                                 </tr>
@@ -99,7 +99,7 @@
                                 </div>
 
                             </div>
-                            <a href="{{route('etapa.plano')}}" class="btn btn-success btn-lg btn-block" >Salvar e avançar</a>
+                            <a href="{{route('etapa.plano')}}" id="grade-avancar" class="btn btn-success btn-lg btn-block" >Salvar e avançar</a>
                         </div>
                     </div>
                     <!-- /Painel padrão -->
@@ -409,6 +409,50 @@
 
         $(document).ready(function(){
 
+            $(".disable-button").on("click", function(){
+                var self = $(this);
+                var href = self.attr('href');
+
+                $.ajax({
+                    url: href,
+                    method: "get",
+                    dataType: "json",
+                    success: function(response){
+                        console.log(response);
+                        if (response.success == true){
+                            self.parent().fadeOut();
+                        }else{
+                            alert("Houve um erro!");
+                        }
+                    }
+                });
+
+
+                return false;
+            });
+
+            $("#grade-avancar").on("click", function(event){
+                var localidade_id = $(".add-horario-manha").data('localidade_id');
+                var href = $(this).attr('href');
+
+                $.ajax({
+                    url: "/etapa/gradelocalidadeajax",
+                    method: "get",
+                    dataType: "json",
+                    data: {localidade_id: localidade_id},
+                    success: function(response){
+                        if (response.success == true){
+                            window.location.href = href;
+                        }else{
+                            alert("Você precisa cadastrar ao menos um horário para continuar!")
+                            return false;
+                        }
+                    }
+                });
+
+                return false;
+            });
+
             $(".add-horario-manha").on('click', function(){
 
                 var btn           = $(this);
@@ -460,6 +504,15 @@
                                     dia_semana:dia_semana,
                                     turno:turno
                                 }
+
+                                var horarioInicio = parseInt(data['hora_inicio']);
+                                var horarioFinal = parseInt(data['hora_final']);
+
+                                if (horarioInicio > horarioFinal){
+                                    alert("O horário de início de atendimento deve ser menor que o horário de fim!");
+                                    return false;
+                                }
+
                                 var url = "{{ url('/store/grade')  }}";
                                 $.post(url,data,function(response){
                                     if (response.message){

@@ -85,8 +85,7 @@
             {!! Form::label('bairro','*Bairro:') !!}
 
             {!! Form::text('bairro' , isset($localidade->id) ? $localidade->bairro->nome : null , [
-                'class'        => 'form-control',
-                'autocomplete' => 'on'
+                'class'        => 'form-control'
              ]) !!}
 
             {!! Form::hidden('bairro_id',isset($localidade->id) ? $localidade->bairro_id : null,[
@@ -255,18 +254,18 @@
 
                         $("#bairro").change(function(){
 
-                            var that            = $(this);
-                            var bairro_id   = $("#bairro_id");
-                            var current         = that.typeahead('getActive');
-
-                            if( current.name === that.val() )
-                            {
-                                bairro_id.prop('disabled',false).val( current.id );
-
-                            }else{
-
-                                bairro_id.prop('disabled',true ).val('');
-                            }
+//                            var that            = $(this);
+//                            var ba_id   = $("#bairro_id");
+//                            var current         = that.typeahead('getActive');
+//
+//                            if( current.name === that.val() )
+//                            {
+//                                bairro_id.prop('disabled',false).val( current.id );
+//
+//                            }else{
+//
+//                                bairro_id.prop('disabled',true ).val('');
+//                            }
 
                         });
 

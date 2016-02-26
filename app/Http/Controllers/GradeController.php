@@ -69,6 +69,16 @@ class GradeController extends Controller
     	}
     }
 
+	public function deleteHorarioAjax($id)
+	{
+		if( $this->gradeService->destroy($id) )
+		{
+			return response()->json(['success' => true]);
+		}else{
+            return response()->json(['success' => false]);
+        }
+	}
+
 	public function etapaAtual(Request $request)
 	{
 		

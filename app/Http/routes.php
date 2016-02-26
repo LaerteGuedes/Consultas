@@ -23,6 +23,8 @@ Route::get('/resultado',['as'=>'resultado.busca','uses'=>'PesquisaController@ind
 Route::get('/detalhes/profissional/{id}',['as'=>'profissional.detalhe','uses'=>'ProfissionalController@detalhe']);
 
 Route::get("/cron/expiraassinaturas", ['as' => "cron.expira", 'uses' => "CronController@expiraPeriodoTeste"]);
+Route::get("/etapa/gradelocalidadeajax", ['as' => 'etapa.grade.localidade.ajax', 'uses' => 'EtapaController@gradeAjaxHorariosLocalidade']);
+
 
 Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
 
@@ -136,6 +138,7 @@ Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
     Route::get('/grade',['as'=>'grade','uses'=>'GradeController@index']);
     Route::post('/store/grade',['as'=>'store.grade','uses'=>'GradeController@store']);
     Route::get('/delete/horario-da-grade/{id}',['as'=>'delete.horario.grade','uses'=>'GradeController@deleteHorario']);
+    Route::get('/delete/horario-da-grade-ajax/{id}',['as'=>'delete.horario.grade.ajax','uses'=>'GradeController@deleteHorarioAjax']);
     Route::get("/grade/cancelardia/{localidade_id}/{dia_semana}", ['as' => 'grade.cancelardia', 'uses' => 'GradeController@cancelarDia']);
 
 });

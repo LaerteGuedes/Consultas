@@ -34,6 +34,14 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
             ->get();
     }
 
+    public function getHorariosByLocalidade($localidade_id)
+    {
+        return $this->model->where('localidade_id',$localidade_id)
+            ->orderBy('turno', 'asc')
+            ->orderBy('horario','asc')
+            ->get();
+    }
+
     public function getHorariosByLocalidadeAndUser($user_id, $localidade_id)
     {
         return $this->model->where('user_id',$user_id)
@@ -55,6 +63,8 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
             ->orderBy('horario','asc')
             ->get();
     }
+
+
 
     public function getHorariosPorLocalidadeByUserAndHorario($user_id, $localidade_id, $dia_semana, $turno, $horario)
     {

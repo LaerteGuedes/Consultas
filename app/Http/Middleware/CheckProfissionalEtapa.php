@@ -41,7 +41,10 @@ class CheckProfissionalEtapa
             'store.assinatura',
             'store.grade',
             'plano.ajaxplano',
-            'plano.salvar'
+            'plano.salvar',
+            'delete.horario.grade',
+            'delete.horario.grade.ajax',
+            'grade.cancelardia'
         ];
 
         if(in_array($routeName,$rotas))

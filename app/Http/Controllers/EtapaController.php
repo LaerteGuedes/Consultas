@@ -7,6 +7,7 @@ use App\Services\CidadeService;
 use App\Services\GradeService;
 use App\Services\LocalidadeService;
 use App\Services\PlanoService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EtapaController extends Controller
@@ -63,6 +64,16 @@ class EtapaController extends Controller
             'intervalos'    => $intervalos,
             'intervalos_abreviados' => $intervalos_abreviados
         ]);
+    }
+
+    public function gradeAjaxHorariosLocalidade(Request $request)
+    {
+        $horarios = $this->gradeService->getHorariosByLocalidade($request->get("localidade_id"));
+
+        if (count($horarios)){
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => "Você precisa cadastrar ao menos um horário"]);
     }
 
     public function plano()

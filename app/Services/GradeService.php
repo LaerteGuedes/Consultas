@@ -25,6 +25,12 @@ class GradeService extends Service
         $this->repository = $gradeRepository;
         $this->consultaRepository = $consultaRepository;
     }
+
+    public function getHorariosByLocalidade($localidade_id)
+    {
+        return $this->repository->getHorariosByLocalidade($localidade_id);
+    }
+
     public function getHorariosPorLocalidadeByUser($user_id,$localidade_id,$dia_semana,$turno)
     {
         return $this->repository->getHorariosPorLocalidadeByUser($user_id,$localidade_id,$dia_semana,$turno);
