@@ -166,11 +166,12 @@ class GradeService extends Service
             $j++;
         }
 
+
         return $data;
     }
     public function getIntervalosAbreviados()
     {
-        $j = 0;
+        $j = 5;
 
         while($j<190)
         {

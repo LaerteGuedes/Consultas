@@ -9,8 +9,8 @@
 <div class="form-group">
     <div class="row">
         @if(!$usou_periodo_testes)
-            Desejo utilizar a versão de testes (válido por 30 dias): <input type="checkbox" name="versao_teste">
-            <input type="hidden" name="assinatura_status" id="assinatura_status" value="PERIODO_TESTES">
+            Desejo utilizar a versão de testes (válido por 30 dias): <input type="checkbox" name="versao_teste" required>
+            <input type="hidden" name="assinatura_status"  id="assinatura_status" value="PERIODO_TESTES">
         @else
             <div class="col-xs-12">
                 {!! Form::label('assinatura_id','*Pacote de assinatura:') !!}

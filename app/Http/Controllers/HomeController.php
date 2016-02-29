@@ -96,11 +96,14 @@ class HomeController extends Controller
             $this->userEspecialidadeService->create($params);
         }
         if (isset($user->id)){
-            $planos = array($request->input('id_plano'));
-//            $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
-//            $this->mailService->sendBoasVindas(Auth::user());
+            if ($request->input['id_plano']){
+                $planos = array($request->input('id_plano'));
+                $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
+            }
 
-            return redirect()->route('dashboard');
+            $this->mailService->sendBoasVindas(Auth::user());
+
+            return redirect()->route('dashboard')->with('message', 'Cadastro realizado com sucesso!');
         }
         return back()->withErrors([$this->messageService->getMessage('error')]);
     }

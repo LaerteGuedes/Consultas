@@ -18,6 +18,11 @@ class ServicoService extends  Service
         $this->repository = $servicoRepositoryInterface;
     }
 
+    public function byUser($id)
+    {
+        return $this->repository->byUser($id);
+    }
+
     public function paginateByUser($id)
     {
         return $this->repository->paginateByUser($id);

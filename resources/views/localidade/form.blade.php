@@ -22,7 +22,26 @@
 
             </select>
 
+
+
         </div>
+
+        <div class="col-xs-3">
+            {!! Form::label('cep','*CEP:') !!}
+            {!! Form::text('cep',isset($localidade->id) ? $localidade->cep : null ,['class'=>'form-control','data-mask'=>'cep']) !!}
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<div class="form-group">
+
+    <div class="row">
+
         <div class="col-xs-4">
 
             {!! Form::label('logradouro','*Logradouro:') !!}
@@ -42,22 +61,9 @@
 
         </div>
 
-    </div>
-
-
-</div>
-
-
-<div class="form-group">
-
-    <div class="row">
-        <div class="col-xs-3">
-            {!! Form::label('cep','*CEP:') !!}
-            {!! Form::text('cep',isset($localidade->id) ? $localidade->cep : null ,['class'=>'form-control','data-mask'=>'cep']) !!}
-        </div>
         <div class="col-xs-3">
             {!! Form::label('uf','*Estado:') !!}
-            {!! Form::select('uf' , $estados , isset($localidade->id) ? $localidade->uf : 'PA' , ['class'=>'form-control'] ) !!}
+            {!! Form::select('uf' , $estados , isset($localidade->id) ? $localidade->uf : 'PA' , ['class'=>'form-control', 'required' => 'required'] ) !!}
         </div>
         <div class="col-xs-3">
             {!! Form::label('cidade_id','*Cidade:') !!}
@@ -124,6 +130,12 @@
 
     <script type="text/javascript">
 
+        $("#tipo").find('option:selected');
+
+        if ($("#cep").val() == ''){
+            $("#tipo option:eq(1)").attr('selected', true);
+        }
+
         $("#tipo").on("change", function(){
             if ($("#tipo").val() == 'DOMICILIO'){
                 $("#bairro").parent().removeClass("col-xs-3");
@@ -162,6 +174,9 @@
                             });
 
                             if (success){
+                                $("#bairro").prop('disabled',false);
+                                $("#bairro").val('');
+                            //    $("#bairro").typeahead('destroy');
                                 $("#bairro").val(response.bairro);
                                 $("#logradouro").val(response.logradouro);
                             }else{
@@ -240,17 +255,17 @@
                 {
                     $.get(url, function(response){
 
-                        $("#bairro").prop('disabled',false);
-                        $("#bairro").val('');
-
-                        $("#bairro_id").val('');
-
-                        $("#bairro").typeahead('destroy');
-
-                        $("#bairro").typeahead({
-                            source : response.data,
-                            autoSelect: true
-                        });
+//                        $("#bairro").prop('disabled',false);
+//                        $("#bairro").val('');
+//
+//                        $("#bairro_id").val('');
+//
+//                        $("#bairro").typeahead('destroy');
+//
+//                        $("#bairro").typeahead({
+//                            source : response.data,
+//                            autoSelect: true
+//                        });
 
                         $("#bairro").change(function(){
 

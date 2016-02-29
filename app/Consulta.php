@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Consulta extends Model
 {
-    use SoftDeletes;
+   // use SoftDeletes;
 
     protected $fillable = [
         'user_id','pessoal','outro','nota','status',

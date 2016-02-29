@@ -63,21 +63,44 @@ class ProfissionalController extends Controller
             $comentarios = array();
         }
 
+        $planoUsuario = Auth::user()->planos()->first();
+
+        if (isset($planoUsuario->id)){
+            if (!$user->nao_atende_planos){
+                $planosProfissional = $user->planos()->get();
+
+                $atendePlano = false;
+
+                foreach ($planosProfissional as $planoProfissional) {
+                    if ($planoUsuario->id == $planoProfissional->id){
+                        $atendePlano = true;
+                        break;
+                    }
+                }
+            }
+        }else{
+            $atendePlano = 'N/A';
+        }
+
         $dias_semanais = $this->gradeService->getDiasSemanais();
         $planos = $user->planos()->get();
         $this->userService->atualizarViewProfissional($user->id);
+        $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelemList();
+
+        $cidades->prepend('Selecione a cidade','');
 
         return view('profissional.detalhe')->with([
             'user' => $user,
             'comentarios' => $comentarios,
             'planos' => $planos,
-            'dias_semanais' => $dias_semanais
+            'dias_semanais' => $dias_semanais,
+            'cidades' => $cidades,
+            'atende_plano' => $atendePlano
         ]);
     }
 
     public function agendar($user_id,$localidade_id, Request $request)
     {
-
         $user =  $this->userService->find($user_id);
         $localidade = $this->localidadeService->find($localidade_id);
         $diaDeHoje = date('Y-m-d');
@@ -93,7 +116,8 @@ class ProfissionalController extends Controller
         elseif($request->get('previous')){
             $semanaAtual = $this->calendarService->getPreviousSemana($request->get('previous'));
         }elseif($request->get('data_semana')){
-            $semanaAtual = $this->calendarService->getCustomSemana($request->get('data_semana'));
+            $data_semana = $this->formataData($request->get('data_semana'));
+            $semanaAtual = $this->calendarService->getCustomSemana($data_semana);
         }else {
             $semanaAtual = $this->calendarService->getSemanaAtual();
         }
@@ -108,6 +132,16 @@ class ProfissionalController extends Controller
             'horario_atual' => $horarioAtual,
             'cidades' => $cidades
         ]);
+    }
+
+    private function formataData($data){
+        $dataUnf = explode('/', $data);
+        $dia = $dataUnf[0];
+        $mes = $dataUnf[1];
+        $ano = $dataUnf[2];
+
+        $dataF = $ano.'-'.$mes.'-'.$dia;
+        return $dataF;
     }
 
     public function confirmar(Request $request)

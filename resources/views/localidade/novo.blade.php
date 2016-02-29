@@ -18,6 +18,8 @@
                                     <p class="lead">Pode ser em um endereço fixo (como um consultório ou clínica) ou atendimento em domicílio (Home Care). Caso atenda em mais de um local, você poderá cadastrar os demais após concluir o primeiro.</p>
                                     <hr>
                                 </div>
+                                @include('alerts')
+
                                 @include('localidade.form')
                             </div>
                         </div>

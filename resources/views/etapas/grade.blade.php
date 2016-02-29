@@ -9,7 +9,7 @@
                             <!-- Painel padrão -->
                     <div class="panel panel-default profissional-cadastro">
                         <div class="panel-heading header-sallus">
-                            <h2><i class="fa fa-exclamation-circle  fa-2"></i> <span class="">Dados pessoais</span> <i class="fa fa-angle-right"></i> <span class="">Local de atendimento</span> <i class="fa fa-angle-right"></i> <span class="ativo">Horários de atendimento</span> <i class="fa fa-angle-right inativo"></i> <span class="inativo">Escolha seus planos de saúde</span></h2>
+                            <h2><i class="fa fa-exclamation-circle  fa-2"></i> <span class="">Dados pessoais</span> <i class="fa fa-angle-right"></i> <span class="">Local de atendimento</span> <i class="fa fa-angle-right"></i> <span class="ativo">Horários de atendimento</span> <i class="fa fa-angle-right inativo"></i> <span class="inativo">Planos de saúde</span><i class="fa fa-angle-right inativo"></i><span class="inativo"> Assinatura </span></h2>
                         </div>
                         <div class="panel-body">
                             <div class="text-center">
@@ -408,6 +408,27 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
+
+            $(".cancelar-dia").on('click', function(){
+                var self = $(this);
+                var tdParent = self.parent();
+                var index = tdParent.prop('cellIndex');
+
+                var trDia = $("#m");
+                var trTarde = $("#t");
+                var trNoite = $("#n");
+
+                var horariosDia = trDia.find('td:eq('+index+') > .lista-horarios ul li');
+                var horariosTarde = trTarde.find('td:eq('+index+') > .lista-horarios ul li');
+                var horariosNoite = trNoite.find('td:eq('+index+') > .lista-horarios ul li');
+
+                if (!(horariosDia.length > 0 || horariosTarde.length > 0 || horariosNoite.length > 0)){
+                    alert("Não existem horários cadastrados para esse dia");
+                    return false;
+                }
+
+                return true;
+            });
 
             $(".disable-button").on("click", function(){
                 var self = $(this);

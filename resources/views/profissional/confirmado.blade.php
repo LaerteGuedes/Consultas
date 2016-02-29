@@ -39,7 +39,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-3">
-                                <a href="#" class="btn btn-primary btn-block">Avisos</a>
+                                <a href="{{ route('avisos') }}" class="btn btn-primary btn-block">Avisos</a>
                             </div>
                             <div class="col-lg-9">
                                 Fique atendo para os avisos de confirmação e cancelamento de consulta.

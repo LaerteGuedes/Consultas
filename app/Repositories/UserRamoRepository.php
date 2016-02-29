@@ -32,6 +32,17 @@ class UserRamoRepository extends Repository implements UserRamoRepositoryInterfa
             ->get();
     }
 
+
+    public function byRamo($id)
+    {
+        return DB::table('user_ramos as ur')
+            ->join("ramos as r", "r.id", '=', 'ur.ramo_id')
+            ->select('ur.id', 'r.nome', 'r.id')
+            ->where('ur.user_id', '=', $id)
+            ->groupBy('ur.id')
+            ->get();
+    }
+
     public function paginateByUser($id)
     {
         return $this->model->whereHas('user', function ($q) use ($id) {

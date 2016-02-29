@@ -8,11 +8,13 @@ use App\Services\AvisoService;
 use App\Services\BairroService;
 use App\Services\CalendarService;
 use App\Services\ConsultaService;
+use App\Services\CurriculoService;
 use App\Services\GradeService;
 use App\Services\LocalidadeService;
 use App\Services\MailService;
 use App\Services\MessageService;
 use App\Services\PlanoService;
+use App\Services\ServicoService;
 use App\Services\UserEspecialidadeService;
 use App\Services\UserRamoService;
 use Illuminate\Database\Eloquent\Collection;
@@ -54,6 +56,8 @@ class ServerController extends Controller
     protected $messageService;
     protected $assinaturaService;
     protected $userRamoService;
+    protected $curriculoService;
+    protected $servicoService;
 
     public function __construct(
         UserService          $userService,
@@ -74,10 +78,11 @@ class ServerController extends Controller
         MailService          $mailService,
         MessageService       $messageService,
         AssinaturaService    $assinaturaService,
-        UserRamoService      $userRamoService
+        UserRamoService      $userRamoService,
+        CurriculoService     $curriculoService,
+        ServicoService       $servicoService
     )
     {
-
         $this->userService          = $userService;
         $this->estadoService        = $estadoService;
         $this->cidadeService        = $cidadeService;
@@ -97,6 +102,8 @@ class ServerController extends Controller
         $this->messageService       = $messageService;
         $this->assinaturaService    = $assinaturaService;
         $this->userRamoService      = $userRamoService;
+        $this->curriculoService     = $curriculoService;
+        $this->servicoService       = $servicoService;
     }
 
     public function listarEstados()
@@ -159,14 +166,14 @@ class ServerController extends Controller
 
     public function listarBairros(Request $request)
     {
-       $cidade_id = $request->get('cidade_id');
+        $cidade_id = $request->get('cidade_id');
 
-       if ($cidade_id){
-           $data = $this->bairroService->listBairroByCidadeOnlyUnique($cidade_id);
-       }
+        if ($cidade_id){
+            $data = $this->bairroService->listBairroByCidadeOnlyUnique($cidade_id);
+        }
 
         return response()->json([
-           'data' => $data
+            'data' => $data
         ]);
     }
 
@@ -325,7 +332,7 @@ class ServerController extends Controller
         }
 
         return response()->json([
-           'success' => true
+            'success' => true
         ]);
     }
 
@@ -516,7 +523,7 @@ class ServerController extends Controller
     public function consultaDetalhe($id){
         $consulta = $this->consultaService->find($id);
         $localidade = $this->localidadeService->getCompleteFirst($consulta->localidade_id);
-    
+
         if ($consulta->id){
             $success = true;
             $data = ['consulta' => $consulta, 'localidade' => $localidade];
@@ -662,6 +669,30 @@ class ServerController extends Controller
 
     public function storeLocalidade(Request $request)
     {
+        if ($request->has('localidade_id')){
+            $data = array_add( $request->all() , 'user_id' , $request->get("user_id") );
+
+            if(!$request->get('bairro_id'))
+            {
+                $bairro    = $this->bairroService->create([
+                    'cidade_id' => $request->get('cidade_id'),
+                    'nome'      => $request->get('bairro')
+                ]);
+
+                if($bairro)
+                {
+                    $data = array_add( $data , 'bairro_id' , $bairro->id );
+                }
+            }
+
+            if($this->localidadeService->update($request->get('localidade_id'), $data))
+            {
+                return response()->json(['success' => true, 'message' => $this->messageService->getMessage('success')]);
+            }
+
+            return response()->json(['success' => false, 'message' => $this->messageService->getMessage('error')]);
+        }
+
         if (!$request->has('user_id')){
             return response()->json(['success' => false, 'message' => 'Você precisa informar o usuário']);
         }
@@ -686,6 +717,13 @@ class ServerController extends Controller
         }
 
         return response()->json(['success' => false, 'message' => $this->messageService->getMessage('error')]);
+    }
+
+    public function localidadeDelete($id)
+    {
+        $this->localidadeService->destroy($id);
+
+        return response()->json(['success' => true]);
     }
 
     public function storeGrade(Request $request)
@@ -833,10 +871,59 @@ class ServerController extends Controller
 
     public function planos(Request $request)
     {
-        $planoPai = $this->planoService->find($request->get('id'));
-        $planos = $this->planoService->findChildren($request->get('id'));
+        $user = $this->userService->find($request->get('user_id'));
 
-        return response()->json(['planos' => $planos]);
+        if ($user->nao_atende_planos == 1){
+            return response()->json(['success' => 'true', 'planos' => null, 'operadoras' => null, 'nao_atende_planos' => 1]);
+        }
+
+        $operadoras = $this->planoService->findParents()->toArray();
+        foreach ($operadoras as $key => $operadora) {
+            $operadoras[$key]['checked'] = 0;
+            $operadoras[$key]['planos'] = $this->planoService->findChildren($operadora['id'])->toArray();
+        }
+
+        foreach ($operadoras as $key => $operadora) {
+            foreach ($operadoras[$key]['planos'] as $i => $plano) {
+                $operadoras[$key]['planos'][$i]['checked'] = 0;
+            }
+        }
+
+        $operadorasUsuario = $this->planoService->findParentsById($request->get('user_id'));
+        $planosUsuario = $this->planoService->findChildrenById($request->get('user_id'));
+
+        foreach ($operadorasUsuario as $key => $operadoraUsuario) {
+            foreach ($planosUsuario as $key2 => $planoUsuario){
+                if ($operadoraUsuario->id == $planoUsuario->id_pai){
+                    $operadorasUsuario[$key]->planos[] = $planoUsuario;
+                }
+            }
+        }
+
+        foreach ($operadoras as $key => $operadora) {
+            foreach ($operadorasUsuario as  $key2 => $operadoraUsuario) {
+                 if ($operadora['id'] == $operadoraUsuario->id){
+                    $operadoras[$key]['checked'] = true;
+                     foreach ($operadoras[$key]['planos'] as $i => $plano) {
+                        foreach ($operadorasUsuario[$key2]->planos as $planoUsuario) {
+                             if ($plano['id'] == $planoUsuario->id){
+                                 $operadoras[$key]['planos'][$i]['checked'] = 1;
+                             }
+                        }
+                     }
+                 }
+            }
+        }
+
+        $planosArr = array();
+
+        foreach ($operadoras as $key => $operadora) {
+            $planosArr[$operadora['id']] = $operadoras[$key]['planos'];
+            unset($operadoras[$key]['planos']);
+        }
+
+
+        return response()->json(['success' => 'true', 'operadoras' => $operadoras, 'planos' => $planosArr, 'nao_atende_planos' => 0]);
     }
 
     public function salvarPlanos(Request $request)
@@ -851,7 +938,11 @@ class ServerController extends Controller
             }
         }
 
-        $isSaved = $this->planoService->insertUserPlanos($request->get('user_id'), $planos);
+        $user = $this->userService->find($request->get('user_id'));
+
+        $isSaved = $user->planos()->sync($planos);
+
+       // $isSaved = $this->planoService->insertUserPlanos($request->get('user_id'), $planos);
 
         if ($isSaved){
             return response()->json(['success' => true, 'message' => 'salvo com sucesso!']);
@@ -890,6 +981,115 @@ class ServerController extends Controller
         }
 
         return response()->json(['success' => false]);
+    }
+
+    public function ramo($id)
+    {
+        $ramo = $this->userRamoService->find($id);
+        $result = $ramo;
+        $result->nome = $ramo->ramo->nome;
+
+
+        return response()->json(['success' => true, 'ramo' => $ramo]);
+    }
+
+    public function ramoDelete($id)
+    {
+        $this->userRamoService->destroy($id);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function ramosStore(Request $request)
+    {
+
+        if ($request->get('id')){
+            $checkRamo = $this->ramoService->getByNome($request->get('nome'));
+
+            if (isset($checkRamo->id)){
+                $this->userRamoService->update($request->get('id'),['ramo_id'=> $checkRamo->id , 'user_id' => $request->get('user_id')]);
+                return response()->json(['success' => true]);
+            }
+
+            $data = ['nome' => $request->get('nome'), 'especialidade_id' => $request->get('especialidade_id')];
+            $ramo  = $this->ramoService->create($data);
+
+            $this->userRamoService->update($request->get('id'), ['ramo_id'=> $ramo->id , 'user_id' => $request->get('user_id')]);
+            return response()->json(['success' => true]);
+        }
+
+        $checkRamo = $this->ramoService->getByNome($request->get('nome'));
+
+        if (isset($checkRamo->id)){
+            $this->userRamoService->create(['ramo_id'=> $checkRamo->id , 'user_id' => $request->get('user_id')]);
+            return response()->json(['success' => true]);
+        }
+
+        $data = ['nome' => $request->get('nome'), 'especialidade_id' => $request->get('especialidade_id')];
+        $ramo  = $this->ramoService->create($data);
+        $this->userRamoService->create(['user_id' => $request->get('user_id'), 'ramo_id' => $ramo->id]);
+        return response()->json(['success' => true]);
+    }
+    
+    
+    public function curriculos($user_id){
+        $curriculos = $this->curriculoService->byUser($user_id);
+
+        return response()->json(['success' => true, 'curriculos' => $curriculos]);
+    }
+
+    public function curriculo($id){
+        $curriculo = $this->curriculoService->find($id);
+
+        return response()->json(['success' => true, 'curriculo' => $curriculo]);
+    }
+
+    public function curriculoStore(Request $request){
+        if ($request->get('id')){
+            $this->curriculoService->update($request->get('id'), ['descricao' => $request->get('descricao')]);
+
+        }else{
+            $this->curriculoService->create($request->all());
+
+        }
+
+        return response()->json(['success' => true]);
+    }
+    
+    public function curriculoDelete($id){
+        $this->curriculoService->destroy($id);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function servicos($user_id){
+        $servicos = $this->servicoService->byUser($user_id);
+
+        return response()->json(['success' => true, 'servicos' => $servicos]);
+    }
+
+    public function servico($id){
+        $servico = $this->servicoService->find($id);
+
+        return response()->json(['success' => true, 'servico' => $servico]);
+    }
+
+    public function servicoStore(Request $request){
+        if ($request->get('id')){
+            $this->servicoService->update($request->get('id'), ['nome' => $request->get('nome')]);
+
+        }else{
+            $this->servicoService->create($request->all());
+
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function servicoDelete($id){
+        $this->servicoService->destroy($id);
+
+        return response()->json(['success' => true]);
     }
 
     public function assinaturaLista(Request $request)

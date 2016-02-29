@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Debug;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -29,7 +30,7 @@ class ConsultaController extends Controller
     		$futuras    = $this->consultaService->listarConsultasFuturasByUser(\Auth::user()->id);
     		$historicos = $this->consultaService->listarConsultasHistoricoByUser(\Auth::user()->id);
 
-    		
+
 		       return view('consulta.index')->with([
 
 		       		'futuras'    => $futuras,

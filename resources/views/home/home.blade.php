@@ -5,6 +5,7 @@
 @section('content')
 
     <section class="main dashboard">
+        @include('alerts')
         <div class="container">
             <div class="row">
 

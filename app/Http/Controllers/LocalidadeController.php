@@ -103,6 +103,7 @@ class LocalidadeController extends Controller
 
         $data = array_add( $request->all() , 'user_id' , \Auth::user()->id );
 
+
         if(!$request->get('bairro_id') || $request->get('bairro_id') == "")
         {
             $bairro    = $bairroService->create([

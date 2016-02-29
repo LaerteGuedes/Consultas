@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bairro extends Model
 {
-    use SoftDeletes;
-
     protected $fillable =['cidade_id','nome'];
 
     public function cidade()

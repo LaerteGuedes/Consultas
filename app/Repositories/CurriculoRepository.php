@@ -18,6 +18,12 @@ class CurriculoRepository extends Repository implements CurriculoRepositoryInter
     {
         return $this->model->where('user_id',$id)->paginate();
     }
+
+    public function byUser($id)
+    {
+        return $this->model->where('user_id', $id)->get();
+    }
+
     public function checkUserHasItem($user_id,$id)
     {
         return $this->model->where('user_id',$user_id)

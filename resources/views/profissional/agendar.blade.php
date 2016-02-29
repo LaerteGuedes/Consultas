@@ -85,7 +85,7 @@
                                                     <label for="data_semana">Dia desejado para a consulta: </label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" name="data_semana" class="form-control"/>
+                                                    <input type="text" name="data_semana" data-mask = 'date' class="form-control"/>
                                                 </div>
                                             </div>
                                         </div>

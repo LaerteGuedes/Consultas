@@ -11,7 +11,7 @@
                     <!-- Painel padrão com cabeçalho -->
                     <div class="panel panel-default profissional-cadastro">
                         <div class="panel-heading header-sallus">
-                            <h2><i class="fa fa-exclamation-circle  fa-2"></i> <span class="">Dados pessoais</span> <i class="fa fa-angle-right"></i> <span class="">Local de atendimento</span> <i class="fa fa-angle-right"></i> <span class="">Horários de atendimento</span> <i class="fa fa-angle-right"></i> <span class="ativo">Escolha seus planos de saúde</span></h2>
+                            <h2><i class="fa fa-exclamation-circle  fa-2"></i> <span class="">Dados pessoais</span> <i class="fa fa-angle-right"></i> <span class="">Local de atendimento</span> <i class="fa fa-angle-right"></i> <span class="">Horários de atendimento</span> <i class="fa fa-angle-right"></i> <span class="ativo">Planos de saúde</span><i class="fa fa-angle-right inativo"></i><span class="inativo"> Assinatura </span></h2>
                         </div>
                         <div class="panel-body">
                             <div>
@@ -28,7 +28,7 @@
                                             <form action="{{route('plano.salvar')}}" method="post">
                                                 <div class="form-group form-block">
                                                     <label for="nao_atende_planos">Atende planos de saúde? </label>
-                                                    <input type="radio" name="nao_atende_planos" value="0"> Sim
+                                                    <input type="radio" name="nao_atende_planos" value="0" checked> Sim
                                                     <input type="radio" name="nao_atende_planos" value="1"> Não
                                                 </div>
                                                 <div id="planos">
@@ -73,6 +73,37 @@
                                                     </div>
                                                     <script>
                                                         $(function(){
+                                                            $(".btn-submit").on("click", function(event){
+                                                                var nao_atende_planos = $("input[name='nao_atende_planos']:checked");
+
+                                                                if (nao_atende_planos.length > 0){
+                                                                    if (nao_atende_planos.val() == 1){
+                                                                        console.log("TO AQUI");
+                                                                        return true;
+                                                                    }else{
+                                                                        var checkOperadoras = $("#planos div:eq(0) input[type='checkbox']:checked");
+
+                                                                        if (checkOperadoras.length == 0){
+                                                                            alert("Você precisa escolher ao menos um plano!");
+                                                                            return false;
+                                                                        }else{
+                                                                            var checkPlanos = ($("#planos div[class*='planos'] input[type='checkbox']:checked"));
+
+                                                                            if (checkPlanos.length == 0){
+                                                                                alert("Você precisa escolher ao menos um plano!");
+                                                                                return false;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }else{
+                                                                    alert("Escolha se deseja aceitar planos de saúde!");
+                                                                    return false;
+                                                                }
+
+                                                                return true;
+
+                                                            });
+
                                                             $(".checkbox-categoria input").on("change", function(){
                                                                 var checked = $(this).prop('checked');
 
@@ -114,7 +145,7 @@
                                                 </div>
                                                 <br><br>
                                                 <div class="form-group submit-form">
-                                                    <button class="btn btn-success btn-lg btn-block" >Salvar e finalizar cadastro</button>
+                                                    <button class="btn btn-success btn-lg btn-block btn-submit" >Salvar e finalizar cadastro</button>
                                                 </div>
                                                 <input type="hidden" name="_token" value="P9vPOjdCDCbtjzu92hNJXccW1uYm4rQ8XyolgQ4Z">
                                             </form>

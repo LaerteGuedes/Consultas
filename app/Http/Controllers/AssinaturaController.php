@@ -59,7 +59,7 @@ class AssinaturaController extends Controller
         $this->userService->saveUserAssinatura($request->get('user_id'), $params);
 
         if ($request->has('versao_teste')){
-            return redirect()->to('dashboard')->with('message', $this->messageService->getMessage('success'));
+            return redirect()->to('dashboard')->with('message', 'Cadastro realizado com sucesso! Você está usando o período de testes!');
         }
 
         $urlPagSeguro = $this->assinaturaService->sendRequestPagSeguro($request->get('user_id'), $request->get('assinatura_id'));

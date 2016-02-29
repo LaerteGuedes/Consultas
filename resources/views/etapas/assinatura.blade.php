@@ -7,10 +7,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <ol class="breadcrumb">
-                        <li><a href="{{route('dashboard')}}">Início</a></li>
-                        <li class="active">Novo Local</li>
-                    </ol>
+                    <div class="panel-heading header-sallus">
+                        <h2><i class="fa fa-exclamation-circle  fa-2"></i> <span class="">Dados pessoais</span> <i class="fa fa-angle-right"></i> <span class="">Local de atendimento</span> <i class="fa fa-angle-right"></i> <span class="">Horários de atendimento</span> <i class="fa fa-angle-right"></i> <span class="inativo">Planos de saúde</span><i class="fa fa-angle-right inativo"></i><span class="ativo"> Assinatura </span></h2>
+                    </div>
                 </div>
             </div>
             <div class="row">

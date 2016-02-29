@@ -26,9 +26,9 @@ class LocalidadeRequest extends Request
         return [
 
             'tipo'       => 'required',
-            //'logradouro' => 'required',
-            //'numero'     => 'required',
-            //'cep'        => 'required',
+            'logradouro' => 'required',
+            'numero'     => 'required',
+            'cep'        => 'required',
             'uf'         => 'required',
             'cidade_id'  => 'required',
             'bairro'     => 'required'

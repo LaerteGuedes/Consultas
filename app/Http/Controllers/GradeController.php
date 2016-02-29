@@ -86,7 +86,7 @@ class GradeController extends Controller
 
 	public function cancelarDia($localidade_id, $dia_semana)
 	{
-		$this->gradeService->cancelarDia(Auth::user()->id, $localidade_id, $dia_semana);
+		$teste = $this->gradeService->cancelarDia(Auth::user()->id, $localidade_id, $dia_semana);
 		return redirect()->to('grade')->with('message', $this->messageService->getMessage('success'));
 	}
 }

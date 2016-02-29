@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Venda extends Model
 {
-    use SoftDeletes;
+   // use SoftDeletes;
 }

@@ -2,7 +2,7 @@
               
             <!-- Conteúdo -->
             <div class="col-lg-12">
-                
+                @include('alerts')
                 <div class="panel panel-default">
                     
                     <div class="panel-heading header-sallus">

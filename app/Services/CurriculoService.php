@@ -11,6 +11,11 @@ class CurriculoService extends Service
     {
         $this->repository = $curriculoRepositoryInterface;
     }
+
+    public function byUser($id)
+    {
+        return $this->repository->byUser($id);
+    }
     public function paginateByUser($id)
     {
         return $this->repository->paginateByUser($id);

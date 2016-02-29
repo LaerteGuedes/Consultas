@@ -144,7 +144,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
     public function pesquisar($data = array() , $perpage = 50)
     {
 
-        return  \DB::table('users')
+        $result =  \DB::table('users')
             ->join('user_especialidades','users.id','=','user_especialidades.user_id')
             ->join('especialidades','user_especialidades.especialidade_id','=','especialidades.id')
             ->leftJoin('user_assinaturas', 'user_assinaturas.user_id', '=', 'users.id')
@@ -199,6 +199,7 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
 
 '))
             ->paginate($perpage);
+        return $result;
     }
 
 
@@ -387,6 +388,7 @@ localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ra
                 'views'         => $user->views,
                 'thumbnail'     => $user->thumbnail,
                 'especialidade' => $user->especialidade->especialidade->nome,
+                'especialidade_id' => $user->especialidade->especialidade->id,
                 'nao_atende_planos' => $user->nao_atende_planos,
                 'ramo'          => $ramos,
                 'total_comentarios' => $total_comentarios,

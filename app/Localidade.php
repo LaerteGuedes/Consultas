@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Localidade extends Model
 {
-    use SoftDeletes;
+   // use SoftDeletes;
 
     protected $fillable = ['user_id','uf','cidade_id','bairro_id','logradouro','numero',
                             'complemento','cep','tipo','preco'

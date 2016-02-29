@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
 
-    use Authenticatable, CanResetPassword, SoftDeletes;
+    use Authenticatable, CanResetPassword;
 
     /**
      * The database table used by the model.

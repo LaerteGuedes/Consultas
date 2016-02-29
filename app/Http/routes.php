@@ -168,10 +168,28 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
     
     Route::get("/perfil/excluir", ['as' => "api.perfil.excluir", 'uses' => "ServerController@excluirConta"]);
     
+    Route::post("/ramos/store", ['as' => "api.ramo.store", 'uses' => "ServerController@ramosStore"]);
+    Route::get("/ramo/{id}", ['as' => "api.ramo.ramo", 'uses' => "ServerController@ramo"]);
+    Route::get("/ramo/delete/{id}", ['as' => "api.ramo.delete", 'uses' => "ServerController@ramoDelete"]);
+    
+    
+    Route::get("/curriculos/{user_id}", ['as' => "api.curriculos", 'uses' => "ServerController@curriculos"]);
+    Route::get("/curriculo/{id}", ['as' => "api.curriculo", 'uses' => "ServerController@curriculo"]);
+    Route::get("/curriculo/delete/{id}", ['as' => "api.curriculo.delete", 'uses' => "ServerController@curriculoDelete"]);
+    Route::post("/curriculo/store", ['as' => "api.curriculo.store", 'uses' => "ServerController@curriculoStore"]);
+
+    Route::get("/servicos/{user_id}", ['as' => "api.servicos", 'uses' => "ServerController@servicos"]);
+    Route::get("/servico/{id}", ['as' => "api.servico", 'uses' => "ServerController@servico"]);
+    Route::get("/servico/delete/{id}", ['as' => "api.servico.delete", 'uses' => "ServerController@servicoDelete"]);
+    Route::post("/servico/store", ['as' => "api.servico.store", 'uses' => "ServerController@servicostore"]);
+
+
     Route::get("/avisos", ['uses' => 'ServerController@avisos']);
     Route::get("/avisos/profissional", ['as' => "api.avisos.profissional", 'uses' => "ServerController@avisosProfissional"]);    
     
     Route::post("/localidade/store", ['as' => "localidade.store", 'uses' => "ServerController@storeLocalidade"]);
+    Route::get("/localidade/delete/{id}", ['as' => "api.localidade.delete", 'uses' => "ServerController@localidadeDelete"]);
+
 
     Route::post("/grade/store", ['as' => "apigrade.store", 'uses' => "ServerController@storeGrade"]);
     Route::get("/grade/diassemana", ['as' => "apigrade.diassemana", 'uses' => "ServerController@gradeDiasSemana"]);

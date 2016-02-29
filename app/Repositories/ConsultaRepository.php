@@ -138,7 +138,8 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
     public function listarConsultasHistoricoByUser($id)
     {
         return $this->model->where('user_id',$id)
-            ->where('status','<>','AGUARDANDO')
+            //->where('status','<>','AGUARDANDO')
+            ->where('data_agenda', '<', date('Y-m-d'))
             ->orderBy('data_agenda','desc')
             ->get();
     }
@@ -172,8 +173,8 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
     public function listarConsultasFuturasByUser($id)
     {
         return $this->model->where('user_id',$id)
-            ->where('status', 'AGUARDANDO')
-            ->where('data_agenda','>',date('Y-m-d'))
+          //  ->where('status', 'AGUARDANDO')
+            ->where('data_agenda','>=',date('Y-m-d'))
             ->orderBy('data_agenda','asc')
             ->get();
     }
@@ -183,8 +184,8 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
         return DB::table('consultas')
             ->join('users', 'consultas.profissional_id', '=', 'users.id')
             ->where('user_id', $id)
-            ->where('status', 'AGUARDANDO')
-            ->where('data_agenda', '>', date('Y-m-d'))
+          //  ->where('status', 'AGUARDANDO')
+            ->where('data_agenda', '>=', date('Y-m-d'))
             ->orderBy('data_agenda','asc')
             ->get();
     }
@@ -195,7 +196,7 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
             ->where(function($query){
                 $query->where('status', 'AGUARDANDO');
                 $query->orWhere('status', 'CONFIRMADA');
-            })->where('data_agenda','>',date('Y-m-d'))
+            })->where('data_agenda','>=',date('Y-m-d'))
             ->groupBy('data_agenda')
             ->get();
     }
@@ -203,7 +204,7 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
     public function listarConsultasDatasHistorico($id)
     {
         return $this->model->where('user_id',$id)->select('data_agenda')
-            ->where('status', '<>' ,'AGUARDANDO')
+           // ->where('status', '<>' ,'AGUARDANDO')
             ->where('data_agenda','<',date('Y-m-d'))
             ->groupBy('data_agenda')
             ->get();
@@ -214,8 +215,8 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
     public function getTotalConsultasFuturasByUser($id)
     {
         return $this->model->where('profissional_id',$id)
-            ->where('status','AGUARDANDO')
-            ->where('data_agenda','>',date('Y-m-d'))
+           // ->where('status','AGUARDANDO')
+            ->where('data_agenda','>=',date('Y-m-d'))
             ->orderBy('data_agenda','asc')
             ->count();
     }
@@ -228,9 +229,9 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
                 'consultas.status', 'consultas.horario_agenda', 'users.name', 'users.lastname')
             ->join('users', 'consultas.profissional_id', '=', 'users.id')
             ->where('user_id', $id)
-            ->where('data_agenda', $data_agenda)
+           // ->where('data_agenda', $data_agenda)
             ->where('status', '<>', 'AGUARDANDO')
-            ->where('data_agenda', '>', date('Y-m-d'))
+            ->where('data_agenda', '<', date('Y-m-d'))
             ->orderBy('data_agenda','desc')
             ->get();
     }
@@ -246,7 +247,7 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
             ->where(function($query){
                 $query->where('status', 'AGUARDANDO');
                 $query->orWhere('status', 'CONFIRMADA');
-            })->where('data_agenda', '>', date('Y-m-d'))
+            })->where('data_agenda', '>=', date('Y-m-d'))
             ->orderBy('data_agenda','asc')
             ->get();
     }

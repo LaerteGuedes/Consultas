@@ -16,6 +16,11 @@ class ServicoRepository extends Repository implements ServicoRepositoryInterface
         $this->model = $servico;
     }
 
+    public function byUser($id)
+    {
+        return $this->model->where('user_id',$id)->get();
+    }
+
     public function paginateByUser($id)
     {
         return $this->model->where('user_id',$id)->paginate();

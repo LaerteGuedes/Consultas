@@ -38,6 +38,11 @@ class PlanoService extends Service
         return $this->repository->findParentsById($id);
     }
 
+    public function findChildrenById($id)
+    {
+        return $this->repository->findChildrenById($id);
+    }
+
     public function findParentsAdm()
     {
         return $this->repository->findParentsAdm();

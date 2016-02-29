@@ -67,7 +67,7 @@ class PerfilController extends Controller
         $this->userService->destroy($user->id);
 
         Auth::logout();
-        return redirect("/");
+        return redirect("/")->with('message', 'Sua conta foi excluída!');
     }
 
 }

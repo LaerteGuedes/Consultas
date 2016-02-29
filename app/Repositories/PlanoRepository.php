@@ -66,6 +66,18 @@ class PlanoRepository extends Repository
             ->join("planos as p", 'planos.id_pai', '=', 'p.id')
             ->select("p.id", 'p.titulo')
             ->where('users.id', '=', $id)
+            ->groupBy('planos.id_pai')
+            ->get();
+    }
+
+    public function findChildrenById($id)
+    {
+        return DB::table('planos')
+            ->join("user_planos", 'user_planos.plano_id', '=', 'planos.id')
+            ->join("users", 'user_planos.user_id', '=', 'users.id')
+            ->join("planos as p", 'planos.id', '=', 'p.id')
+            ->select("p.id", 'p.titulo', 'p.id_pai')
+            ->where('users.id', '=', $id)
             ->groupBy('planos.id')
             ->get();
     }

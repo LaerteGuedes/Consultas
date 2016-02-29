@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Servico extends Model
 {
-    use SoftDeletes;
+  //  use SoftDeletes;
 
 
     protected $fillable = ['user_id' ,'nome'];

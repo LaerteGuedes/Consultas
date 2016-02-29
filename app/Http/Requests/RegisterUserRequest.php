@@ -38,6 +38,10 @@ class RegisterUserRequest extends Request
             $rules['cid']='required';
         }
 
+        if (isset ($data['especialidade_id'])){
+            $rules['especialidade_id']='required';
+        }
+
         return $rules;
     }
 
@@ -66,7 +70,9 @@ class RegisterUserRequest extends Request
 
             'phone.max'    => 'O  telefone é inválido',
 
-            'cid.required' => 'É obrigatório o registro do conselho de sua profissão'
+            'cid.required' => 'É obrigatório o registro do conselho de sua profissão',
+
+            'especialidade_id.required' => 'Você deve selecionar sua área de atuação!'
 
         ];
 

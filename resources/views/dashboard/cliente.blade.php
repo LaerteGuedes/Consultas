@@ -4,8 +4,9 @@
 
                 <div class="col-lg-12">
 
+                        @include('alerts')
 
-                        <h1 class="text-center">Agende uma consulta...</h1>	
+                        <h1 class="text-center">Agende uma consulta...</h1>
 
                         {!! Form::open([
 
@@ -13,7 +14,7 @@
                                         'method'=> 'get',
                                         'class' => 'jumbotron'
 
-                                ]) !!}	
+                                ]) !!}
 
 
                             <div class="opacity">
@@ -38,12 +39,14 @@
                                                 </div>
 
                                                 <div class="col-lg-3 col-xs-12">
-                                                        <select name="ramo_id" id="ramo_id" class="form-control" data-title="Selecione a Especialidade"></select>
+                                                        <select name="ramo_id" id="ramo_id" class="form-control" data-title="Selecione a Especialidade">
+                                                            <option value="">Selecione primeiro o tipo de profissional</option>
+                                                        </select>
                                                 </div>
 
                                         </div>
 
-                                </div>		
+                                </div>
 
                                 <div class="form-group">
 
@@ -109,8 +112,6 @@
 <script type="text/javascript">
 
     $(function(){
-
-
             $("#uf").on("change", function(){
 
                     var self = $(this);
@@ -199,10 +200,11 @@
                 		var options = '';
                        $("#ramo_id").empty().html(options);
                        $("#ramo_id").selectpicker('refresh');
+                       $("#ramo_id").attr("disabled", false);
 
                 }
 
-            });            
+            });
 
 
     });

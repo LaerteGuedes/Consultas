@@ -23,4 +23,9 @@ class RamoRepository extends Repository implements RamoRepositoryInterface
     {
         return $this->model->where('especialidade_id',$especialidade_id)->orderBy('nome','asc')->lists('nome','id');
     }
+
+    public function getByNome($nome)
+    {
+        return $this->model->where('nome', $nome)->orderBy('nome','asc')->first();
+    }
 } 

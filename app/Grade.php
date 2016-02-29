@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Grade extends Model
 {
-    use SoftDeletes;
+   // use SoftDeletes;
 
     protected $fillable =['user_id','localidade_id','dia_semana','turno','horario'];
 

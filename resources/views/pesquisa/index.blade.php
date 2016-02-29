@@ -43,21 +43,7 @@
                         <p class="list-group-item-text text-capitalize">{{ $user->cid }}<br>{{ $user->tipo }} , {{ $user->ramo }}</p>
                       </div><!-- /.col-lg-7 -->
                       <div class="col-lg-3">
-                          <p class="list-group-item-text">
-                            {{--<i class="fa fa-comment"></i> {{ $userService->find($user->id)->comentarios()->count()   }} comentários<br>--}}
 
-                             <?php
-                              $votos = $avaliacaoService->getAvaliacaoProfissional($user->id);
-                             ?> 
-
-                                 <i class="fa fa-star{{  $votos >= 1 ? '':'-o' }}"></i>
-                                 <i class="fa fa-star{{  $votos >= 2 ? '':'-o' }}"></i>
-                                 <i class="fa fa-star{{  $votos >= 3 ? '':'-o' }}"></i>
-                                 <i class="fa fa-star{{  $votos >= 4 ? '':'-o' }}"></i>
-                                 <i class="fa fa-star{{  $votos >= 5 ? '':'-o' }}"></i> 
-
-                            ({{ $votos  }})
-                          </p>
                       </div><!-- /.col-lg-3 -->
                       <div class="col-lg-2">
                         

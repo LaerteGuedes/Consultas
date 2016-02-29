@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Avaliacao extends Model
 {
-    use SoftDeletes;
-
     protected $fillable = ['user_id','avaliador','nota'];
 
     public function profissional()

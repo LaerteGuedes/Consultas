@@ -46,6 +46,8 @@ class PesquisaController extends Controller
         $ramo_id = ($request->has('ramo_id')) ? $request->get('ramo_id') : null;
         $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelemList();
 
+        $cidades->prepend('Selecione a cidade','');
+
         return view('pesquisa.index')->with([
             'users' => $users,
             'ramos' => $ramos,

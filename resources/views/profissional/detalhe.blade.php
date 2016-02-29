@@ -98,7 +98,7 @@
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#detalhes" aria-controls="detalhes" role="tab" data-toggle="tab">Detalhes</a></li>
-                                    <li role="presentation"><a href="#avaliacoes" aria-controls="avaliacoes" role="tab" data-toggle="tab">Avaliações</a></li>
+                                    <li role="presentation"><a href="#avaliacoes" aria-controls="avaliacoes" role="tab" data-toggle="tab">Faça a sua avaliação</a></li>
                                 </ul>
 
                                 <!-- Tab panes -->
@@ -168,7 +168,11 @@
 
                                                                                 @endforeach
                                                                             </ul>
-                                                                            <a href="{{  route('profissional.agendar',['user_id' => $user->id , 'localidade_id' => $local->id ])  }}" class="btn btn-primary">Agendar</a>
+                                                                            @if(!$atende_plano)
+                                                                                <a href="{{  route('profissional.agendar',['user_id' => $user->id , 'localidade_id' => $local->id ])  }}" class="btn btn-primary agenda-plano nao-atende-plano">Agendar</a>
+                                                                            @else
+                                                                                <a href="{{  route('profissional.agendar',['user_id' => $user->id , 'localidade_id' => $local->id ])  }}" class="btn btn-primary agenda-plano">Agendar</a>
+                                                                                @endif
                                                                         </div>
                                                                     </div><!-- ./col-lg-8 -->
                                                                 </div><!-- ./row -->
@@ -473,6 +477,17 @@
 
     <script type="text/javascript">
         $(function(){
+
+            $(".agenda-plano").on('click', function(){
+                var self = $(this);
+                if (self.hasClass('nao-atende-plano')){
+                    if (confirm("Este profissional não atende seu plano de saúde. Deseja continuar na categoria particular?")){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+            });
 
             //metodos responsaveis de avaliar
             $("#star-rate").rating({

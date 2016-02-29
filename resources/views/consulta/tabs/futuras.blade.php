@@ -56,13 +56,27 @@
                                     </div>
                                 </div><!-- /. -->
                                 <div class="col-10">
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-xs red-btn confirmar-consulta" data-consulta="{{$futura->id }}"  data-resposta="nao">CANCELAR</a>
+                                    @if($futura->status == 'REALIZADA')
+                                        <a href="{{ url(route('profissional.detalhe', $historico->profissional_id ) . '#avaliacoes') }}" class="btn btn-primary btn-xs blue-btn">AVALIE
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    @elseif($futura->status == 'AGUARDANDO')
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-xs red-btn confirmar-consulta" data-consulta="{{$futura->id }}"  data-resposta="nao">CANCELAR</a>
+                                    @endif
                                 </div><!-- /. -->
                             </div>
-                            <div class="dark action">Você poderá comparecer à consulta? 
-                                <a href="javascript:void(0);" class="btn btn-primary green-btn confirmar-consulta" data-consulta="{{$futura->id }}" data-resposta="sim">SIM</a> 
-                                <a href="javascript:void(0);" class="btn btn-primary red-btn confirmar-consulta" data-consulta="{{$futura->id }}"  data-resposta="nao">NÃO</a>
-                            </div>
+                            @if($futura->status === 'CANCELADA')
+                                <div class="red action"><strong>Consulta cancelada por você em {{ date('d/m/Y \a\s H:i',strtotime($futura->updated_at) ) }}.</strong></div>
+                            @elseif($futura->status === 'CONFIRMADA')
+                                <div class="green action"><strong>Consulta confirmada por você em {{ date('d/m/Y \a\s H:i',strtotime($futura->updated_at) ) }}.</strong></div>
+                            @elseif($futura->status === 'REALIZADA')
+                                <div class="green action"><strong>Consulta já realizada por você!.</strong></div>
+                            @elseif($futura->status == 'AGUARDANDO')
+                                <div class="dark action">Você poderá comparecer à consulta?
+                                    <a href="javascript:void(0);" class="btn btn-primary green-btn confirmar-consulta" data-consulta="{{$futura->id }}" data-resposta="sim">SIM</a>
+                                    <a href="javascript:void(0);" class="btn btn-primary red-btn confirmar-consulta" data-consulta="{{$futura->id }}"  data-resposta="nao">NÃO</a>
+                                </div>
+                            @endif
                         </li>
                     </ul><!-- /Lista padrão -->
 
