@@ -74,9 +74,11 @@
                                                                 @if($consulta->status =='CONFIRMADA')
                                                                     @if($consulta->data_agenda < date('Y-m-d'))
                                                                         <a href="javascript:void(0);" class="btn btn-primary btn-xs green-btn realizar-consulta" data-consulta="{{$consulta->id }}">Realizada</a>
-                                                                    @endif
-                                                                    <a href="javascript:void(0);" class="btn btn-primary btn-xs red-btn confirmar-consulta" data-consulta="{{$consulta->id }}"  data-resposta="nao">Cancelar</a>
+                                                                        <a href="javascript:void(0);" class="btn btn-primary btn-xs blue-btn no-show" data-consulta="{{$consulta->id }}"  data-resposta="nao">No show</a>
 
+                                                                    @else
+                                                                        <a href="javascript:void(0);" class="btn btn-primary btn-xs red-btn confirmar-consulta" data-consulta="{{$consulta->id }}"  data-resposta="nao">Cancelar</a>
+                                                                    @endif
                                                                 @elseif($consulta->status =='CANCELADA')
 
                                                                     <span class="red">

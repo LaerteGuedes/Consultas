@@ -66,11 +66,11 @@
                                 </div><!-- /. -->
                             </div>
                             @if($futura->status === 'CANCELADA')
-                                <div class="red action"><strong>Consulta cancelada por você em {{ date('d/m/Y \a\s H:i',strtotime($futura->updated_at) ) }}.</strong></div>
+                                <div class="red action"><strong>Consulta cancelada em {{ date('d/m/Y \a\s H:i',strtotime($futura->updated_at) ) }}.</strong></div>
                             @elseif($futura->status === 'CONFIRMADA')
-                                <div class="green action"><strong>Consulta confirmada por você em {{ date('d/m/Y \a\s H:i',strtotime($futura->updated_at) ) }}.</strong></div>
+                                <div class="green action"><strong>Consulta confirmada em {{ date('d/m/Y \a\s H:i',strtotime($futura->updated_at) ) }}.</strong></div>
                             @elseif($futura->status === 'REALIZADA')
-                                <div class="green action"><strong>Consulta já realizada por você!.</strong></div>
+                                <div class="green action"><strong>Consulta já realizada!.</strong></div>
                             @elseif($futura->status == 'AGUARDANDO')
                                 <div class="dark action">Você poderá comparecer à consulta?
                                     <a href="javascript:void(0);" class="btn btn-primary green-btn confirmar-consulta" data-consulta="{{$futura->id }}" data-resposta="sim">SIM</a>

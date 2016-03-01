@@ -44,7 +44,8 @@ class CheckProfissionalEtapa
             'plano.salvar',
             'delete.horario.grade',
             'delete.horario.grade.ajax',
-            'grade.cancelardia'
+            'grade.cancelardia',
+            'listar.bairros'
         ];
 
         if(in_array($routeName,$rotas))

@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group">
-            {!!  Form::select('cidade_id' , isset($cidades) ? $cidades : array(), isset($_GET['cidade_id']) ? $_GET['cidade_id'] : null , ['class'=>'form-control','id'=>'uf'] ) !!}
+            {!!  Form::select('cidade_id' , isset($cidades) ? $cidades : array(), isset($_GET['cidade_id']) ? $_GET['cidade_id'] : null , ['class'=>'form-control','id'=>'cidade_id'] ) !!}
         </div>
 
         <div class="form-group">
@@ -61,11 +61,57 @@
 
 
 @section('script_filtro')
-
+    <script src="{{ asset('lib/bootstrap3-typeahead/bootstrap3-typeahead.js') }}"></script>
     <script type="text/javascript">
 
         $(function(){
 
+            var cidade_id = $("#cidade_id").val();
+
+            if (cidade_id){
+                var url = "{{ url('ajax/listar-bairros')  }}/" + cidade_id;
+
+                $.get(url, function(response){
+
+                    var options = '';
+                    console.log(response.data);
+
+                    $.each(response.data , function(v,k){
+
+                        options += '<option value="'+ k.id +'">'+ k.name +'</option>';
+                    });
+
+                    //  $("#bairro").prop('readonly',false);
+                    //  $("#bairro").prop('placeholder', '');
+                    $("#bairro_nome").typeahead('destroy');
+
+                    $("#bairro_nome").typeahead({
+                        source : response.data,
+                        autoSelect: true
+                    });
+
+                    $("#bairro_nome").change(function(){
+
+                        var that = $(this);
+                        var bairro_id  = $("#bairro_id");
+                        var current = that.typeahead('getActive');
+
+                        if( current.name === that.val() )
+                        {
+                            bairro_id.prop('disabled',false).val( current.id );
+
+                        }else{
+
+                            bairro_id.prop('disabled',true ).val('');
+                        }
+                    });
+
+
+                    $("#bairro_id").empty().html(options);
+                    $("#bairro_id").selectpicker('refresh');
+
+                });
+            }
 
             $("#uf").on("change", function(){
 
@@ -101,6 +147,7 @@
 
                 var self = $(this);
                 var cidade = self.val();
+                console.log(cidade);
                 var url = "{{ url('ajax/listar-bairros')  }}/" + cidade;
 
                 if(cidade != "")
@@ -108,11 +155,38 @@
                     $.get(url, function(response){
 
                         var options = '';
+                        console.log(response.data);
 
                         $.each(response.data , function(v,k){
 
                             options += '<option value="'+ k.id +'">'+ k.name +'</option>';
                         });
+
+                        //  $("#bairro").prop('readonly',false);
+                        //  $("#bairro").prop('placeholder', '');
+                        $("#bairro_nome").typeahead('destroy');
+
+                        $("#bairro_nome").typeahead({
+                            source : response.data,
+                            autoSelect: true
+                        });
+
+                        $("#bairro_nome").change(function(){
+
+                            var that = $(this);
+                            var bairro_id  = $("#bairro_id");
+                            var current = that.typeahead('getActive');
+
+                            if( current.name === that.val() )
+                            {
+                                bairro_id.prop('disabled',false).val( current.id );
+
+                            }else{
+
+                                bairro_id.prop('disabled',true ).val('');
+                            }
+                        });
+
 
                         $("#bairro_id").empty().html(options);
                         $("#bairro_id").selectpicker('refresh');

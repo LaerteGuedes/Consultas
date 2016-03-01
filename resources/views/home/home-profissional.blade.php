@@ -1,7 +1,5 @@
 @extends('site')
-
-@section('title','Profissional da Saúde ')
-
+@section('title','Profissional da Saúde')
 @section('content')
 
 <section class="main">
@@ -13,20 +11,13 @@
         </div>
     </div>
 </section>
-
-
 <section class="bk-pro">
     <div class="container">
             <div class="row">
-
                 <div class="col-xs-12 col-lg-6 col-lg-offset-3">
-                  
                     @include('alerts')
-                    
                     @include('home.form-profissional')
-
-                </div>    
-        
+                </div>
             </div>
     </div>
 </section>
