@@ -16,10 +16,34 @@ class PagSeguroService
         $this->token = '823E96C4040E4C2FA5A35BA5566D9AE3';
     }
 
-    public function sendAssinaturaRequest($name, $phone, $email, $assinatura_titulo, $valor, $user_id)
+    public function sendAssinaturaRequest($name, $phone, $email, $assinatura_titulo, $valor, $tipo, $user_id)
     {
+        switch($tipo){
+            case 'MENSAL':
+                $period = urlencode("Monthly");
+                $valor_total = number_format($valor*12, 2);
+                break;
+            case 'BIMESTRAL':
+                $period = urlencode("Bimonthly");
+                $valor_total = number_format($valor*6, 2);
+                break;
+            case 'TRIMESTRAL':
+                $period = urlencode("Trimonthly");
+                $valor_total = number_format($valor*4, 2);
+                break;
+            case 'SEMESTRAL':
+                $period = urlencode("Semiannually");
+                $valor_total = number_format($valor*2, 2);
+                break;
+            case 'ANUAL':
+                $period = urlencode("Yearly");
+                $valor_total = number_format($valor, 2);
+                break;
+        }
+
+        $valor_total = str_replace(',', '', $valor_total);
         $ch = curl_init();
-        $valor_total = number_format($valor*12, 2);
+
         $date = date('Y-m-d', strtotime('+2 years'));
 
         $fields = ['email' => $this->email,
@@ -34,12 +58,13 @@ class PagSeguroService
             'preApprovalName' => urlencode($assinatura_titulo),
             'preApprovalDetails' => urlencode('Pacote de assinatura - Sallus'),
             'preApprovalAmountPerPayment' => urlencode(number_format($valor, 2)),
-            'preApprovalPeriod' => urlencode('Monthly'),
+            'preApprovalPeriod' => $period,
             'preApprovalFinalDate' => urlencode($date),
             'preApprovalMaxTotalAmount' => urlencode($valor_total),
             'reference' => urlencode($user_id),
             'redirectURL' => urlencode('http://www.sallus.net/dashboard'),
             'reviewURL' => urlencode('http://www.sallus.net/dashboard')];
+
 
         $fields_string = '';
         foreach ($fields as $key => $field){

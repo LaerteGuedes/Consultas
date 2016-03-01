@@ -85,5 +85,12 @@ class ConsultaController extends Controller
     	return response()->json(['success'=> $response ]);
     }
 
+	public function noShow(Request $request)
+	{
+		$response = $this->consultaService->noShow($request->all());
+
+		return response()->json(['success'=> $response ]);
+	}
+
 
 }

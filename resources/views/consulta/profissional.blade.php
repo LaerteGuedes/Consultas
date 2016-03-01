@@ -86,8 +86,10 @@
                                                                 @elseif($consulta->status == 'AGUARDANDO')
                                                                     @if($consulta->data_agenda < date('Y-m-d'))
                                                                         <a href="javascript:void(0);" class="btn btn-primary btn-xs green-btn realizar-consulta" data-consulta="{{$consulta->id }}">Realizada</a>
+                                                                        <a href="javascript:void(0);" class="btn btn-primary btn-xs blue-btn no-show" data-consulta="{{$consulta->id }}"  data-resposta="nao">No show</a>
+                                                                    @else
+                                                                        <a href="javascript:void(0);" class="btn btn-primary btn-xs red-btn confirmar-consulta" data-consulta="{{$consulta->id }}"  data-resposta="nao">Cancelar</a>
                                                                     @endif
-                                                                    <a href="javascript:void(0);" class="btn btn-primary btn-xs red-btn confirmar-consulta" data-consulta="{{$consulta->id }}"  data-resposta="nao">Cancelar</a>
                                                                 @else
 
                                                                     <span class="green">
@@ -139,6 +141,24 @@
                 data.resposta   = me.data('resposta');
                 data.consulta_id = me.data('consulta');
                 var url = "{{ url('/confirmar/consulta') }}";
+
+                $.get(url,data,function(response){
+
+                    if(response.success === true)
+                    {
+                        location.reload();
+                    }
+
+                });
+            });
+
+            $(".no-show").on('click',function(){
+
+                var me =  $(this);
+                var data = {};
+                data.resposta   = me.data('resposta');
+                data.consulta_id = me.data('consulta');
+                var url = "{{ url('/no-show/consulta') }}";
 
                 $.get(url,data,function(response){
 

@@ -127,7 +127,7 @@ class EtapaController extends Controller
     {
         $user_id = \Auth::user()->id;
         $usou_periodo_testes = Auth::user()->usou_periodo_testes;
-        $assinaturas = $this->assinaturaService->all();
+        $assinaturas = $this->assinaturaService->allLessTeste();
 
         return view("assinatura.nova")->with(['assinaturas' => $assinaturas, 'user_id' => $user_id, 'usou_periodo_testes' => $usou_periodo_testes]);
     }
@@ -135,7 +135,7 @@ class EtapaController extends Controller
     public function assinaturaTesteSuspensa()
     {
         $user_id = \Auth::user()->id;
-        $assinaturas = $this->assinaturaService->all();
+        $assinaturas = $this->assinaturaService->allLessTeste();
         $message = 'Sua versão de testes expirou! Realize sua assinatura escolhendo um dos planos abaixo: ';
         $usou_periodo_testes = Auth::user()->usou_periodo_testes;
 
@@ -145,7 +145,7 @@ class EtapaController extends Controller
     public function assinaturaSuspensa()
     {
         $user_id = \Auth::user()->id;
-        $assinaturas = $this->assinaturaService->all();
+        $assinaturas = $this->assinaturaService->allLessTeste();
         $message = 'Sua assinatura foi suspensa! Renove sua assinatura escolhendo um dos planos abaixo: ';
         $usou_periodo_testes = Auth::user()->usou_periodo_testes;
 

@@ -129,6 +129,8 @@ Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
     Route::get('/consultas',['as'=>'consultas','uses'=>'ConsultaController@index']);
     Route::get('/confirmar/consulta',['as'=>'consulta.confirmar','uses'=>'ConsultaController@confirmar']);
     Route::get('/realizar/consulta',['as'=>'consulta.realizar','uses'=>'ConsultaController@realizar']);
+    Route::get('/no-show/consulta',['as'=>'consulta.noshow','uses'=>'ConsultaController@noShow']);
+
 
     #rotas para aviso
     Route::get('/avisos',['as'=>'avisos','uses'=>'AvisoController@index']);
@@ -210,7 +212,7 @@ Route::group(['prefix'=>'api/sallus','middleware' => 'cors'], function(){
 
     Route::get("/consultas", ['uses' => "ServerController@consultas"]);
     Route::get("/consultas/datas", ['as' => "api.consultas.datas", 'uses' => "ServerController@consultasDatas"]);
-    Route::get("/consultasprofissional/datas", ['as' => "api.consultasprofissional.datas", 'uses' => "ServerController@consultasProfissionalDatas"]);
+    Route::get("//datas", ['as' => "api.consultasprofissional.datas", 'uses' => "ServerController@consultasProfissionalDatas"]);
     Route::get("/consultas/historico", ['uses' => "ServerController@consultasByDataHistorico"]);
     Route::get("/consultas/futuras", ['uses' => "ServerController@consultasByDataFuturas"]);
     Route::get("/consultas/confirmar", ['as' => "api.confimar.consultas", 'uses' => "ServerController@confirmarConsulta"]);

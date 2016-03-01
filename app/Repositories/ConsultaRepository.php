@@ -264,6 +264,13 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
         })->count();
     }
 
+    public function noShow($data)
+    {
+        $data['status'] = 'NO SHOW';
+
+        return $this->update($data['consulta_id'],$data);
+    }
+
 
     public function listAllForCalendarByUser($id)
     {

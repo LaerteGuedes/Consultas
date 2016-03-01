@@ -25,6 +25,11 @@ class ConsultaService extends Service
         return $this->repository->realizarConsulta($data);
     }
 
+    public function noShow($data)
+    {
+        return $this->repository->noShow($data);
+    }
+
     public function confirmarConsulta($data)
     {
         return $this->repository->confirmarConsulta($data);

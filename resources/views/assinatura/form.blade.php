@@ -8,22 +8,26 @@
 
 <div class="form-group">
     <div class="row">
-        @if(!$usou_periodo_testes)
-            Desejo utilizar a versão de testes (válido por 30 dias): <input type="checkbox" name="versao_teste" required>
-            <input type="hidden" name="assinatura_status"  id="assinatura_status" value="PERIODO_TESTES">
-        @else
-            <div class="col-xs-12">
-                {!! Form::label('assinatura_id','*Pacote de assinatura:') !!}
-                <select name="assinatura_id" id="assinatura_id" class="form-control" data-title="Selecione">
-                    @foreach($assinaturas as $assinatura)
-                        <option value="{{$assinatura->id}}">{{$assinatura->titulo}} - {{$assinatura->valor}}</option>
-                    @endforeach
-                </select>
-                <br>
-            </div>
-            <input type="hidden" name="assinatura_status" id="assinatura_status" value="AGUARDANDO">
-        @endif
-            <input type="hidden" name="user_id" id="user_id" value="{{$user_id}}">
+        <div class="col-xs-12">
+            {!! Form::label('assinatura_id','*Pacote de assinatura:') !!}
+            <br>
+            @foreach($assinaturas as $assinatura)
+                <div class="col-xs-4">
+                    <p>{{$assinatura->titulo}}</p>
+                    <p>{{$assinatura->valor}}</p>
+                    <input type="radio" name="assinatura_id" value="{{$assinatura->id}}">
+                </div>
+            @endforeach
+
+            <br>
+        </div>
+        <div class="col-xs-12">
+            @if(!$usou_periodo_testes)
+                Desejo utilizar a versão de testes (válido por 30 dias): <input type="checkbox" name="versao_teste">
+            @endif
+        </div>
+        <input type="hidden" name="assinatura_status" id="assinatura_status" value="AGUARDANDO">
+        <input type="hidden" name="user_id" id="user_id" value="{{$user_id}}">
     </div>
 </div>
 <hr/>

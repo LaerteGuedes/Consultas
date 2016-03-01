@@ -51,7 +51,8 @@ class AssinaturaController extends Controller
         if ($request->has('versao_teste')){
             $params = $request->all();
             $params['assinatura_status'] = 'PERIODO_TESTES';
-            $params['assinatura_id'] = 5;
+            $assinaturaTeste = $this->assinaturaService->findByTipo('TESTE');
+            $params['assinatura_id'] = $assinaturaTeste->id;
             $params['usou_periodo_testes'] = 1;
             $params['expiracao'] = date('Y-m-d h:i:s', strtotime("+30 days"));
         }

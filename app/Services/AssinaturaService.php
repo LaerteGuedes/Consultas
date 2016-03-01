@@ -6,6 +6,7 @@ use App\Assinatura;
 use App\Contracts\AssinaturaRepositoryInterface;
 use App\Contracts\UserRepositoryInterface;
 use App\Service;
+use Symfony\Component\Debug\Debug;
 
 class AssinaturaService extends Service
 {
@@ -26,7 +27,7 @@ class AssinaturaService extends Service
         $user = $this->userRepository->find($user_id);
         $assinatura = $this->repository->find($assinatura_id);
 
-        return $this->pagSeguroService->sendAssinaturaRequest($user->name, $user->phone, $user->email, $assinatura->titulo, $assinatura->valor, $user_id);
+        return $this->pagSeguroService->sendAssinaturaRequest($user->name, $user->phone, $user->email, $assinatura->titulo, $assinatura->valor, $assinatura->tipo, $user_id);
     }
 
     public function alteraAssinaturaByStatus($status, $user_id)
@@ -47,6 +48,16 @@ class AssinaturaService extends Service
         }
 
         return false;
+    }
+
+    public function allLessTeste()
+    {
+        return $this->repository->allLessTeste();
+    }
+
+    public function findByTipo($tipo)
+    {
+        return $this->repository->findByTipo($tipo);
     }
 
     public function assinaturasAdm()

@@ -22,4 +22,14 @@ class AssinaturaRepository extends Repository implements AssinaturaRepositoryInt
             ->groupBy('a.id')
             ->get();
     }
+
+    public function allLessTeste()
+    {
+        return $this->model->where("tipo", '!=', 'TESTE')->get();
+    }
+
+    public function findByTipo($tipo)
+    {
+        return $this->model->where("tipo", '=' ,$tipo)->first();
+    }
 }
