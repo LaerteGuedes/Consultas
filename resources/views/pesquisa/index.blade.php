@@ -23,7 +23,7 @@
 
           @if($users)
 
-            <p>{{$users->total() }} profissionais encontrados:</p>
+            <p>{{$users->count() }} profissional(is) encontrados:</p>
             
             <!-- Lista padrão -->
             <ul class="list-group">

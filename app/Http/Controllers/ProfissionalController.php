@@ -59,11 +59,12 @@ class ProfissionalController extends Controller
         $user =  $this->userService->find($id);
         if (isset(Auth::user()->id)){
             $comentarios = $this->userService->comentariosPorUsuario(Auth::user()->id, $id);
+            $planoUsuario = Auth::user()->planos()->first();
         }else{
             $comentarios = array();
         }
 
-        $planoUsuario = Auth::user()->planos()->first();
+
 
         if (isset($planoUsuario->id)){
             if (!$user->nao_atende_planos){

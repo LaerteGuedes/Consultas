@@ -141,7 +141,15 @@ class UserRepository extends Repository implements UserRepositoryInterface
         return \DB::select("select c.id, c.descricao, CONCAT(u.name,' ', u.lastname) AS comentador, a.nota as star_votos  from comentarios c, avaliacaos a, users u WHERE c.user_id = a.avaliador AND c.comentado = a.user_id AND u.id = c.user_id AND c.user_id = ".$user_id."  AND c.comentado = ".$comentado."  GROUP BY c.id");
     }
 
-    public function pesquisar($data = array() , $perpage = 50)
+    public function isProfissionalDisponivelAtDate($user_id, $date, $dia_semana)
+    {
+        return $result =  \DB::table('users')
+            ->select(\DB::raw('users.name, users.id, (SELECT COUNT(*) FROM grades g WHERE g.user_id = users.id AND g.dia_semana = "'.$dia_semana.'") as quant_grade,
+            (SELECT COUNT(*) FROM consultas c WHERE c.profissional_id = users.id AND c.data_agenda = "'.$date.'") as quant_consultas'))
+            ->where('users.id', '=', $user_id)->first();
+    }
+
+    public function pesquisar($data = array() , $perpage = 50   )
     {
 
         $result =  \DB::table('users')
@@ -193,7 +201,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
             ->select(\DB::raw('users.id,users.name, user_assinaturas.assinatura_status, users.lastname,users.thumbnail ,users.cid ,user_especialidades.especialidade_id,especialidades.nome as tipo,
 localidades.uf,localidades.bairro_id,localidades.cidade_id,user_ramos.ramo_id,ramos.nome as ramo,
     (select count(*)  from comentarios where comentarios.comentado = users.id)
-    
+
  as total_comentarios,
  (select round(avg(nota),1) from avaliacaos where avaliacaos.`user_id` = users.id ) as total_avaliacoes
 

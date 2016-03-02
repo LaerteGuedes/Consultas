@@ -43,6 +43,9 @@
             <input type="text" name="bairro_nome" id="bairro_nome" placeholder="Bairro" class="form-control">
         </div>
 
+        <div class="form-group">
+            <input type="text" name="data_desejada" placeholder="Data desejada" data-mask = 'date' class="form-control"/>
+        </div>
 
         <div class="form-group">
 

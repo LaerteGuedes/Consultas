@@ -49,7 +49,7 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-lg-9 col-xs-12">
+                                <div class="col-lg-6 col-xs-12">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-user-md"></i></div>
                                         {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nome do Profissional']) !!}
@@ -61,6 +61,11 @@
                                         </select>
                                 </div>
                                 -->
+                                <div class="col-lg-3 col-xs-12">
+                                    {{--<select name="bairro_id" id="bairro_nome" class="form-control" data-title="Selecione o Bairro">--}}
+                                    {{--</select>--}}
+                                    <input type="text" name="data_desejada" placeholder="Data desejada" data-mask = 'date' class="form-control"/>
+                                </div>
                                 <div class="col-lg-3 col-xs-12">
                                     {{--<select name="bairro_id" id="bairro_nome" class="form-control" data-title="Selecione o Bairro">--}}
                                     {{--</select>--}}

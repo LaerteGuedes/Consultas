@@ -46,6 +46,19 @@ class PesquisaController extends Controller
         $ramo_id = ($request->has('ramo_id')) ? $request->get('ramo_id') : null;
         $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelemList();
 
+        if ($request->has("data_desejada")){
+            $data_desejada = $this->formataData($request->get('data_desejada'));
+            $dia_semana_num = date('w', strtotime($data_desejada));
+            $dia_semana = $this->dataSemana($dia_semana_num);
+
+            foreach ($users as $key => $user) {
+                $usuarioDisponivel = $this->userService->isProfissionalDisponivelAtDate($user->id, $data_desejada, $dia_semana);
+                if (!$usuarioDisponivel){
+                    $users->pull($key);
+                }
+            }
+        }
+
         $cidades->prepend('Selecione a cidade','');
 
         return view('pesquisa.index')->with([
@@ -54,6 +67,38 @@ class PesquisaController extends Controller
             'ramo_id' => $ramo_id,
             'cidades' => $cidades
         ]);
+    }
+
+
+    private function formataData($data){
+        $dataUnf = explode('/', $data);
+        $dia = $dataUnf[0];
+        $mes = $dataUnf[1];
+        $ano = $dataUnf[2];
+
+        $dataF = $ano.'-'.$mes.'-'.$dia;
+        return $dataF;
+    }
+
+    private function dataSemana($dateNum){
+
+        switch($dateNum){
+            case 0:
+                return 'dom';
+            case 1:
+                return 'seg';
+            case 2:
+                return 'ter';
+            case 3:
+                return 'qua';
+            case 4:
+                return 'qui';
+            case 5:
+                return 'sex';
+            case 6:
+                return 'sab';
+        }
+
     }
 
 }

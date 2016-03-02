@@ -104,6 +104,23 @@ class UserService extends Service
         return $this->repository->pesquisar($data , $perpage);
     }
 
+    public function isProfissionalDisponivelAtDate($user_id, $date, $dia_semana)
+    {
+        $usuario = $this->repository->isProfissionalDisponivelAtDate($user_id, $date, $dia_semana);
+        if (isset($usuario->id)){
+            if (!$usuario->quant_grade){
+                return false;
+            }
+            if ($usuario->quant_grade > $usuario->quant_consultas){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        return false;
+    }
+
     public function updateAssinaturaAvaliacao($user_id, $params)
     {
         $params['assinatura_status'] = Assinatura::AVALIACAO;
