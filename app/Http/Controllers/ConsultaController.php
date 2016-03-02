@@ -17,7 +17,7 @@ class ConsultaController extends Controller
     protected $calendarService;
 
     public function __construct(ConsultaService $consultaService,
-    							CalendarService $calendarService)
+                                CalendarService $calendarService)
     {
         $this->consultaService = $consultaService;
         $this->calendarService = $calendarService;
@@ -25,72 +25,71 @@ class ConsultaController extends Controller
 
     public function index(Request $request)
     {
-    	if(\Auth::user()->role->name == 'Cliente')
-    	{
-    		$futuras    = $this->consultaService->listarConsultasFuturasByUser(\Auth::user()->id);
-    		$historicos = $this->consultaService->listarConsultasHistoricoByUser(\Auth::user()->id);
+        if(\Auth::user()->role->name == 'Cliente')
+        {
+            $futuras    = $this->consultaService->listarConsultasFuturasByUser(\Auth::user()->id);
+            $historicos = $this->consultaService->listarConsultasHistoricoByUser(\Auth::user()->id);
+            $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelemList();
 
+            return view('consulta.index')->with([
+                'futuras'    => $futuras,
+                'historicos' => $historicos,
+                'cidades'    => $cidades
+            ]);
+        }else{
+            if($request->get('next_mes'))
+            {
+                $mes = $request->get('next_mes');
 
-		       return view('consulta.index')->with([
+            }elseif($request->get('previous_mes'))
+            {
+                $mes = $request->get('previous_mes');
 
-		       		'futuras'    => $futuras,
-		       		'historicos' => $historicos
+            }else
+            {
+                $mes = $this->calendarService->getMesAtual();
+            }
 
-		       	]);
-		}else
-		{	
-			if($request->get('next_mes'))	
-			{
-				$mes = $request->get('next_mes');
-				
-			}elseif($request->get('previous_mes'))
-			{
-				$mes = $request->get('previous_mes');
+            $next_mes = $this->calendarService->getNextMes($mes);
+            $previous_mes = $this->calendarService->getPreviousMes($mes);
+            $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelemList();
 
-			}else
-			{
-				$mes = $this->calendarService->getMesAtual();
-			}
+            $consultas = $this->consultaService->listarConsultasByProfissional(\Auth::user()->id ,[
 
-			$next_mes = $this->calendarService->getNextMes($mes);
-			$previous_mes = $this->calendarService->getPreviousMes($mes);	
+                'mes' => date('m', strtotime($mes)),
+                'ano' => date('Y', strtotime($mes))
 
-			$consultas = $this->consultaService->listarConsultasByProfissional(\Auth::user()->id ,[
+            ]);
 
-						'mes' => date('m', strtotime($mes)),
-						'ano' => date('Y', strtotime($mes))
-
-				]);
-
-			return view('consulta.index')->with([
-						'mes'=>$mes,
-						'next_mes'=> $next_mes,
-						'previous_mes' => $previous_mes,
-						'consultas' => $consultas
-					]);
-		}
+            return view('consulta.index')->with([
+                'mes'=>$mes,
+                'next_mes'=> $next_mes,
+                'previous_mes' => $previous_mes,
+                'consultas' => $consultas,
+            ]);
+        }
     }
 
     public function confirmar(Request $request)
     {
-    	$response = $this->consultaService->confirmarConsulta($request->all());
+        $response = $this->consultaService->confirmarConsulta($request->all());
 
-    	return response()->json(['success'=> $response ]);
+        return response()->json(['success'=> $response ]);
     }
 
     public function realizar(Request $request)
     {
-    	$response = $this->consultaService->realizarConsulta($request->all());
+        $response = $this->consultaService->realizarConsulta($request->all());
 
-    	return response()->json(['success'=> $response ]);
+        return response()->json(['success'=> $response ]);
     }
 
-	public function noShow(Request $request)
-	{
-		$response = $this->consultaService->noShow($request->all());
+    public function noShow(Request $request)
+    {
+        $response = $this->consultaService->noShow($request->all());
 
-		return response()->json(['success'=> $response ]);
-	}
+        return response()->json(['success'=> $response ]);
+    }
 
 
 }

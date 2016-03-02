@@ -31,7 +31,6 @@ Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
     Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@index']);
     #rota pesquisa profissional
     #rota profissional
-
     Route::get('/agendar/profissional/{user_id}/local/{localidade_id}',['as'=>'profissional.agendar','uses'=>'ProfissionalController@agendar']);
     Route::post('/confirmar/agendamento',['as'=>'profissional.confirmar.agendamento','uses'=>'ProfissionalController@confirmar']);
     Route::post('/finalizar/agendamento',['as'=>'profissional.finalizar.agendamento','uses'=>'ProfissionalController@finalizar']);

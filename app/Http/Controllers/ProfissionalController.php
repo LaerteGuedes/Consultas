@@ -107,6 +107,7 @@ class ProfissionalController extends Controller
         $diaDeHoje = date('Y-m-d');
         $horarioAtual = date('h:i:s');
         $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelemList();
+        $cidades->prepend('Selecione a cidade','');
 
         $diasSemanais = $this->gradeService->getDiasSemanais();
 
@@ -150,6 +151,8 @@ class ProfissionalController extends Controller
         $usuario      = $this->userService->find($request->get('user_id'));
         $profissional = $this->userService->find($request->get('profissional_id'));
         $localidade   = $this->localidadeService->find($request->get('localidade_id'));
+        $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelemList();
+        $cidades->prepend('Selecione a cidade','');
 
         $planosAtendidos = $profissional->planos()->get();
         $planoUsuario = $usuario->planos()->first();
@@ -171,7 +174,8 @@ class ProfissionalController extends Controller
             'localidade'   => $localidade,
             'dia_agenda'   => $request->get('dia_agenda'),
             'horario_agenda' => $request->get('horario_agenda'),
-            'planoAtendido' => $planoAtendido
+            'planoAtendido' => $planoAtendido,
+            'cidades' => $cidades
         ]);
     }
 
@@ -187,6 +191,9 @@ class ProfissionalController extends Controller
 
     public function confirmado()
     {
-        return view('profissional.confirmado');
+        $cidades = $this->cidadeService->listCidadesAreaMetropolitanaBelemList();
+        $cidades->prepend('Selecione a cidade','');
+
+        return view('profissional.confirmado')->with('cidades', $cidades);
     }
 }

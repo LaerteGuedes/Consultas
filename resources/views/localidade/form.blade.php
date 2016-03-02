@@ -91,7 +91,10 @@
             {!! Form::label('bairro','*Bairro:') !!}
 
             {!! Form::text('bairro' , isset($localidade->id) ? $localidade->bairro->nome : null , [
-                'class'        => 'form-control'
+                'class'        => 'form-control',
+                'autocomplete' => 'off',
+                'readonly' => true,
+                'placeholder' => 'Selecione primeiro a cidade'
              ]) !!}
 
             {!! Form::hidden('bairro_id',isset($localidade->id) ? $localidade->bairro_id : null,[
@@ -175,8 +178,7 @@
 
                             if (success){
                                 $("#bairro").prop('disabled',false);
-                                $("#bairro").val('');
-                            //    $("#bairro").typeahead('destroy');
+                                $("#bairro").typeahead('destroy');
                                 $("#bairro").val(response.bairro);
                                 $("#logradouro").val(response.logradouro);
                             }else{
@@ -254,33 +256,29 @@
                 if(cidade != "")
                 {
                     $.get(url, function(response){
+                        $("#bairro").prop('readonly',false);
+                        $("#bairro").prop('placeholder', '');
+                        $("#bairro").typeahead('destroy');
 
-//                        $("#bairro").prop('disabled',false);
-//                        $("#bairro").val('');
-//
-//                        $("#bairro_id").val('');
-//
-//                        $("#bairro").typeahead('destroy');
-//
-//                        $("#bairro").typeahead({
-//                            source : response.data,
-//                            autoSelect: true
-//                        });
+                        $("#bairro").typeahead({
+                            source : response.data,
+                            autoSelect: true
+                        });
 
                         $("#bairro").change(function(){
 
-//                            var that            = $(this);
-//                            var ba_id   = $("#bairro_id");
-//                            var current         = that.typeahead('getActive');
-//
-//                            if( current.name === that.val() )
-//                            {
-//                                bairro_id.prop('disabled',false).val( current.id );
-//
-//                            }else{
-//
-//                                bairro_id.prop('disabled',true ).val('');
-//                            }
+                            var that = $(this);
+                            var bairro_id   = $("#bairro_id");
+                            var current = that.typeahead('getActive');
+
+                            if( current.name === that.val() )
+                            {
+                                bairro_id.prop('disabled',false).val( current.id );
+
+                            }else{
+
+                                bairro_id.prop('disabled',true ).val('');
+                            }
 
                         });
 
@@ -293,12 +291,12 @@
             var bairroIdAtual = $("#bairro_id").val();
 
             $("#bairro").on("keyup", function(){
-//                var bairro = $(this).val();
-//                if (bairroAtual != bairro){
-//                    $("#bairro_id").val('');
-//                }else{
-//                    $("#bairro_id").val(bairroIdAtual);
-//                }
+                var bairro = $(this).val();
+                if (bairroAtual != bairro){
+                    $("#bairro_id").val('');
+                }else{
+                    $("#bairro_id").val(bairroIdAtual);
+                }
             });
 
         });

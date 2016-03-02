@@ -69,7 +69,7 @@
                                 <div class="col-lg-3 col-xs-12">
                                     {{--<select name="bairro_id" id="bairro_nome" class="form-control" data-title="Selecione o Bairro">--}}
                                     {{--</select>--}}
-                                    <input class="form-control" type="text" name="bairro_nome" placeholder="Bairro">
+                                    <input class="form-control" type="text" name="bairro_nome" id="bairro_nome" placeholder="Bairro">
                                 </div>
                             </div>
                         </div>
@@ -202,8 +202,11 @@
             </div>
         </div>
     </section>
+@endsection
 
+@section('lib')
 
+    <script src="{{ asset('lib/bootstrap3-typeahead/bootstrap3-typeahead.js') }}"></script>
 
 @endsection
 
@@ -264,6 +267,31 @@
                         $("#bairro_id").empty().html(options);
                         $("#bairro_id").selectpicker('refresh');
 
+                    //    $("#bairro_nome").prop('readonly',false);
+                      //  $("#bairro_nome").prop('placeholder', '');
+                        $("#bairro_nome").typeahead('destroy');
+
+                        $("#bairro_nome").typeahead({
+                            source : response.data,
+                            autoSelect: true
+                        });
+
+                        $("#bairro_nome").change(function(){
+
+                            var that = $(this);
+                            var bairro_id   = $("#bairro_id");
+                            var current = that.typeahead('getActive');
+
+                            if( current.name === that.val() )
+                            {
+                                bairro_id.prop('disabled',false).val( current.id );
+
+                            }else{
+
+                                bairro_id.prop('disabled',true ).val('');
+                            }
+
+                        });
                     });
                 }else{
 

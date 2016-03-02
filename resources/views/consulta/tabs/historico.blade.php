@@ -66,12 +66,14 @@
                             </div>
 								
 							@if($historico->status === 'CANCELADA')	
-                             <div class="red action"><strong>Consulta cancelada por você em {{ date('d/m/Y \a\s H:i',strtotime($historico->updated_at) ) }}.</strong></div>
+                             <div class="red action"><strong>Consulta cancelada em {{ date('d/m/Y \a\s H:i',strtotime($historico->updated_at) ) }}.</strong></div>
 							@elseif($historico->status === 'CONFIRMADA')
-                             <div class="green action"><strong>Consulta confirmada por você em {{ date('d/m/Y \a\s H:i',strtotime($historico->updated_at) ) }}.</strong></div>
+                             <div class="green action"><strong>Consulta confirmada em {{ date('d/m/Y \a\s H:i',strtotime($historico->updated_at) ) }}.</strong></div>
                              @elseif($historico->status === 'REALIZADA')
-                             <div class="green action"><strong>Consulta já realizada por você!.</strong></div>
-                             @endif
+                             <div class="green action"><strong>Consulta já realizada!.</strong></div>
+                             @elseif($historico->status === 'NO SHOW')
+                                <div class="blue action"><strong>Você não compareceu na consulta!</strong></div>
+                            @endif
                         </li>
                     </ul><!-- /Lista padrão -->
 
