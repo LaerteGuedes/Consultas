@@ -64,7 +64,7 @@
                                 <div class="col-lg-3 col-xs-12">
                                     {{--<select name="bairro_id" id="bairro_nome" class="form-control" data-title="Selecione o Bairro">--}}
                                     {{--</select>--}}
-                                    <input type="text" name="data_desejada" placeholder="Data desejada" data-mask = 'date' class="form-control"/>
+                                    <input type="text" name="data_desejada" id="data_desejada" placeholder="Data desejada" class="form-control"/>
                                 </div>
                                 <div class="col-lg-3 col-xs-12">
                                     {{--<select name="bairro_id" id="bairro_nome" class="form-control" data-title="Selecione o Bairro">--}}
@@ -104,7 +104,7 @@
                   <h3>CADASTRO</h3>
                 </div>
                 <div>
-                  <p>Encontre o profissional que deseja e marque um agendamento instantaneamente. <strong>É grátis!</strong></p>
+                  <p>Encontre o profissional que deseja e marque um agendamento instantaneamente.</p>
                   <strong>Características</strong>
                   <ul>
                     <li>Encontrar uma lista de profissionais da saúde em um só lugar.</li>
@@ -113,7 +113,7 @@
                   </ul>
                 </div>
                 <div class="text-center">
-                  <a href="#" class="btn btn-primary btn-lg top10">CADASTRAR</a>
+                  <a href="/home/cliente" class="btn btn-primary btn-lg top10">CADASTRAR</a>
                 </div>
               </div>
               <div class="col-lg-4">
@@ -135,7 +135,7 @@
                   </ul>
                 </div>
                 <div class="text-center">
-                  <a href="#" class="btn btn-primary btn-lg top10">CADASTRAR</a>
+                  <a href="/home/profissional" class="btn btn-primary btn-lg top10">CADASTRAR</a>
                 </div>
               </div>
               <div class="col-lg-4">
@@ -166,7 +166,7 @@
                     <p class="">Para profissionais da saúde que desejam divulgar serviços e precisam de um canal de relacionamento com o paciente, a  SALLUS oferece uma plataforma virtual de busca e agendamento de consultas para a Região Metropolitana de Belém.</p>
                 </div>
                 <div class="col-lg-6">
-                    <iframe width="645" height="363" src="https://www.youtube.com/embed/u3k_HLd_mec" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="645" height="363" src="https://www.youtube.com/embed/AoF6pkgA93E" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
@@ -215,7 +215,8 @@
     <script type="text/javascript">
 
         $(function(){
-
+            $("#data_desejada").datepicker();
+            $("#data_desejada").datepicker("option", "dateFormat", "dd/mm/yy");
 
             $("#uf").on("change", function(){
 

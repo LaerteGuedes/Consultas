@@ -148,6 +148,12 @@ class ProfissionalController extends Controller
 
     public function confirmar(Request $request)
     {
+        $isMarcadoTurno =  $this->consultaService->isConsultaMarcadaPorTurno($request->get('user_id'), $request->get('profissional_id'), $request->get('dia_agenda'), $request->get('horario_agenda'));
+
+        if ($isMarcadoTurno){
+            return redirect()->back()->with('message', "Você já marcou uma consulta neste turno! Tente um horario em outro turno!");
+        }
+
         $usuario      = $this->userService->find($request->get('user_id'));
         $profissional = $this->userService->find($request->get('profissional_id'));
         $localidade   = $this->localidadeService->find($request->get('localidade_id'));

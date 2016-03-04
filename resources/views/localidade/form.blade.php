@@ -54,7 +54,7 @@
             {!! Form::text('numero',isset($localidade->id) ? $localidade->numero : null ,['class'=>'form-control']) !!}
 
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-6">
 
             {!! Form::label('complemento','Complemento:') !!}
             {!! Form::text('complemento',isset($localidade->id) ? $localidade->complemento : null ,['class'=>'form-control']) !!}
@@ -102,13 +102,13 @@
                     isset($localidade->id) ? null : 'disabled'
             ]) !!}
         </div>
+      
+        <div class="col-xs-3">
+          {!! Form::label('preco','Valor da consulta (R$)') !!}
+          {!! Form::text('preco', isset($localidade->id) ? $localidade->preco : null , ['class'=>'form-control','data-mask'=>'decimal'])  !!}
+        </div>
+      
     </div>
-</div>
-
-<div class="form-group">
-
-    {!! Form::label('preco','Valor da consulta') !!}
-    {!! Form::text('preco', isset($localidade->id) ? $localidade->preco : null , ['class'=>'form-control','data-mask'=>'decimal'])  !!}
 </div>
 
 <hr/>

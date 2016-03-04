@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            <input type="text" name="data_desejada" placeholder="Data desejada" data-mask = 'date' class="form-control"/>
+            <input type="text" name="data_desejada" id="data_desejada" placeholder="Data desejada" class="form-control"/>
         </div>
 
         <div class="form-group">
@@ -69,6 +69,9 @@
 
         $(function(){
 
+            $("#data_desejada").datepicker();
+            $("#data_desejada").datepicker("option", "dateFormat", "dd/mm/yy");
+
             var cidade_id = $("#cidade_id").val();
 
             if (cidade_id){
@@ -77,15 +80,11 @@
                 $.get(url, function(response){
 
                     var options = '';
-                    console.log(response.data);
-
                     $.each(response.data , function(v,k){
 
                         options += '<option value="'+ k.id +'">'+ k.name +'</option>';
                     });
 
-                    //  $("#bairro").prop('readonly',false);
-                    //  $("#bairro").prop('placeholder', '');
                     $("#bairro_nome").typeahead('destroy');
 
                     $("#bairro_nome").typeahead({

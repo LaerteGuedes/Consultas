@@ -1,5 +1,7 @@
 @extends('site')
+
 @section('title', 'Nova assinatura')
+
 @section('content')
     <section class="main adm">
         <div class="container">

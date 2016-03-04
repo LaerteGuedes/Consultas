@@ -40,13 +40,13 @@
                         </div>
 
                         <div class="panel-body">
-                            <h3><i class="fa fa-hospital-o fa-2"></i> Confirme seu agendamento.</h3>
+                            <h3><i class="fa fa-exclamation-circle fa-2"></i> Confirme seu agendamento.</h3>
 
                             <!-- DATAS E HOÁRIOS -->
                             <div class="row dados-confirmar">
                                 <div class="col-lg-6 ">
-                                    <p><i class="fa fa-hospital-o fa-2x"></i> Dia {{  date('d/m/Y' , strtotime($dia_agenda) )}}</p>
-                                    <p><i class="fa fa-hospital-o fa-2x"></i> às {{  date('H:i' , strtotime($horario_agenda) )}}</p>
+                                    <p><i class="fa fa-calendar fa-2x"></i> Dia {{  date('d/m/Y' , strtotime($dia_agenda) )}}</p>
+                                    <p><i class="fa fa-clock-o fa-2x"></i> às {{  date('H:i' , strtotime($horario_agenda) )}}</p>
                                     @if($localidade->tipo == "CONSULTORIO")
                                         <p><i class="fa fa-hospital-o fa-2x"></i> {{ $localidade->logradouro }} , {{ $localidade->numero }}</p>
                                     @endif
@@ -83,25 +83,25 @@
                                             <div class="form-group">
                                                 <label class="sr-only" for="nome">Nome</label>
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">$</div>
+                                                    <div class="input-group-addon"><i class="fa fa-user"></i></div>
                                                     <input type="text" disabled class="form-control" id="nome" placeholder="{{ $usuario->name . ' ' . $usuario->lastname}}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="sr-only" for="email">Email</label>
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">$</div>
+                                                    <div class="input-group-addon"><i class="fa fa-envelope-o"></i></div>
                                                     <input type="text" class="form-control" id="email" disabled placeholder="{{ $usuario->email }}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="sr-only" for="telefone">Telefone</label>
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">$</div>
+                                                    <div class="input-group-addon"><i class="fa fa-phone"></i></div>
                                                     <input type="text" class="form-control" id="telefone" disabled placeholder="{{ $usuario->phone }}">
                                                 </div>
                                             </div>
-                                            <p><i class="fa fa-phone"></i> Você é o paciente ou esta marcando a consulta para alguém?</p>
+                                            <p><i class="fa fa-exclamation-circle fa-2"></i> Você é o paciente ou esta marcando a consulta para alguém?</p>
                                             <div class="radio">
                                                 <label>
                                                     <input type="radio" name="pessoal"  value="2" checked>

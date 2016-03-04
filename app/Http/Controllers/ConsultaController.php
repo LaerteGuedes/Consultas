@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Custom\Debug;
+use App\Services\CidadeService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,12 +16,15 @@ class ConsultaController extends Controller
 {
     protected $consultaService;
     protected $calendarService;
+    protected $cidadeService;
 
     public function __construct(ConsultaService $consultaService,
-                                CalendarService $calendarService)
+                                CalendarService $calendarService,
+                                CidadeService $cidadeService)
     {
         $this->consultaService = $consultaService;
         $this->calendarService = $calendarService;
+        $this->cidadeService = $cidadeService;
     }
 
     public function index(Request $request)

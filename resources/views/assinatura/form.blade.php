@@ -11,14 +11,19 @@
         <div class="col-xs-12">
             {!! Form::label('assinatura_id','*Pacote de assinatura:') !!}
             <br>
+            <div class="row text-center">
             @foreach($assinaturas as $assinatura)
-                <div class="col-xs-4">
-                    <p>{{$assinatura->titulo}}</p>
-                    <p>{{$assinatura->valor}}</p>
-                    <input type="radio" name="assinatura_id" value="{{$assinatura->id}}">
+              <div class="panel panel-default col-xs-4">
+                <div class="panel-heading">
+                      <h3 class="panel-title">{{$assinatura->titulo}}</h3>
                 </div>
+                <div class="panel-body">
+                      <p><strong>R$ {{$assinatura->valor}},00</strong><br>
+                      <input type="radio" name="assinatura_id" value="{{$assinatura->id}}"></p>
+                </div>
+              </div>
             @endforeach
-
+            </div>
             <br>
         </div>
         <div class="col-xs-12">
@@ -32,6 +37,6 @@
 </div>
 <hr/>
 <div class="form-group">
-    {!! Form::submit('Salvar',['class'=>'btn btn-success btn-lg btn-block'] ) !!}
+    {!! Form::submit('Salvar e finalizar',['class'=>'btn btn-success btn-lg btn-block'] ) !!}
 </div>
 {!! Form::close() !!}

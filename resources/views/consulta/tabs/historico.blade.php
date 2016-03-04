@@ -72,7 +72,7 @@
                              @elseif($historico->status === 'REALIZADA')
                              <div class="green action"><strong>Consulta já realizada!.</strong></div>
                              @elseif($historico->status === 'NO SHOW')
-                                <div class="blue action"><strong>Você não compareceu na consulta!</strong></div>
+                                <div class="blue action"><strong>Você não compareceu na consulta!.</strong></div>
                             @endif
                         </li>
                     </ul><!-- /Lista padrão -->

@@ -252,6 +252,12 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
             ->get();
     }
 
+    public function getConsultasPorTurnoDia($user_id, $profissional_id, $intervaloInicio, $intervaloFinal, $data_agenda)
+    {
+        return $this->model->where('user_id', '=', $user_id)->where('profissional_id', '=', $profissional_id)->where('data_agenda', '=', $data_agenda)
+            ->where('horario_agenda', '>=', $intervaloInicio)->where('horario_agenda', '<=', $intervaloFinal)->get();
+    }
+
     public function checkIfAgendado($data)
     {
         return $this->model->where(function($query)use($data){

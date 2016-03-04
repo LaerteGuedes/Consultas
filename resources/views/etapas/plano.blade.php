@@ -16,25 +16,25 @@
                         <div class="panel-body">
                             <div>
                                 <div class="text-center">
-                                    <h3>Finalize seu cadastro informando quais planos de saúde você atende.</h3>
-                                    <p class="lead">Estamos acabando! Agora informe quais planos de saúde você costuma atender seus clientes.</p>
+                                    <h3>Agora informe quais planos de saúde você atende.</h3>
+                                    <p class="lead">Estamos quase acabando! Precisamos saber agora quais planos de saúde você costuma atender seus clientes. Você pode e deve marcar mais de um se for o caso.</p>
                                     <hr>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label for="plano_pai"></label>
-                                            <h3>Escolha a empresa</h3>
+                                            <h3>Você atende através de algum plano de saúde?</h3>
                                             <form action="{{route('plano.salvar')}}" method="post">
                                                 <div class="form-group form-block">
-                                                    <label for="nao_atende_planos">Atende planos de saúde? </label>
-                                                    <input type="radio" name="nao_atende_planos" value="0" checked> Sim
-                                                    <input type="radio" name="nao_atende_planos" value="1"> Não
+                                                    <label for="nao_atende_planos">Qual opção ?&nbsp;</label> 
+                                                    <input type="radio" name="nao_atende_planos" value="0" checked> Sim &nbsp;
+                                                    <input type="radio" name="nao_atende_planos" value="1"> Não &nbsp;
                                                 </div>
                                                 <div id="planos">
                                                     <div class="form-group">
                                                         <label for="plano_pai"></label>
-                                                        <h3>Escolha a empresa</h3>
+                                                        <h3>Escolha a(s) empresa(s)</h3>
                                                             @if (isset($vPlanos))
                                                                 @foreach($vPlanos as $id => $plano)
                                                                     <div class="checkbox-inline checkbox-categoria">
@@ -121,12 +121,14 @@
                                                                                 var planoClass = '.planos-'+json.planoPai.id;
 
                                                                                 if (!$(planoClass).html()){
-                                                                                    var html = '<div class="planos-'+json.planoPai.id+'">';
+                                                                                    var html = '<div class="form-group lista-planos">';
+                                                                                    html += '<div class="planos-'+json.planoPai.id+'">';
                                                                                     html += '<h4>Planos de saude da '+json.planoPai.titulo+': </h4>';
 
                                                                                     $.each(json.planos, function(index, value){
                                                                                         html += '<div class="checkbox"><input type="checkbox" name="planos[]" value="'+value.id+'"/>'+' '+value.titulo+"</div>";
                                                                                     });
+                                                                                    html += '</div>';
                                                                                     html += '</div>';
                                                                                     $("#planos").append(html);
                                                                                 }
@@ -145,7 +147,7 @@
                                                 </div>
                                                 <br><br>
                                                 <div class="form-group submit-form">
-                                                    <button class="btn btn-success btn-lg btn-block btn-submit" >Salvar e finalizar cadastro</button>
+                                                    <button class="btn btn-success btn-lg btn-block btn-submit" >Salvar</button>
                                                 </div>
                                                 <input type="hidden" name="_token" value="P9vPOjdCDCbtjzu92hNJXccW1uYm4rQ8XyolgQ4Z">
                                             </form>
@@ -169,12 +171,14 @@
                                                                     var planoClass = '.planos-'+json.planoPai.id;
 
                                                                     if (!$(planoClass).html()){
-                                                                        var html = '<div class="planos-'+json.planoPai.id+'">';
+                                                                        var html = '<div class="form-group lista-planos">';
+                                                                        html += '<div class="planos-'+json.planoPai.id+'">';
                                                                         html += '<h4>Planos de saude da '+json.planoPai.titulo+': </h4>';
 
                                                                         $.each(json.planos, function(index, value){
                                                                             html += '<div class="checkbox"><input type="checkbox" name="planos[]" value="'+value.id+'"/>'+' '+value.titulo+"</div>";
                                                                         });
+                                                                        html += '</div>';
                                                                         html += '</div>';
                                                                         $("#planos").append(html);
                                                                     }

@@ -13,6 +13,9 @@
         <link rel="stylesheet" href="{{ asset('lib/bootstrap/dist/css/bootstrap.min.css')  }}"/>
         <link rel="stylesheet" href="{{ asset('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('css/site.css')  }}"/>
+        <link rel="stylesheet" href="{{ asset('lib/jquery-ui/jquery-ui.css') }}">
+        <link rel="stylesheet" href="{{ asset('lib/jquery-ui/jquery-ui.theme.css') }}">
+
 
         @yield('style')
 
@@ -30,6 +33,8 @@
         <script src="{{ asset('lib/jquery-meiomask/dist/meiomask.js')  }}"></script>
         <script src="{{ asset('lib/bootstrap-filestyle/src/bootstrap-filestyle.min.js')  }}"></script>
         <script src="{{ asset('js/site.js') }}"></script>
+        <script src="{{ asset('lib/jquery-ui/jquery-ui.js') }}"></script>
+
     </head>
 <body>
 
