@@ -83,16 +83,57 @@ class HomeController extends Controller
         return view('home.home-profissional')->with('especialidades', $especialidades);
     }
 
+    public function ativaCadastro($token)
+    {
+        $id = base64_decode($token);
+        $user = $this->userService->find($id);
+
+        if (isset($user) && !$user->active){
+            $user->active = 1;
+            $user->save();
+            return redirect()->to('auth/login')->with('message', 'Cadastro confirmado com sucesso! Faça login abaixo!');
+        }
+
+        return redirect()->route('home');
+    }
+
+    public function sobre()
+    {
+        return "/home/sobre";
+    }
+
+    public function politicaPrivacidade()
+    {
+        return "/home/politica-privacidade";
+    }
+
+    public function termosDeUso()
+    {
+        return "/home/termos-de-uso";
+    }
+
+    public function faleConosco()
+    {
+        return "/home/faleConosco";
+    }
+
+    public function profissionalDeSaude()
+    {
+        return "/home/profissional-de-saude";
+    }
+
     public function registerUser(RegisterUserRequest $request)
     {
-        $this->userService->register($request->all());
-        $user = $this->userService->findBy('email', $request->get('email'));
+        $requestUser = $request->all();
+        $requestUser['active'] = 0;
 
-       // Debug::dump($request->all());
+        $this->userService->register($requestUser);
+        $user = $this->userService->findBy('email', $request->get('email'));
 
         if ($request->has('especialidade_id')){
             $params = $request->all();
             $params['user_id'] = (isset($user->id)) ? $user->id : '';
+         //   $params['active'] = 0;
             $this->userEspecialidadeService->create($params);
         }
         if (isset($user->id)){
@@ -101,9 +142,9 @@ class HomeController extends Controller
                 $this->planoService->insertUserPlanos(Auth::user()->id, $planos);
             }
 
-            $this->mailService->sendBoasVindas(Auth::user());
+            $this->mailService->sendConfirmacaoCadastro($user, base64_encode($user->id));
 
-            return redirect()->route('dashboard')->with('message', 'Cadastro realizado com sucesso!');
+            return redirect()->route('home')->with('message', 'Um email de confirmação foi enviado. Confirme o seu cadastro e utilize nossos serviços!');
         }
         return back()->withErrors([$this->messageService->getMessage('error')]);
     }

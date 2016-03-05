@@ -17,6 +17,15 @@ class MailService
         }
     }
 
+    public function sendConfirmacaoCadastro(User $user, $token)
+    {
+        Mail::send('emails.confirmacao-cadastro', ['user' => $user, 'token' => $token], function ($m) use ($user) {
+            $m->from('noreply@sallus.net', 'Sallus - Secretaria Virtual');
+
+            $m->to($user->email, $user->name)->subject('Confirmação de Cadastro');
+        });
+    }
+
     public function sendUserBoasVindas(User $user)
     {
         Mail::send('emails.boasvindasusuario', ['user' => $user], function ($m) use ($user) {

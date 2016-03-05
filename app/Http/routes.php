@@ -12,6 +12,12 @@ Route::get('/home/cliente',['as'=>'home.cliente','middleware'=>'guest','uses'=>'
 Route::get('/home/profissional',['as'=>'home.profissional','middleware'=>'guest','uses'=>'HomeController@homeProfissional']);
 Route::get("/planos/ajaxplanocliente", ['as' => 'plano.ajaxplanocliente', 'uses' => "UserPlanoController@ajaxPlanoCliente"]);
 Route::post('/register/user',['as'=>'register.user','uses'=>'HomeController@registerUser']);
+Route::get("/user/ativacadastro/{token}", ['as' => "home.ativacadastro", 'uses' => "HomeController@ativaCadastro"]);
+Route::get("/sobre", ['as' => "home.sobre", 'uses' => "HomeController@sobre"]);
+Route::get("/politica-de-privacidade", ['as' => "home.politica", 'uses' => "HomeController@politicaPrivacidade"]);
+Route::get("/termos-de-uso", ['as' => "home.termos", 'uses' => "HomeController@termosDeUso"]);
+Route::get("/fale-conosco", ['as' => "home.fale-conosco", 'uses' => "HomeController@faleConosco"]);
+Route::get("/profissional-de-saude", ['as' => "home.profissionaldesaude", 'uses' => "HomeController@profissionalDeSaude"]);
 
 Route::get("/pagseguro/teste", ['as' => "adm.pagteste", 'uses' => "AssinaturaController@teste"]);
 Route::post("/assinatura/notificacao", ['as' => "assinatura.notificacao", 'uses' => "AssinaturaController@notificacao"]);

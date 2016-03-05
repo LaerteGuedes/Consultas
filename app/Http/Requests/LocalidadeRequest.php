@@ -23,25 +23,29 @@ class LocalidadeRequest extends Request
      */
     public function rules()
     {
-        return [
+        $data = $this->request->all();
 
-            'tipo'       => 'required',
-            'logradouro' => 'required',
-            'numero'     => 'required',
-            'cep'        => 'required',
-            'uf'         => 'required',
-            'cidade_id'  => 'required',
-            'bairro'     => 'required'
+        $rules = ['tipo' => 'required',
+            'uf' => 'required',
+            'cidade_id' => 'required',
+            'bairro' => 'required'
+        ];
 
-          ];
+        if ($data['tipo'] == 'CONSULTORIO'){
+            $rules['logradouro'] = 'required';
+            $rules['numero'] = 'required';
+            $rules['cep'] = 'required';
+        }
+
+        return $rules;
     }
 
     public function messages()
     {
         return [
-
-                'uf.required' => 'É obrigatória a indicação de um valor para o campo estado',
-                'cidade_id.required' => 'É obrigatória a indicação de um valor para o campo cidade'
+            'uf.required' => 'É obrigatória a indicação de um valor para o campo estado',
+            'cidade_id.required' => 'É obrigatória a indicação de um valor para o campo cidade'
         ];
     }
+
 }
