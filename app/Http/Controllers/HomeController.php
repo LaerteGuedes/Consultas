@@ -99,27 +99,27 @@ class HomeController extends Controller
 
     public function sobre()
     {
-        return "/home/sobre";
+        return view("home.sobre");
     }
 
     public function politicaPrivacidade()
     {
-        return "/home/politica-privacidade";
+        return view("home.politica-de-privacidade");
     }
 
     public function termosDeUso()
     {
-        return "/home/termos-de-uso";
+        return view("home.termos-de-uso");
     }
 
     public function faleConosco()
     {
-        return "/home/faleConosco";
+        return view("home.fale-conosco");
     }
 
     public function profissionalDeSaude()
     {
-        return "/home/profissional-de-saude";
+        return view("home.profissional-de-saude");
     }
 
     public function registerUser(RegisterUserRequest $request)

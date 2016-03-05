@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('site')
 @section('title', 'Profissional de Saúde')
 
 @section('content')

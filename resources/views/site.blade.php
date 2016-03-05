@@ -130,11 +130,11 @@
         <div class="container">
 
           <footer>
-            <a href="#">Sobre</a>
-            <a href="#">Política de privacidade</a>
-            <a href="#">Termos de uso</a>
-            <a href="#">Fale conosco</a>
-            <a href="#">Profissional da área de saúde?</a>
+            <a href="/sobre">Sobre</a>
+            <a href="/politica-de-privacidade">Política de privacidade</a>
+            <a href="/termos-de-uso">Termos de uso</a>
+            <a href="/fale-conosco">Fale conosco</a>
+            <a href="/profissional-de-saude">Profissional da área de saúde?</a>
             <span>Copyright &copy; 2015 Sallus. Todos os direitos reservados.</span>
           </footer>
         </div> 
