@@ -77,7 +77,7 @@
                                                                         <a href="javascript:void(0);" class="btn btn-primary btn-xs blue-btn no-show" data-consulta="{{$consulta->id }}"  data-resposta="nao">No show</a>
 
                                                                     @else
-                                                                    <a href="javascript:void(0);" class="btn btn-primary btn-xs red-btn confirmar-consulta" data-consulta="{{$consulta->id }}"  data-resposta="nao">Cancelar</a>
+                                                                        <a href="javascript:void(0);" class="btn btn-primary btn-xs red-btn confirmar-consulta" data-consulta="{{$consulta->id }}"  data-resposta="nao">Cancelar</a>
                                                                     @endif
                                                                 @elseif($consulta->status =='CANCELADA')
 

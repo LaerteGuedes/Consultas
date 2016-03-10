@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Consulta;
 use App\Custom\Debug;
 use App\Service;
 use App\Contracts\ConsultaRepositoryInterface;
+use App\User;
 
 
 class ConsultaService extends Service
@@ -135,8 +137,36 @@ class ConsultaService extends Service
     public function getTotalConsultasFuturasByUser($id)
     {
         return $this->repository->getTotalConsultasFuturasByUser($id);
-
     }
+
+    public function cancelarAllConsultas(User $user, MailService $mail)
+    {
+        $consultas = $this->listarConsultasFuturasByUser($user->id);
+
+        if ($consultas->count()){
+            foreach ($consultas as $consulta) {
+                $this->cancelarConsulta($consulta, $mail, $user);
+            }
+        }
+    }
+
+    public function cancelarConsulta(Consulta $consulta, MailService $mail, User $user)
+    {
+        $params = ['resposta' => 'nao', 'consulta_id' => $consulta->id];
+        $this->confirmarConsulta($params);
+
+        $cliente = $consulta->user()->first();
+        $profissional = $consulta->profissional()->first();
+
+        if ($user->role_id == User::CLIENTE){
+            $mail->consultaCanceladaPorCliente($cliente, $profissional, $consulta->data_agenda);
+        }elseif($user->role_id == User::PROFISSIONAL){
+            $mail->consultaCanceladaPorProfissional($cliente, $profissional, $consulta->data_agenda);
+        }
+
+        return true;
+    }
+
 
     public function isConsultaMarcadaPorTurno($user_id, $profissional_id, $data_agenda, $horario_agenda)
     {

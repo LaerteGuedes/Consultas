@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Custom\Debug;
 use App\Services\CidadeService;
+use App\Services\MailService;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -11,20 +13,24 @@ use App\Http\Controllers\Controller;
 
 use App\Services\ConsultaService;
 use App\Services\CalendarService;
+use Illuminate\Support\Facades\Auth;
 
 class ConsultaController extends Controller
 {
     protected $consultaService;
     protected $calendarService;
     protected $cidadeService;
+    protected $mailService;
 
     public function __construct(ConsultaService $consultaService,
                                 CalendarService $calendarService,
-                                CidadeService $cidadeService)
+                                CidadeService $cidadeService,
+                                MailService $mailService)
     {
         $this->consultaService = $consultaService;
         $this->calendarService = $calendarService;
         $this->cidadeService = $cidadeService;
+        $this->mailService = $mailService;
     }
 
     public function index(Request $request)
@@ -76,7 +82,14 @@ class ConsultaController extends Controller
 
     public function confirmar(Request $request)
     {
-        $response = $this->consultaService->confirmarConsulta($request->all());
+        $user = Auth::user();
+
+        $consulta = $this->consultaService->find($request->get('consulta_id'));
+        if ($request->resposta == 'nao'){
+            $response = $this->consultaService->cancelarConsulta($consulta, $this->mailService, Auth::user());
+        }else{
+            $response = $this->consultaService->confirmarConsulta($request->all());
+        }
 
         return response()->json(['success'=> $response ]);
     }

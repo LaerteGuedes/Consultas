@@ -40,7 +40,25 @@ class MailService
         Mail::send('emails.boasvindasprofissional', ['user' => $user], function ($m) use ($user) {
             $m->from('noreply@sallus.net', 'Sallus - Secretaria Virtual');
 
-            $m->to($user->email, $user->name)->subject('Bem-vindo!');
+            $m->to('laerteguedes8@gmail.com', $user->name)->subject('Bem-vindo!');
+        });
+    }
+
+    public function consultaCanceladaPorProfissional(User $user, User $profissional, $data_agenda)
+    {
+        Mail::send('emails.consulta-cancelada-prof', ['user' => $user, 'profissional' => $profissional, 'data_agenda' => $data_agenda], function ($m) use($user){
+            $m->from('noreply@sallus.net', 'Sallus - Secretaria Virtual');
+
+            $m->to('laerteguedes8@gmail.com', $user->name)->subject('Cancelamento de Consulta!');
+        });
+    }
+
+    public function consultaCanceladaPorCliente(User $user, User $profissional, $data_agenda)
+    {
+        Mail::send('emails.consulta-cancelada-cliente', ['user' => $user, 'profissional' => $profissional, 'data_agenda' => $data_agenda], function ($m) use ($profissional){
+            $m->from('noreply@sallus.net', 'Sallus - Secretaria Virtual');
+
+            $m->to($profissional->email, $profissional->name)->subject('Cancelamento de Consulta!');
         });
     }
 
