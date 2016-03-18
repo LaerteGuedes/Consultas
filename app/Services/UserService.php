@@ -106,7 +106,16 @@ class UserService extends Service
 
     public function isProfissionalDisponivelAtDate($user_id, $date, $dia_semana)
     {
-        $usuario = $this->repository->isProfissionalDisponivelAtDate($user_id, $date, $dia_semana);
+
+        $today = date('Y-m-d');
+
+        if ($today == $date){
+            $nowHour = date('H:m:s');
+            $usuario = $this->repository->isProfissionalDisponivelToday($user_id, $date, $dia_semana, $nowHour);
+        }else{
+            $usuario = $this->repository->isProfissionalDisponivelAtDate($user_id, $date, $dia_semana);
+        }
+
         if (isset($usuario->id)){
             if (!$usuario->quant_grade){
                 return false;
@@ -127,9 +136,53 @@ class UserService extends Service
         return $this->repository->updateAssinaturaAvaliacao($user_id,$params);
     }
 
+    public function findByEmail($email)
+    {
+        return $this->repository->findByEmail($email);
+    }
+
+    public function findByEmailAndRole($email, $role_id)
+    {
+        return $this->repository->findByEmailAndRole($email, $role_id);
+    }
+
+    public function registerUserProfissionalAndCliente(array $data)
+    {
+        $dataCliente = $data;
+        $dataProfissional = $data;
+
+        unset($dataCliente['cid']);
+        unset($dataCliente['especialidade_id']);
+
+        $this->repository->create($dataCliente);
+
+        if($this->repository->create($dataProfissional))
+        {
+
+            $credentials = [
+
+                'email'    => $data['email'],
+                'password' => $data['password'],
+                'active'   => 1
+
+            ];
+
+            Session::flush();
+            \Auth::attempt($credentials);
+            return true;
+
+        }
+
+        return false;
+    }
+
+    public function ativaCadastroByEmail($email)
+    {
+        return $this->repository->ativaCadastroByEmail($email);
+    }
+
     public function register(array $data)
     {
-
         if($this->repository->create($data))
         {
 
@@ -162,6 +215,10 @@ class UserService extends Service
             $this->deletePhoto($user->thumbnail);
             $data['thumbnail'] = $this->upload($request,'thumbnail');
 
+        }
+
+        if (isset($data['password'])){
+            $data['password'] = bcrypt($data['password']);
         }
 
         if(isset($data['especialidade_id']) && !empty($data['especialidade_id']))

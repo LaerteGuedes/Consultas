@@ -10,15 +10,15 @@
             <div class="row">
 
                 <div class="col-lg-12">
-                  <div class="logo">
-                    <img src="/imagens/logo.png">
-                  </div>
+                    <div class="logo">
+                        <img src="/imagens/logo.png">
+                    </div>
 
 
                     <h1 class="text-center">Agende uma consulta...</h1>
 
                     {!! Form::open([
-
+                                    'id' => 'busca-form',
                                     'route' => 'resultado.busca',
                                     'method'=> 'get',
                                     'class' => ''
@@ -64,7 +64,7 @@
                                 <div class="col-lg-3 col-xs-12">
                                     {{--<select name="bairro_id" id="bairro_nome" class="form-control" data-title="Selecione o Bairro">--}}
                                     {{--</select>--}}
-                                    <input type="text" name="data_desejada" id="data_desejada" placeholder="Data desejada" class="form-control"/>
+                                    <input type="text" name="data_desejada" id="data_desejada" data-mask = 'date' placeholder="Data desejada" class="form-control" />
                                 </div>
                                 <div class="col-lg-3 col-xs-12">
                                     {{--<select name="bairro_id" id="bairro_nome" class="form-control" data-title="Selecione o Bairro">--}}
@@ -88,71 +88,71 @@
 
     <section class="bk-grey padding30 home">
         <div class="container text-center">
-          <h2><i class="fa fa-mobile"></i> Baixe nosso aplicativo grátis! <a href="#"><img src="/imagens/store-google.jpg"></a> <a href="#"><img src="/imagens/store-apple.jpg"></a></h2>
+            <h2><i class="fa fa-mobile"></i> Baixe nosso aplicativo grátis! <a href="#"><img src="/imagens/store-google.jpg"></a> <a href="#"><img src="/imagens/store-apple.jpg"></a></h2>
         </div>
     </section>
 
     <section class="bk-white padding60 home">
         <div class="container">
             <div class="row">
-              <div class="col-lg-4">
-                <div class="text-center">
+                <div class="col-lg-4">
+                    <div class="text-center">
                   <span class="fa-stack fa-lg fa-3x">
                     <i class="fa fa-circle fa-stack-2x"></i>
                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                   </span>
-                  <h3>CADASTRO</h3>
+                        <h3>CADASTRO</h3>
+                    </div>
+                    <div>
+                        <p>Encontre o profissional que deseja e marque um agendamento instantaneamente.</p>
+                        <strong>Características</strong>
+                        <ul>
+                            <li>Encontrar uma lista de profissionais da saúde em um só lugar.</li>
+                            <li>Ver horários disponíveis do profissional que procura. Basta clicar e agendar instantaneamente!</li>
+                            <li>Receber avisos de suas consultas agendadas.</li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <a href="/home/cliente" class="btn btn-primary btn-lg top10">CADASTRAR</a>
+                    </div>
                 </div>
-                <div>
-                  <p>Encontre o profissional que deseja e marque um agendamento instantaneamente.</p>
-                  <strong>Características</strong>
-                  <ul>
-                    <li>Encontrar uma lista de profissionais da saúde em um só lugar.</li>
-                    <li>Ver horários disponíveis do profissional que procura. Basta clicar e agendar instantaneamente!</li>
-                    <li>Receber avisos de suas consultas agendadas.</li>
-                  </ul>
-                </div>
-                <div class="text-center">
-                  <a href="/home/cliente" class="btn btn-primary btn-lg top10">CADASTRAR</a>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="text-center">
+                <div class="col-lg-4">
+                    <div class="text-center">
                   <span class="fa-stack fa-lg fa-3x">
                     <i class="fa fa-circle fa-stack-2x"></i>
                     <i class="fa fa-user-md fa-stack-1x fa-inverse"></i>
                   </span>
-                  <h3>PROFISSIONAIS</h3>
+                        <h3>PROFISSIONAIS</h3>
+                    </div>
+                    <div>
+                        <p><strong>Você é um profissional cinco estrelas?<br> Quer conquistar novos clientes?</strong><br><br>
+                            Faça seu cadastro na Sallus e ofereça um melhor conforto para seus clientes.</p>
+                        <strong>Características</strong>
+                        <ul>
+                            <li>Atrair novos clientes.</li>
+                            <li>Construir e fortalecer seu canal online.</li>
+                            <li>Oferecer um serviço Premium para seus clientes.</li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <a href="/home/profissional" class="btn btn-primary btn-lg top10">CADASTRAR</a>
+                    </div>
                 </div>
-                <div>
-                  <p><strong>Você é um profissional cinco estrelas?<br> Quer conquistar novos clientes?</strong><br><br>
-                  Faça seu cadastro na Sallus e ofereça um melhor conforto para seus clientes.</p>
-                  <strong>Características</strong>
-                  <ul>
-                    <li>Atrair novos clientes.</li>
-                    <li>Construir e fortalecer seu canal online.</li>
-                    <li>Oferecer um serviço Premium para seus clientes.</li>
-                  </ul>
-                </div>
-                <div class="text-center">
-                  <a href="/home/profissional" class="btn btn-primary btn-lg top10">CADASTRAR</a>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="text-center">
+                <div class="col-lg-4">
+                    <div class="text-center">
                   <span class="fa-stack fa-lg fa-3x">
                     <i class="fa fa-circle fa-stack-2x"></i>
                     <i class="fa fa-user-md fa-stack-1x fa-inverse"></i>
                   </span>
-                  <h3>ATENDIMENTO</h3>
+                        <h3>ATENDIMENTO</h3>
+                    </div>
+                    <div>
+                        <p>Nossa equipe de atendimento está a sua disposição para esclarecer suas dúvidas.</p>
+                    </div>
+                    <div class="text-center">
+                        <a href="#" class="btn btn-primary btn-lg top10">FALE CONOSCO</a>
+                    </div>
                 </div>
-                <div>
-                  <p>Nossa equipe de atendimento está a sua disposição para esclarecer suas dúvidas.</p>
-                </div>
-                <div class="text-center">
-                  <a href="#" class="btn btn-primary btn-lg top10">FALE CONOSCO</a>
-                </div>
-              </div>
             </div>
         </div>
     </section>
@@ -176,28 +176,28 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
-                  <h2 class="">DEPOIMENTOS</h2>
+                    <h2 class="">DEPOIMENTOS</h2>
                 </div>
                 <div class="col-lg-3">
-                  <div class="text-center">
-                    <img src="/imagens/avatar-1.jpg">
-                    <h3 class="">Dr. Carlos Silva</h3>
-                    <p><i class="fa fa-quote-left"></i> Cras maximus, eros congue ultrices facilisis, nunc ante egestas lorem, et ullamcorper nisl ex sit amet erat. <i class="fa fa-quote-right"></i></p>
-                  </div>
+                    <div class="text-center">
+                        <img src="/imagens/avatar-1.jpg">
+                        <h3 class="">Dr. Carlos Silva</h3>
+                        <p><i class="fa fa-quote-left"></i> Cras maximus, eros congue ultrices facilisis, nunc ante egestas lorem, et ullamcorper nisl ex sit amet erat. <i class="fa fa-quote-right"></i></p>
+                    </div>
                 </div>
                 <div class="col-lg-3">
-                  <div class="text-center">
-                    <img src="/imagens/avatar-2.jpg">
-                    <h3 class="">Marina Costa</h3>
-                    <p><i class="fa fa-quote-left"></i> Morbi tellus mauris, sollicitudin id neque eget, pharetra varius neque. <i class="fa fa-quote-right"></i></p>
-                  </div>
+                    <div class="text-center">
+                        <img src="/imagens/avatar-2.jpg">
+                        <h3 class="">Marina Costa</h3>
+                        <p><i class="fa fa-quote-left"></i> Morbi tellus mauris, sollicitudin id neque eget, pharetra varius neque. <i class="fa fa-quote-right"></i></p>
+                    </div>
                 </div>
                 <div class="col-lg-3">
-                  <div class="text-center">
-                    <img src="/imagens/avatar-3.jpg">
-                    <h3 class="">Dra. Luana Brandão</h3>
-                    <p><i class="fa fa-quote-left"></i> Vivamus vitae accumsan nulla. Integer at elit elementum, pretium dolor quis, elementum tellus. <i class="fa fa-quote-right"></i></p>
-                  </div>
+                    <div class="text-center">
+                        <img src="/imagens/avatar-3.jpg">
+                        <h3 class="">Dra. Luana Brandão</h3>
+                        <p><i class="fa fa-quote-left"></i> Vivamus vitae accumsan nulla. Integer at elit elementum, pretium dolor quis, elementum tellus. <i class="fa fa-quote-right"></i></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -215,8 +215,39 @@
     <script type="text/javascript">
 
         $(function(){
-            $("#data_desejada").datepicker();
-            $("#data_desejada").datepicker("option", "dateFormat", "dd/mm/yy");
+            //$("#data_desejada").datepicker();
+            //$("#data_desejada").datepicker("option", "dateFormat", "dd/mm/yy");
+
+            $("#busca-form").on("submit", function(){
+                var today = new Date();
+
+                var data_desejada = $("#data_desejada").val();
+                if (!data_desejada){
+                    return true;
+                }
+
+                var strData = data_desejada.split('/');
+                var dia = strData[0];
+                var mes = strData[1]-1;
+                var ano = strData[2];
+                var data_desejada_date = new Date(ano, mes, dia);
+
+                data_desejada_date.setHours(0,0,0,0);
+                today.setHours(0,0,0,0);
+
+
+                if (data_desejada_date.getTime() >= today.getTime()){
+                    var range_year = data_desejada_date.getYear() - today.getYear();
+                    if (range_year > 2){
+                        alert("Escolha uma data para daqui a no máximo dois anos!");
+                        return false;
+                    }
+                    return true;
+                }else{
+                    alert("Escolha uma data a partir de hoje!");
+                    return false;
+                }
+            });
 
             $("#uf").on("change", function(){
 
@@ -268,8 +299,8 @@
                         $("#bairro_id").empty().html(options);
                         $("#bairro_id").selectpicker('refresh');
 
-                    //    $("#bairro_nome").prop('readonly',false);
-                      //  $("#bairro_nome").prop('placeholder', '');
+                        //    $("#bairro_nome").prop('readonly',false);
+                        //  $("#bairro_nome").prop('placeholder', '');
                         $("#bairro_nome").typeahead('destroy');
 
                         $("#bairro_nome").typeahead({

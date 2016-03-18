@@ -69,6 +69,7 @@
                                     </p>
                                 </div><!-- /.col-lg-3 -->
                                 <div class="col-lg-2">
+
                                     <a href="javascript:void(0);" class="btn btn-primary btn-agendar-multi">Agendar</a>
                                     @if($user->localidades()->where('tipo','CONSULTORIO')->count())
                                             <!-- Painel padrão com locais de atendimento -->
@@ -78,9 +79,16 @@
                                             <ul class="list-group">
                                                 @foreach($user->localidades()->where('tipo','CONSULTORIO')->get() as $local)
                                                     <li class="list-group-item">
-                                                        <a href="{{  route('profissional.agendar',['user_id' => $user->id , 'localidade_id' => $local->id ])  }}">
-                                                            {{ $local->logradouro }} {{ $local->numero }}
-                                                        </a>
+                                                        @if(!$atende_plano)
+                                                            <a href="{{  route('profissional.agendar',['user_id' => $user->id , 'localidade_id' => $local->id ])  }}" class="agenda-plano nao-atende-plano">
+                                                                {{ $local->logradouro }} {{ $local->numero }}
+                                                            </a>
+                                                        @else
+                                                            <a href="{{  route('profissional.agendar',['user_id' => $user->id , 'localidade_id' => $local->id ])  }}" class="agenda-plano">
+                                                                {{ $local->logradouro }} {{ $local->numero }}
+                                                            </a>
+                                                        @endif
+
                                                     </li>
                                                 @endforeach
                                             </ul>

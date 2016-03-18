@@ -5,8 +5,9 @@
 <section class="main">
     <div class="container">
         <div class="row">
-          <h2 class="text-center">Inicie seu período de avaliação gratuita por 30 dias</h2>
-          <p class="text-center lead"><strong>SALLUS Secretária  Virtual</strong> irá faciltar sua tarefa de gerenciar sua agenda de atendimentos com seus clientes. </p>
+            <h1 class="text-center">Bem- vindo à Sallus</h1>
+                <h2 class="text-center">A Plataforma virtual que vai gerenciar sua agenda 24 horas.</h2>
+          <p class="text-center lead">Inicie seu período de avaliação gratuita por 30 dias</p>
 
         </div>
     </div>

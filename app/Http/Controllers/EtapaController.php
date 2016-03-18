@@ -47,7 +47,7 @@ class EtapaController extends Controller
         $localidades   = $this->localidadeService->listForComboByUser(\Auth::user()->id);
         $dias_semanais = $this->gradeService->getDiasSemanais();
         $turnos        = $this->gradeService->getTurnos();
-        $horasManha = $this->gradeService->getHoras(6, 12);
+        $horasManha = $this->gradeService->getHoras(5, 12);
         $horasTarde = $this->gradeService->getHoras(12, 18);
         $horasNoite = $this->gradeService->getHoras(18, 23);
         $intervalos    = $this->gradeService->getIntervalos();

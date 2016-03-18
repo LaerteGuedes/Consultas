@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Custom\Debug;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 
@@ -24,6 +26,8 @@ class AuthController extends Controller
     |
     */
 
+    protected $userService;
+
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     protected $redirectTo = '/dashboard';
@@ -33,8 +37,9 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
+        $this->userService = $userService;
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
@@ -106,9 +111,9 @@ class AuthController extends Controller
        }
 
         return User::create($data);
-
-
     }
+
+
 
     protected function getCredentials(Request $request)
     {

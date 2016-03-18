@@ -8,6 +8,7 @@ use App\Contracts\UserRepositoryInterface;
 use App\Role;
 use App\User;
 use App\Avaliacao;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -21,13 +22,27 @@ class UserRepository extends Repository implements UserRepositoryInterface
         $this->avaliacaoModel = $avaliacao;
     }
 
+    public function ativaCadastroByEmail($email)
+    {
+        return $this->model->where('email', '=', $email)->update(['active' => 1]);
+    }
+
     public function atualizarViewProfissional($profissional_id)
     {
 
         $user = $this->model->find($profissional_id);
 
         return $user->update(['views'=> $user->views + 1]);
+    }
 
+    public function findByEmail($email)
+    {
+        return $this->model->where("email", '=', $email)->orderBy("role_id", "DESC")->first();
+    }
+
+    public function findByEmailAndRole($email, $role_id)
+    {
+        return $this->model->where("email", '=', $email)->where("role_id", '=' , $role_id)->first();
     }
 
     public function getCompleteProfissional($id)
@@ -149,6 +164,14 @@ class UserRepository extends Repository implements UserRepositoryInterface
             ->where('users.id', '=', $user_id)->first();
     }
 
+    public function isProfissionalDisponivelToday($user_id, $date, $dia_semana, $horario)
+    {
+        return $result =  \DB::table('users')
+            ->select(\DB::raw('users.name, users.id, (SELECT COUNT(*) FROM grades g WHERE g.user_id = users.id AND g.dia_semana = "'.$dia_semana.'" AND g.horario >= "'.$horario.'") as quant_grade,
+            (SELECT COUNT(*) FROM consultas c WHERE c.profissional_id = users.id AND c.data_agenda = "'.$date.'") as quant_consultas'))
+            ->where('users.id', '=', $user_id)->first();
+    }
+
     public function pesquisar($data = array() , $perpage = 50   )
     {
 
@@ -164,6 +187,10 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
                 $query->whereNull('users.deleted_at');
                 $query->where('users.active','=',1);
+
+                if (isset(Auth::user()->id)){
+                    $query->where("email", '!=', Auth::user()->email);
+                }
 
                 if(isset($data['especialidade_id']) && !empty($data['especialidade_id']))
                 {

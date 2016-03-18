@@ -87,6 +87,21 @@ class ConsultaService extends Service
         return $this->repository->listarConsultasHistoricoByUser($id);
     }
 
+    public function listarConsultasFuturasByUserNotCancelada($id)
+    {
+        return $this->repository->listarConsultasFuturasByUserNotCancelada($id);
+    }
+
+    public function listarConsultasFuturasByProfissionalNotCancelada($id)
+    {
+        return $this->repository->listarConsultasFuturasByProfissionalNotCancelada($id);
+    }
+
+    public function listarConsultasFuturasByProfissional($id)
+    {
+        return $this->repository->listarConsultasFuturasByProfissional($id);
+    }
+
     public function listarConsultasHistoricoByWithUser($id)
     {
         return DB::table('consultas')
@@ -141,7 +156,12 @@ class ConsultaService extends Service
 
     public function cancelarAllConsultas(User $user, MailService $mail)
     {
-        $consultas = $this->listarConsultasFuturasByUser($user->id);
+        if ($user->role_id == User::CLIENTE){
+            $consultas = $this->listarConsultasFuturasByUserNotCancelada($user->id);
+        }elseif($user->role_id == User::PROFISSIONAL){
+            $consultas = $this->listarConsultasFuturasByProfissionalNotCancelada($user->id);
+        }
+
 
         if ($consultas->count()){
             foreach ($consultas as $consulta) {
@@ -170,8 +190,8 @@ class ConsultaService extends Service
 
     public function isConsultaMarcadaPorTurno($user_id, $profissional_id, $data_agenda, $horario_agenda)
     {
-        if ($horario_agenda >= '06:00:00' && $horario_agenda <= '12:00:00'){
-            $intervaloInicio = '06:00:00';
+        if ($horario_agenda >= '05:00:00' && $horario_agenda <= '12:00:00'){
+            $intervaloInicio = '05:00:00';
             $intervaloFinal = '12:00:00';
         }elseif ($horario_agenda > '12:00:00' && $horario_agenda <= '18:00:00'){
             $intervaloInicio = '12:01:00';

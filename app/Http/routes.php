@@ -1,5 +1,10 @@
 <?php
 
+Event::listen('illuminate.query', function($query)
+{
+    //var_dump($query);
+});
+
 #rotas home
 Route::get('/',['as'=>'home','uses'=>'HomeController@index']);
 Route::get('/home', function(){
@@ -7,6 +12,8 @@ Route::get('/home', function(){
 });
 Route::get('/adm/login', ['as' => 'adm.login', 'uses' => 'AdmController@login']);
 Route::post('/adm/auth', ['as' => 'adm.auth', 'uses' => 'AdmController@auth']);
+
+Route::get("/perfil/toggle", ['as' => "perfil.toggle", 'uses' => 'PerfilController@togglePerfilProfissionalUsuario']);
 
 Route::get('/home/cliente',['as'=>'home.cliente','middleware'=>'guest','uses'=>'HomeController@homeCliente']);
 Route::get('/home/profissional',['as'=>'home.profissional','middleware'=>'guest','uses'=>'HomeController@homeProfissional']);
@@ -22,6 +29,8 @@ Route::get("/profissional-de-saude", ['as' => "home.profissionaldesaude", 'uses'
 Route::get("/pagseguro/teste", ['as' => "adm.pagteste", 'uses' => "AssinaturaController@teste"]);
 Route::post("/assinatura/notificacao", ['as' => "assinatura.notificacao", 'uses' => "AssinaturaController@notificacao"]);
 
+Route::get("/pagseguro/transparent", ['as' => "pagseguro.transparent", 'uses' => "AssinaturaController@transparent"]);
+
 #rota profissional
 
 Route::get("/assinatura/expira", ['as' => 'expira.assinatura', 'uses' => "AssinaturaController@expiraAssinaturas"]);
@@ -30,6 +39,8 @@ Route::get('/detalhes/profissional/{id}',['as'=>'profissional.detalhe','uses'=>'
 
 Route::get("/cron/expiraassinaturas", ['as' => "cron.expira", 'uses' => "CronController@expiraPeriodoTeste"]);
 Route::get("/etapa/gradelocalidadeajax", ['as' => 'etapa.grade.localidade.ajax', 'uses' => 'EtapaController@gradeAjaxHorariosLocalidade']);
+
+Route::get("/planos/ajaxatendeplano/{profissional_id}", ['as' => 'plano.ajaxplano', 'uses' => "UserPlanoController@ajaxAtendePlano"]);
 
 
 Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
@@ -147,6 +158,7 @@ Route::group(['middleware'=>['auth','check.profissional.etapa']] , function(){
     Route::get('/delete/horario-da-grade/{id}',['as'=>'delete.horario.grade','uses'=>'GradeController@deleteHorario']);
     Route::get('/delete/horario-da-grade-ajax/{id}',['as'=>'delete.horario.grade.ajax','uses'=>'GradeController@deleteHorarioAjax']);
     Route::get("/grade/cancelardia/{localidade_id}/{dia_semana}", ['as' => 'grade.cancelardia', 'uses' => 'GradeController@cancelarDia']);
+    Route::get("/grade/cancelardiaajax/{localidade_id}/{dia_semana}", ['as' => 'grade.cancelardiaajax', 'uses' => 'GradeController@cancelarDiaAjax']);
 
 });
 

@@ -111,6 +111,25 @@ class UserPlanoController extends Controller
         return response()->json($response);
     }
 
+    public function ajaxAtendePlano($profissional_id)
+    {
+        if (!isset(Auth::user()->id)){
+            return response()->json(['atende_planos' => true]);
+        }
+        $planoAtual = Auth::user()->planos()->first();
+        if (isset($planoAtual->id)){
+            $planosProfissional = $this->userService->find($profissional_id)->planos()->get();
+
+            if ($planosProfissional->contains($planoAtual)){
+                return response()->json(['atende_planos' => true]);
+            }
+
+            return response()->json(['atende_planos' => false]);
+        }
+
+        return response()->json(['atende_planos' => false]);
+    }
+
     public function ajaxPlanoCliente()
     {
         $planoPai = $this->planoService->find(Request::input('id'));

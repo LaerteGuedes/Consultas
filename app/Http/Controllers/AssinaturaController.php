@@ -9,6 +9,7 @@ use App\Services\PagSeguroService;
 use App\Services\UserAssinaturaService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Mockery\CountValidator\Exception;
 
@@ -31,6 +32,12 @@ class AssinaturaController extends Controller
         $this->userService = $userService;
         $this->mailService = $mailService;
         $this->userAssinaturaService = $userAssinaturaService;
+    }
+
+    public function transparent()
+    {
+        $sessionId = $this->pagSeguroService->getSessionId();
+        return view("assinatura.transparente")->with(['sessionId' => $sessionId]);
     }
 
     public function teste(){
@@ -60,6 +67,7 @@ class AssinaturaController extends Controller
         $this->userService->saveUserAssinatura($request->get('user_id'), $params);
 
         if ($request->has('versao_teste')){
+            $this->mailService->sendUserPeriodosTeste(Auth::user());
             return redirect()->to('dashboard')->with('message', 'Cadastro realizado com sucesso! Você está usando o período de testes!');
         }
 

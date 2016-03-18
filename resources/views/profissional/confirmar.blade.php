@@ -123,12 +123,12 @@
 
                                             <input type="text" class="form-control" name="outro" placeholder="Informe o nome do paciente">
                                             @if($planoAtendido)
-                                                <br>
-                                                <div id="plano-atendido">
-                                                    <label for="">Este médico aceita o seu plano de saúde ({{$planoAtendido->titulo}}). Deseja marcar a consulta utilizando o plano?</label>
-                                                    <input type="radio" name="id_plano" value="{{$planoAtendido->id}}"> Sim
-                                                    <input type="radio" name="id_plano" value="0"> Não
-                                                </div>
+                                                {{--<br>--}}
+                                                {{--<div id="plano-atendido">--}}
+                                                    {{--<label for="">Este médico aceita o seu plano de saúde ({{$planoAtendido->titulo}}). Deseja marcar a consulta utilizando o plano?</label>--}}
+                                                    {{--<input type="radio" name="id_plano" value="{{$planoAtendido->id}}"> Sim--}}
+                                                    {{--<input type="radio" name="id_plano" value="0"> Não--}}
+                                                {{--</div>--}}
                                             @endif
                                             <hr>
                                             <button type="submit" class="btn btn-primary">Confirmar agendamento</button>

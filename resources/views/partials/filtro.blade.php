@@ -8,7 +8,7 @@
 <div class="panel panel-default filtro">
     <div class="panel-body">
         {!! Form::open([
-
+        'id' => 'filtro-form',
         'route' => 'resultado.busca',
         'method'=> 'get',
     ]) !!}
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            <input type="text" name="data_desejada" id="data_desejada" placeholder="Data desejada" class="form-control"/>
+            <input type="text" name="data_desejada" id="data_desejada" data-mask = 'date' placeholder="Data desejada" class="form-control"/>
         </div>
 
         <div class="form-group">
@@ -69,8 +69,39 @@
 
         $(function(){
 
-            $("#data_desejada").datepicker();
-            $("#data_desejada").datepicker("option", "dateFormat", "dd/mm/yy");
+          //  $("#data_desejada").datepicker();
+          //  $("#data_desejada").datepicker("option", "dateFormat", "dd/mm/yy");
+
+            $("#filtro-form").on("submit", function(){
+                var today = new Date();
+
+                var data_desejada = $("#data_desejada").val();
+                if (!data_desejada){
+                    return true;
+                }
+
+                var strData = data_desejada.split('/');
+                var dia = strData[0];
+                var mes = strData[1]-1;
+                var ano = strData[2];
+                var data_desejada_date = new Date(ano, mes, dia);
+
+                data_desejada_date.setHours(0,0,0,0);
+                today.setHours(0,0,0,0);
+
+
+                if (data_desejada_date.getTime() >= today.getTime()){
+                    var range_year = data_desejada_date.getYear() - today.getYear();
+                    if (range_year > 2){
+                        alert("Escolha uma data para daqui a no máximo dois anos!");
+                        return false;
+                    }
+                    return true;
+                }else{
+                    alert("Escolha uma data a partir de hoje!");
+                    return false;
+                }
+            });
 
             var cidade_id = $("#cidade_id").val();
 

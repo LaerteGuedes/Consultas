@@ -21,7 +21,7 @@
 
                 <!-- Conteúdo -->
                 <div class="col-lg-9">
-
+                    @include('alerts')
                     <!-- Tabela com datas e horários -->
                     <div class="panel panel-default profissional">
 
@@ -130,14 +130,10 @@
                                                                 <?php
 
                                                                 $is_agendado = $consultaService->checkIfAgendado([
-
-
                                                                         'profissional_id' => $user->id,
                                                                         'localidade_id'   => $localidade->id,
                                                                         'data_agenda'     => $dia,
                                                                         'horario_agenda'  => $horario->horario
-
-
                                                                 ]);
 
                                                                 ?>

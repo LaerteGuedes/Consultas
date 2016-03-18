@@ -45,6 +45,7 @@ class CheckProfissionalEtapa
             'delete.horario.grade',
             'delete.horario.grade.ajax',
             'grade.cancelardia',
+            'grade.cancelardiaajax',
             'listar.bairros'
         ];
 

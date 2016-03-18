@@ -52,19 +52,27 @@
                             $profissional = $userService->find($user->id);
                         ?>
                         
-                        @if( $profissional->localidades()->where('tipo','CONSULTORIO')->count())
+                        @if( $profissional->localidades()->count())
                           <a href="javascript:void(0);" class="btn btn-primary btn-agendar-multi">Agendar</a>
                             <!-- Painel padrão com locais de atendimento -->
                             <div class="panel panel-default locais-atendimento">
                               <div class="panel-body">
                                     <h4><i class="fa fa-info-circle"></i> Escolha em qual local gostaria de ser atendido:</h4>
                                     <ul class="list-group">
-                                      @foreach($profissional->localidades()->where('tipo','CONSULTORIO')->get() as $local)
-                                        <li class="list-group-item">
-                                        <a href="{{  route('profissional.agendar',['user_id' => $user->id , 'localidade_id' => $local->id ])  }}">
-                                             {{ $local->logradouro }} {{ $local->numero }}
-                                        </a>
-                                        </li>
+                                      @foreach($profissional->localidades()->get() as $local)
+                                          @if ($local->tipo == 'CONSULTORIO')
+                                                <li class="list-group-item">
+                                                    <a href="{{  route('profissional.agendar',['user_id' => $user->id , 'localidade_id' => $local->id ])  }}" class="agenda-plano">
+                                                        {{ $local->logradouro }} {{ $local->numero }}
+                                                    </a>
+                                                </li>
+                                          @else
+                                                <li class="list-group-item">
+                                                    <a href="{{  route('profissional.agendar',['user_id' => $user->id , 'localidade_id' => $local->id ])  }}" class="agenda-plano">
+                                                        Home Care (Domiciliar) - Atendes nos bairros: {{$local->bairro()->first()->nome}}
+                                                    </a>
+                                                </li>
+                                          @endif
                                       @endforeach
                                     </ul>
                               </div>
@@ -90,6 +98,33 @@
       </div><!-- /.row -->
     </div> <!-- /container -->
 </section> <!-- /section -->
+<script>
+    $(function(){
+        $(".agenda-plano").on("click", function(event){
+            event.preventDefault();
 
+            var self = $(this);
+            var href = self.attr('href');
+            var strHref = href.split('/');
+            var profissional_id = strHref[5];
+            var data = {'profissional_id' : profissional_id};
+
+            $.ajax({
+                url: "/planos/ajaxatendeplano/"+profissional_id,
+                method: "get",
+                dataType: "json",
+                success: function(response){
+                    if (!response.atende_planos){
+                        if (confirm("Este profissional não atende seu plano de saúde. Deseja continuar na categoria particular?")){
+                            window.location.href = href;
+                        }
+                    }else{
+                        window.location.href = href;
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 @endsection

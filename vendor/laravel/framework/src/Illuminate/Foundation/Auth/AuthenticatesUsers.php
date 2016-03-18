@@ -2,6 +2,8 @@
 
 namespace Illuminate\Foundation\Auth;
 
+use App\Custom\Debug;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
@@ -24,6 +26,8 @@ trait   AuthenticatesUsers
         return view('auth.login');
     }
 
+
+
     /**
      * Handle a login request to the application.
      *
@@ -36,6 +40,16 @@ trait   AuthenticatesUsers
             $this->loginUsername() => 'required', 'password' => 'required',
         ]);
 
+        if ($request->has("role_id")){
+            $role_id = $request->get('role_id');
+        }else{
+            $user = $this->userService->findByEmail($request->get('email'));
+            if (isset($user->id)){
+                $role_id = $user->role_id;
+            }
+        }
+
+
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
@@ -46,6 +60,9 @@ trait   AuthenticatesUsers
         }
 
         $credentials = $this->getCredentials($request);
+        if (isset($role_id)){
+            $credentials['role_id'] = $role_id;
+        }
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
             return $this->handleUserWasAuthenticated($request, $throttles);

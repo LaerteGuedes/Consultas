@@ -179,6 +179,33 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
             ->get();
     }
 
+    public function listarConsultasFuturasByProfissional($id)
+    {
+        return $this->model->where('profissional_id',$id)
+            //  ->where('status', 'AGUARDANDO')
+            ->where('data_agenda','>=',date('Y-m-d'))
+            ->orderBy('data_agenda','asc')
+            ->get();
+    }
+
+    public function listarConsultasFuturasByUserNotCancelada($id)
+    {
+        return $this->model->where('user_id',$id)
+              ->where('status', '!=', 'CANCELADA')
+            ->where('data_agenda','>=',date('Y-m-d'))
+            ->orderBy('data_agenda','asc')
+            ->get();
+    }
+
+    public function listarConsultasFuturasByProfissionalNotCancelada($id)
+    {
+        return $this->model->where('profissional_id',$id)
+            ->where('status', '!=', 'CANCELADA')
+            ->where('data_agenda','>=',date('Y-m-d'))
+            ->orderBy('data_agenda','asc')
+            ->get();
+    }
+
     public function listarConsultasFuturasByUserWithProfissional($id)
     {
         return DB::table('consultas')
@@ -221,6 +248,8 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
             ->count();
     }
 
+    
+
     public function listarConsultasHistoricoByUserAndDate($id, $data_agenda)
     {
 
@@ -255,18 +284,19 @@ class ConsultaRepository extends Repository implements ConsultaRepositoryInterfa
     public function getConsultasPorTurnoDia($user_id, $profissional_id, $intervaloInicio, $intervaloFinal, $data_agenda)
     {
         return $this->model->where('user_id', '=', $user_id)->where('profissional_id', '=', $profissional_id)->where('data_agenda', '=', $data_agenda)
-            ->where('horario_agenda', '>=', $intervaloInicio)->where('horario_agenda', '<=', $intervaloFinal)->get();
+            ->where('horario_agenda', '>=', $intervaloInicio)->where('status', "!=", 'CANCELADA')->where('horario_agenda', '<=', $intervaloFinal)->get();
     }
+
+
 
     public function checkIfAgendado($data)
     {
         return $this->model->where(function($query)use($data){
-
             $query->where('profissional_id', $data['profissional_id'] );
             $query->where('localidade_id'  , $data['localidade_id']   );
             $query->where('data_agenda'    , $data['data_agenda']     );
             $query->where('horario_agenda' , $data['horario_agenda']  );
-
+            $query->where('status', '!=', 'CANCELADA');
         })->count();
     }
 

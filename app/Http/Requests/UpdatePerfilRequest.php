@@ -28,8 +28,8 @@ class UpdatePerfilRequest extends Request
         $rules = [
             'name'     => 'required|min:2|max:255',
             'lastname' => 'required|min:2|max:255',
-            'phone'    => 'required|min:15|max:15'
-
+            'phone'    => 'required|min:15|max:15',
+            'password' => 'confirmed|min:5|max:10'
         ];
 
         if($this->request->get('cid')){
@@ -48,6 +48,7 @@ class UpdatePerfilRequest extends Request
 
             'name.required'     => 'O nome é obrigatório',
             'lastname.required' => 'O sobrenome é obrigatório',
+            'password.confirmed' => 'O campo senha não confere com o campo confirmar senha!',
 
             'name.min'     => 'O nome deve conter no minimo 2 caracteres',
             'lastname.min' => 'O sobrenome deve conter no minimo 2 caracteres',

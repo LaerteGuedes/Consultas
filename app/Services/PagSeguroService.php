@@ -16,6 +16,30 @@ class PagSeguroService
         $this->token = '823E96C4040E4C2FA5A35BA5566D9AE3';
     }
 
+    public function getSessionId()
+    {
+        $fields = ['email' => $this->email,
+            'token' => $this->token];
+
+        $fields_string = '';
+        foreach ($fields as $key => $field){
+            $fields_string .= $key.'='.$field.'&';
+        }
+        rtrim($fields_string, '&');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://ws.sandbox.pagseguro.uol.com.br/v2/sessions");
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch,CURLOPT_POST, count($fields));
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+        $xml = curl_exec($ch);
+        $response = simplexml_load_string($xml);
+        $resp = (array) $response;
+
+        return $resp['id'];
+    }
+
     public function sendAssinaturaRequest($name, $phone, $email, $assinatura_titulo, $valor, $tipo, $user_id)
     {
         switch($tipo){

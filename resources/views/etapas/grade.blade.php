@@ -409,25 +409,42 @@
 
         $(document).ready(function(){
 
-            $(".cancelar-dia").on('click', function(){
-                var self = $(this);
-                var tdParent = self.parent();
-                var index = tdParent.prop('cellIndex');
+            $(".cancelar-dia").on('click', function(event){
+                if (confirm("Deseja realmente cancelar os horários deste dia?")){
+                    var self = $(this);
+                    var tdParent = self.parent();
+                    var index = tdParent.prop('cellIndex');
+                    var href = $(this).attr('href');
+                    var str = href.split('/');
+                    var localidade_id = str[3];
+                    var dia_semana = str[4];
 
-                var trDia = $("#m");
-                var trTarde = $("#t");
-                var trNoite = $("#n");
+                    var trDia = $("#m");
+                    var trTarde = $("#t");
+                    var trNoite = $("#n");
 
-                var horariosDia = trDia.find('td:eq('+index+') > .lista-horarios ul li');
-                var horariosTarde = trTarde.find('td:eq('+index+') > .lista-horarios ul li');
-                var horariosNoite = trNoite.find('td:eq('+index+') > .lista-horarios ul li');
+                    var horariosDia = trDia.find('td:eq('+index+') > .lista-horarios ul li');
+                    var horariosTarde = trTarde.find('td:eq('+index+') > .lista-horarios ul li');
+                    var horariosNoite = trNoite.find('td:eq('+index+') > .lista-horarios ul li');
 
-                if (!(horariosDia.length > 0 || horariosTarde.length > 0 || horariosNoite.length > 0)){
-                    alert("Não existem horários cadastrados para esse dia");
-                    return false;
+                    if (!(horariosDia.length > 0 || horariosTarde.length > 0 || horariosNoite.length > 0)){
+                        alert("Não existem horários cadastrados para esse dia");
+                        return false;
+                    }
+
+                    $.ajax({
+                        url: "/grade/cancelardiaajax/"+localidade_id+"/"+dia_semana+"",
+                        method: "get",
+                        dataType: "json",
+                        success: function(response){
+                            horariosDia.fadeOut();
+                            horariosTarde.fadeOut();
+                            horariosNoite.fadeOut();
+                        }
+                    });
                 }
 
-                return true;
+                return false;
             });
 
             $(".disable-button").on("click", function(){

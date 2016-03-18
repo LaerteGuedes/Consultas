@@ -89,8 +89,7 @@ class HomeController extends Controller
         $user = $this->userService->find($id);
 
         if (isset($user) && !$user->active){
-            $user->active = 1;
-            $user->save();
+            $this->userService->ativaCadastroByEmail($user->email);
             return redirect()->to('auth/login')->with('message', 'Cadastro confirmado com sucesso! Faça login abaixo!');
         }
 
@@ -127,8 +126,14 @@ class HomeController extends Controller
         $requestUser = $request->all();
         $requestUser['active'] = 0;
 
-        $this->userService->register($requestUser);
-        $user = $this->userService->findBy('email', $request->get('email'));
+        if ($request->has('cid')){
+            $requestUser['perfil_medico_cliente'] = 1;
+            $this->userService->registerUserProfissionalAndCliente($requestUser);
+        }else{
+            $this->userService->register($requestUser);
+        }
+
+        $user = $this->userService->findByEmail($request->get('email'));
 
         if ($request->has('especialidade_id')){
             $params = $request->all();
@@ -144,7 +149,7 @@ class HomeController extends Controller
 
             $this->mailService->sendConfirmacaoCadastro($user, base64_encode($user->id));
 
-            return redirect()->route('home')->with('message', 'Um email de confirmação foi enviado. Confirme o seu cadastro e utilize nossos serviços!');
+            return redirect()->to('auth/login')->with('message', 'Um email de confirmação foi enviado. Confirme o seu cadastro e utilize nossos serviços!');
         }
         return back()->withErrors([$this->messageService->getMessage('error')]);
     }

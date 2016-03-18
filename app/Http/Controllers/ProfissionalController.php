@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Custom\Debug;
 use App\Custom\Util;
 use App\Services\CidadeService;
+use App\Services\MailService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -31,6 +32,7 @@ class ProfissionalController extends Controller
     protected $consultaService;
     protected $comentarioService;
     protected $cidadeService;
+    protected $mailService;
 
     public function __construct(EstadoService $estadoService,
                                 UserService $userService,
@@ -40,7 +42,8 @@ class ProfissionalController extends Controller
                                 CalendarService $calendarService,
                                 ConsultaService $consultaService,
                                 ComentarioService $comentarioService,
-                                CidadeService $cidadeService)
+                                CidadeService $cidadeService,
+                                MailService $mailService)
     {
         $this->estadoService        = $estadoService;
         $this->userService          = $userService;
@@ -51,6 +54,7 @@ class ProfissionalController extends Controller
         $this->consultaService      = $consultaService;
         $this->comentarioService    = $comentarioService;
         $this->cidadeService        = $cidadeService;
+        $this->mailService          = $mailService;
     }
 
 
@@ -63,8 +67,6 @@ class ProfissionalController extends Controller
         }else{
             $comentarios = array();
         }
-
-
 
         if (isset($planoUsuario->id)){
             if (!$user->nao_atende_planos){
@@ -103,6 +105,12 @@ class ProfissionalController extends Controller
     public function agendar($user_id,$localidade_id, Request $request)
     {
         $user =  $this->userService->find($user_id);
+        $userProfissional = $this->userService->findByEmail(Auth::user()->email);
+
+        if ($user->email == $userProfissional->email){
+            return redirect()->route("dashboard");
+        }
+
         $localidade = $this->localidadeService->find($localidade_id);
         $diaDeHoje = date('Y-m-d');
         $horarioAtual = date('h:i:s');
@@ -189,8 +197,13 @@ class ProfissionalController extends Controller
     {
         $request->merge(['status'=>'AGUARDANDO']);
 
+        $profissional = $this->userService->find($request->get('profissional_id'));
+
         if($this->consultaService->create($request->all()))
         {
+            $this->mailService->agendamentoCliente(Auth::user(), $profissional, $request->get('data_agenda'), $request->get("horario_agenda"));
+            $this->mailService->agendamentoProfissional(Auth::user(), $profissional, $request->get('data_agenda'),  $request->get("horario_agenda"));
+
             return redirect()->route('profissional.agendamento.confirmado');
         }
     }
